@@ -11,6 +11,6 @@ android {
         minSdk 23
         targetSdk 35
        versionCode 19
-versionName "versio 1.1.9"
+versionName "1.1.9"
     }
 }
