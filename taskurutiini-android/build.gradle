@@ -11,6 +11,6 @@ android {
         minSdk 23
         targetSdk 35
        versionCode 13
-versionName "versio 1.1.7"
+versionName "versio 1.1.8"
     }
 }
