@@ -217,7 +217,7 @@
         border-radius: 8px;
         background: #fff9ee;
       }
-      nav button {
+      nav a {
         border: 0;
         border-radius: 8px;
         padding: 10px 4px;
@@ -225,10 +225,57 @@
         color: #75685b;
         font-size: 12px;
         font-weight: 850;
+        text-align: center;
+        text-decoration: none;
       }
-      nav button.active {
+      nav a.active {
         background: #251d18;
         color: #fff9ee;
+      }
+      .screen {
+        display: block;
+        scroll-margin-top: 18px;
+      }
+      .screen.active {
+        display: block;
+      }
+      .week-goal {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 10px;
+        border: 1px solid #e4d7c5;
+        border-radius: 8px;
+        background: #fff9ee;
+        padding: 14px;
+        color: inherit;
+        text-align: left;
+      }
+      .day {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: #efe3d0;
+        font-weight: 900;
+      }
+      .week-goal.done {
+        color: #7b8d73;
+        text-decoration: line-through;
+      }
+      .setting-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #e4d7c5;
+        border-radius: 8px;
+        background: #fff9ee;
+        padding: 16px;
+        font-weight: 800;
       }
     </style>
   </head>
@@ -245,63 +292,96 @@
         </div>
       </header>
 
-      <section class="hero">
-        <h2>Tänään riittää, että saat suunnan takaisin.</h2>
-        <p>Valitse pari pientä rutiinia ja merkitse ne tehdyksi. Sovellus seuraa etenemistä ilman kirjautumista.</p>
-        <div class="stats">
-          <div class="metric"><strong>0 pv</strong><span>putki</span></div>
-          <div class="metric"><strong>3</strong><span>rutiinit</span></div>
-          <div class="metric"><strong>30 min</strong><span>aika</span></div>
-        </div>
+      <section id="today" class="screen active" data-screen="today">
+        <section class="hero">
+          <h2>Tänään riittää, että saat suunnan takaisin.</h2>
+          <p>Valitse pari pientä rutiinia ja merkitse ne tehdyksi. Sovellus seuraa etenemistä ilman kirjautumista.</p>
+          <div class="stats">
+            <div class="metric"><strong>0 pv</strong><span>putki</span></div>
+            <div class="metric"><strong>3</strong><span>rutiinit</span></div>
+            <div class="metric"><strong>30 min</strong><span>aika</span></div>
+          </div>
+        </section>
+
+        <h3>Päivän rutiinit</h3>
+        <button class="habit" type="button">
+          <span class="stripe"></span>
+          <span class="habit-text"><strong>Aamun kolme tärkeintä</strong><span>8 min · napauta valmiiksi</span></span>
+          <span class="check"></span>
+        </button>
+        <button class="habit" type="button">
+          <span class="stripe"></span>
+          <span class="habit-text"><strong>Kevyt liike tai venyttely</strong><span>12 min · napauta valmiiksi</span></span>
+          <span class="check"></span>
+        </button>
+        <button class="habit" type="button">
+          <span class="stripe"></span>
+          <span class="habit-text"><strong>Työpäivän sulku</strong><span>10 min · napauta valmiiksi</span></span>
+          <span class="check"></span>
+        </button>
       </section>
 
-      <h3>Päivän rutiinit</h3>
-      <button class="habit" type="button">
-        <span class="stripe"></span>
-        <span class="habit-text"><strong>Aamun kolme tärkeintä</strong><span>8 min · napauta valmiiksi</span></span>
-        <span class="check"></span>
-      </button>
-      <button class="habit" type="button">
-        <span class="stripe"></span>
-        <span class="habit-text"><strong>Kevyt liike tai venyttely</strong><span>12 min · napauta valmiiksi</span></span>
-        <span class="check"></span>
-      </button>
-      <button class="habit" type="button">
-        <span class="stripe"></span>
-        <span class="habit-text"><strong>Työpäivän sulku</strong><span>10 min · napauta valmiiksi</span></span>
-        <span class="check"></span>
-      </button>
-
-      <section class="card timer">
-        <h3>Fokusajastin</h3>
-        <div class="clock" id="clock">25:00</div>
-        <div class="controls">
-          <button class="chip" data-min="15">15 min</button>
-          <button class="chip active" data-min="25">25 min</button>
-          <button class="chip" data-min="45">45 min</button>
-        </div>
-        <button class="primary" id="start" type="button">Aloita fokus</button>
+      <section id="focus" class="screen" data-screen="focus">
+        <section class="card timer">
+          <h3>Fokusajastin</h3>
+          <div class="clock" id="clock">25:00</div>
+          <div class="controls">
+            <button class="chip" data-min="15">15 min</button>
+            <button class="chip active" data-min="25">25 min</button>
+            <button class="chip" data-min="45">45 min</button>
+          </div>
+          <button class="primary" id="start" type="button">Aloita fokus</button>
+        </section>
+        <section class="card install">
+          <strong>60 sekunnin rauhoitus</strong>
+          <p>Hengitä sisään 4, pidä 2, ulos 6. Toista viisi kierrosta ennen seuraavaa työjaksoa.</p>
+        </section>
       </section>
 
-      <section class="card timer" id="plus">
-        <h3>TaskuRutiini Plus</h3>
-        <p id="plusText">Avaa omistajan Plus-tila koodilla. Asiakkaille tämä voidaan myöhemmin kytkeä maksulliseksi tilaukseksi.</p>
-        <input id="ownerCode" placeholder="Omistajakoodi" style="width:100%;margin-top:12px;border:1px solid #d9cbb8;border-radius:8px;padding:13px;background:#fff9ee;color:#251d18" />
-        <button class="primary" id="unlockPlus" type="button">Avaa kaikki ominaisuudet</button>
+      <section id="week" class="screen" data-screen="week">
+        <section class="hero">
+          <h2>Viikon suunnitelma</h2>
+          <p>Kolme riittävän pientä tavoitetta tekee viikosta helpommin hallittavan.</p>
+        </section>
+        <h3>Viikkotavoitteet</h3>
+        <button class="week-goal" type="button"><span class="day">Ma</span><strong>Päätä viikon päätavoite</strong></button>
+        <button class="week-goal" type="button"><span class="day">Ke</span><strong>Tee 30 min syvätyöjakso</strong></button>
+        <button class="week-goal" type="button"><span class="day">Pe</span><strong>Kirjaa yksi opittu asia</strong></button>
       </section>
 
-      <section class="card install">
-        <strong>Asenna puhelimeen</strong>
-        <p>iPhone: Jaa-painike → Lisää Koti-valikkoon. Android: selaimen valikko → Lisää aloitusnäyttöön.</p>
+      <section id="plus-screen" class="screen" data-screen="plus">
+        <section class="card timer" id="plus">
+          <h3>TaskuRutiini Plus</h3>
+          <p id="plusText">Avaa omistajan Plus-tila koodilla. Asiakkaille tämä voidaan myöhemmin kytkeä maksulliseksi tilaukseksi.</p>
+          <input id="ownerCode" placeholder="Omistajakoodi" style="width:100%;margin-top:12px;border:1px solid #d9cbb8;border-radius:8px;padding:13px;background:#fff9ee;color:#251d18" />
+          <button class="primary" id="unlockPlus" type="button">Avaa kaikki ominaisuudet</button>
+        </section>
+        <section class="card install">
+          <strong>Plus-edut</strong>
+          <p>Rajattomat rutiinit, syvätyö-tilastot, premium-näkymä ja omistajan täysi käyttöoikeus.</p>
+        </section>
+      </section>
+
+      <section id="settings" class="screen" data-screen="settings">
+        <section class="hero">
+          <h2>Asetukset</h2>
+          <p>TaskuRutiini tallentaa tiedot tälle laitteelle. Tiliä ei tarvita testikäyttöön.</p>
+        </section>
+        <div class="setting-row"><span>Päivän lempeät muistutukset</span><input type="checkbox" checked /></div>
+        <div class="setting-row"><span>Rauhallinen tila</span><input type="checkbox" checked /></div>
+        <section class="card install">
+          <strong>Asennus</strong>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.0.4, jossa kaikki osiot ovat näkyvissä ja alavalikko vierittää oikeaan kohtaan.</p>
+        </section>
       </section>
     </div>
 
     <nav aria-label="Välilehdet">
-      <button class="active">Tänään</button>
-      <button>Fokus</button>
-      <button>Viikko</button>
-      <button>Plus</button>
-      <button>Asetus</button>
+      <a class="active" href="#today">Tänään</a>
+      <a href="#focus">Fokus</a>
+      <a href="#week">Viikko</a>
+      <a href="#plus-screen">Plus</a>
+      <a href="#settings">Asetus</a>
     </nav>
 
     <script>
@@ -313,6 +393,9 @@
       const ownerCode = document.querySelector("#ownerCode");
       const unlockPlus = document.querySelector("#unlockPlus");
       const plusText = document.querySelector("#plusText");
+      const screens = [...document.querySelectorAll(".screen")];
+      const tabButtons = [...document.querySelectorAll("nav a")];
+      const weekGoals = [...document.querySelectorAll(".week-goal")];
       let seconds = 25 * 60;
       let running = false;
       let interval;
@@ -320,7 +403,8 @@
 
       function save() {
         const done = habits.map((habit) => habit.classList.contains("done"));
-        localStorage.setItem("taskurutiini:pwa", JSON.stringify({ done, seconds, plusUnlocked }));
+        const weekDone = weekGoals.map((goal) => goal.classList.contains("done"));
+        localStorage.setItem("taskurutiini:pwa", JSON.stringify({ done, weekDone, seconds, plusUnlocked }));
       }
 
       function load() {
@@ -334,8 +418,19 @@
               habits[index].querySelector(".check").textContent = "✓";
             }
           });
+          state.weekDone?.forEach((done, index) => {
+            if (done && weekGoals[index]) {
+              weekGoals[index].classList.add("done");
+            }
+          });
           plusUnlocked = Boolean(state.plusUnlocked);
         } catch {}
+      }
+
+      function setActiveTab(targetHash) {
+        tabButtons.forEach((button) => {
+          button.classList.toggle("active", button.getAttribute("href") === targetHash);
+        });
       }
 
       function renderPlus() {
@@ -369,6 +464,17 @@
         });
       });
 
+      weekGoals.forEach((goal) => {
+        goal.addEventListener("click", () => {
+          goal.classList.toggle("done");
+          save();
+        });
+      });
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => setActiveTab(button.getAttribute("href")));
+      });
+
       chips.forEach((chip) => {
         chip.addEventListener("click", () => {
           chips.forEach((item) => item.classList.remove("active"));
@@ -400,17 +506,19 @@
       });
 
       unlockPlus.addEventListener("click", () => {
-        if (ownerCode.value.trim().toUpperCase() === "OMISTAJA-2026") {
+        if (ownerCode.value.trim() === "random999") {
           plusUnlocked = true;
           save();
           renderPlus();
         } else {
-          plusText.textContent = "Väärä koodi. Omistajakoodi on: OMISTAJA-2026";
+          plusText.textContent = "Väärä koodi. Omistajakoodi on: random999";
         }
       });
 
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./service-worker.js").catch(() => undefined);
+        navigator.serviceWorker.getRegistrations?.().then((registrations) => {
+          registrations.forEach((registration) => registration.unregister());
+        }).catch(() => undefined);
       }
 
       load();
