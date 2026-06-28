@@ -265,6 +265,38 @@
       .swatch[data-theme="sand"] { background: #a66b4f; }
       .swatch[data-theme="blue"] { background: #476c8a; }
       .swatch[data-theme="rose"] { background: #9b5c68; }
+      .daily-card {
+        border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+        background: linear-gradient(135deg, color-mix(in srgb, var(--soft-bg) 78%, white), var(--panel-bg));
+      }
+      .streak {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 12px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: #fff9ee;
+        padding: 12px;
+      }
+      .streak strong { display: block; font-size: 24px; }
+      .streak span { color: #e7d7bd; font-size: 12px; font-weight: 800; }
+      .badge-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .badge {
+        border-radius: 8px;
+        background: color-mix(in srgb, var(--soft-bg) 68%, white);
+        padding: 12px;
+        font-size: 13px;
+        font-weight: 850;
+      }
+      .badge.locked { opacity: .48; }
+      .badge small { display: block; margin-top: 4px; color: var(--muted); font-weight: 750; }
     </style>
   </head>
   <body>
@@ -282,13 +314,28 @@
 
       <section id="today" class="screen">
         <section class="hero">
-          <h2>Tänään riittää, että etenet yhden asian.</h2>
-          <p>Merkitse rutiinit, päivän liikkuminen, ruokailu ja yksi käytännön homma. Kaikki tallentuu tälle laitteelle.</p>
+          <h2 id="dailyGreeting">Tänään riittää, että etenet yhden asian.</h2>
+          <p id="dailyCoach">Merkitse rutiinit, päivän liikkuminen, ruokailu ja yksi käytännön homma. Kaikki tallentuu tälle laitteelle.</p>
           <div class="stats">
             <div class="metric"><strong id="doneCount">0/3</strong><span>tehty</span></div>
             <div class="metric"><strong id="taskCount">0</strong><span>pienet hommat</span></div>
             <div class="metric"><strong id="moodLabel">-</strong><span>fiilis</span></div>
           </div>
+          <div class="streak">
+            <div><strong id="streakCount">0</strong><span>päivän putki</span></div>
+            <div><strong id="dailyProgress">0%</strong><span>päivästä kasassa</span></div>
+          </div>
+        </section>
+
+        <section class="card daily-card">
+          <h3>Päivän missio</h3>
+          <p id="dailyMission">Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis.</p>
+          <button class="primary" id="completeDailyMission" type="button">Merkkaa päivän missio tehdyksi</button>
+        </section>
+
+        <section class="card">
+          <h3>Seuraava paras askel</h3>
+          <p id="nextStep">Aloita yhdestä helposta rutiinista.</p>
         </section>
 
         <h3>Päivän rutiinit</h3>
@@ -421,6 +468,12 @@
         <h3>Haasteet</h3>
         <div id="challengeList"></div>
 
+        <h3>Saavutukset</h3>
+        <section class="card">
+          <p>Saavutukset antavat syyn palata sovellukseen myös silloin, kun motivaatio on matala.</p>
+          <div class="badge-grid" id="badgeList"></div>
+        </section>
+
         <h3>Pistekauppa</h3>
         <section class="card">
           <p>Vaihda pisteitä pieniin palkintoihin. Tämä tekee pisteistä käyttökelpoisia, ei pelkkää numeroa.</p>
@@ -461,6 +514,9 @@
             <span class="pill">Päiväkirja</span>
             <span class="pill">Haasteet</span>
             <span class="pill">Keskittyminen</span>
+            <span class="pill">Päivittäinen putki</span>
+            <span class="pill">Saavutukset</span>
+            <span class="pill">Viikon taso</span>
           </div>
         </section>
         <section class="card">
@@ -505,7 +561,7 @@
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.5, jossa on profiili, värit, päivän yhteenveto, tähtiarvio, poistettavat hommat ja täyden version viikkoseuranta.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.6, jossa on arjen valmentaja, päivän missio, putki, saavutukset, profiili, värit ja täyden version viikkoseuranta.</p>
         </section>
       </section>
     </div>
@@ -529,6 +585,10 @@
         profileName: "",
         profileGoal: "",
         theme: "forest",
+        streak: 0,
+        lastActiveDate: "",
+        dailyMissionDone: false,
+        dailyMissionDate: "",
         plusUnlocked: false,
         focusMinutes: 25,
         habits: [
@@ -573,6 +633,12 @@
       let interval;
 
       const score = document.querySelector("#score");
+      const dailyGreeting = document.querySelector("#dailyGreeting");
+      const dailyCoach = document.querySelector("#dailyCoach");
+      const streakCount = document.querySelector("#streakCount");
+      const dailyProgress = document.querySelector("#dailyProgress");
+      const dailyMission = document.querySelector("#dailyMission");
+      const nextStep = document.querySelector("#nextStep");
       const doneCount = document.querySelector("#doneCount");
       const taskCount = document.querySelector("#taskCount");
       const moodLabel = document.querySelector("#moodLabel");
@@ -583,6 +649,7 @@
       const summaryText = document.querySelector("#summaryText");
       const weekList = document.querySelector("#weekList");
       const challengeList = document.querySelector("#challengeList");
+      const badgeList = document.querySelector("#badgeList");
       const weeklyChart = document.querySelector("#weeklyChart");
       const weeklyScore = document.querySelector("#weeklyScore");
       const weeklyLevel = document.querySelector("#weeklyLevel");
@@ -599,14 +666,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v115") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v116") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v115", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v116", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -617,6 +684,8 @@
 
       function render() {
         score.textContent = state.points;
+        updateDailyVisit();
+        renderDailyCoach();
         doneCount.textContent = `${state.habits.filter((item) => item.done).length}/${state.habits.length}`;
         taskCount.textContent = state.tasks.length;
         moodLabel.textContent = state.mood || "-";
@@ -627,6 +696,7 @@
         renderSummary();
         renderWeek();
         renderChallenges();
+        renderBadges();
         renderWeeklyPlus();
         renderRewards();
         renderNotes();
@@ -637,6 +707,49 @@
         renderProfile();
         applyTheme();
         renderPlus();
+      }
+
+      function todayKey() {
+        return new Date().toISOString().slice(0, 10);
+      }
+
+      function updateDailyVisit() {
+        const today = todayKey();
+        if (state.lastActiveDate === today) return;
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        state.streak = state.lastActiveDate === yesterday ? state.streak + 1 : 1;
+        state.lastActiveDate = today;
+        state.dailyMissionDone = false;
+        state.dailyMissionDate = today;
+        saveState();
+      }
+
+      function completionStats() {
+        const habitDone = state.habits.filter((item) => item.done).length;
+        const taskDone = state.tasks.filter((item) => item.done).length;
+        const bigDone = state.bigTasks.filter((item) => item.done).length;
+        const wellnessDone = [state.mood, state.movement, state.food, state.dayRating].filter(Boolean).length;
+        const totalDone = habitDone + taskDone + bigDone + wellnessDone;
+        const totalAvailable = state.habits.length + Math.max(state.tasks.length, 1) + Math.max(state.bigTasks.length, 1) + 4;
+        return { habitDone, taskDone, bigDone, wellnessDone, totalDone, totalAvailable };
+      }
+
+      function renderDailyCoach() {
+        const stats = completionStats();
+        const progress = Math.min(100, Math.round((stats.totalDone / stats.totalAvailable) * 100));
+        const name = state.profileName ? `${state.profileName}, ` : "";
+        dailyGreeting.textContent = `${name}tee tästä päivästä vähän selkeämpi.`;
+        dailyCoach.textContent = state.profileGoal ? `Viikon päätavoite: ${state.profileGoal}. Tänään riittää yksi oikea askel siihen suuntaan.` : "Sovellus ehdottaa pienen seuraavan askeleen, jotta päivä ei jää vain ajatukseksi.";
+        streakCount.textContent = state.streak;
+        dailyProgress.textContent = `${progress}%`;
+        dailyMission.textContent = state.dailyMissionDone ? "Päivän missio on tehty. Huomenna jatkuu uusi putki." : "Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis.";
+        if (!stats.habitDone) nextStep.textContent = "Tee ensin helpoin rutiini. Se käynnistää päivän.";
+        else if (!stats.taskDone) nextStep.textContent = "Valitse yksi pieni homma ja poista se mielestä.";
+        else if (!state.mood) nextStep.textContent = "Valitse päivän fiilis. Se tekee yhteenvedosta hyödyllisemmän.";
+        else if (!state.movement) nextStep.textContent = "Merkitse päivän liikkuminen. Kevytkin liike lasketaan.";
+        else if (!state.food) nextStep.textContent = "Merkitse päivän ruokailu. Tarkoitus on huomata suunta.";
+        else if (!state.dayRating) nextStep.textContent = "Anna päivälle tähtiarvio ja sulje päivä rauhassa.";
+        else nextStep.textContent = "Päivän runko on kasassa. Voit tehdä haasteen tai ottaa palkinnon pisteillä.";
       }
 
       function renderHabits() {
@@ -744,6 +857,21 @@
           const percent = Math.min(100, Math.round((value / total) * 100));
           return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
         }).join("");
+      }
+
+      function renderBadges() {
+        const stats = completionStats();
+        const badges = [
+          ["Aloittaja", state.points >= 10, "Kerää 10 pistettä"],
+          ["Kolmen putki", state.streak >= 3, "Käytä 3 päivänä peräkkäin"],
+          ["Viikon rakentaja", state.points >= 120, "Kerää 120 pistettä"],
+          ["Hyvinvoinnin seuraaja", stats.wellnessDone >= 4, "Täytä fiilis, liikunta, ruoka ja tähdet"],
+          ["Tekijä", stats.taskDone + stats.bigDone >= 3, "Tee kolme hommaa"],
+          ["Haastaja", state.challenges.some((item) => item.done), "Tee yksi haaste"]
+        ];
+        badgeList.innerHTML = badges.map(([title, open, description]) => `
+          <div class="badge ${open ? "" : "locked"}">${open ? "Auki" : "Lukossa"} · ${title}<small>${description}</small></div>
+        `).join("");
       }
 
       function renderWeek() {
@@ -957,6 +1085,20 @@
         });
       });
 
+      document.querySelector("#completeDailyMission").addEventListener("click", () => {
+        if (state.dailyMissionDone) return;
+        const stats = completionStats();
+        if (stats.habitDone && stats.taskDone && state.mood) {
+          state.dailyMissionDone = true;
+          state.dailyMissionDate = todayKey();
+          state.points += 25;
+          saveState();
+          render();
+        } else {
+          dailyMission.textContent = "Tee ensin yksi rutiini, yksi pieni homma ja valitse päivän fiilis.";
+        }
+      });
+
       document.querySelector("#saveProfile").addEventListener("click", () => {
         state.profileName = profileName.value.trim();
         state.profileGoal = profileGoal.value.trim();
@@ -1052,6 +1194,7 @@
         localStorage.removeItem("taskurutiini:v113");
         localStorage.removeItem("taskurutiini:v114");
         localStorage.removeItem("taskurutiini:v115");
+        localStorage.removeItem("taskurutiini:v116");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
