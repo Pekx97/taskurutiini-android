@@ -243,7 +243,7 @@
       <section id="today" class="screen">
         <section class="hero">
           <h2>Tänään riittää, että etenet yhden asian.</h2>
-          <p>Merkitse rutiinit, valitse mieliala ja tee yksi pieni voitto. Kaikki tallentuu tälle laitteelle.</p>
+          <p>Merkitse rutiinit, päivän liikkuminen, ruokailu ja yksi käytännön homma. Kaikki tallentuu tälle laitteelle.</p>
           <div class="stats">
             <div class="metric"><strong id="doneCount">0/3</strong><span>tehty</span></div>
             <div class="metric"><strong id="taskCount">0</strong><span>pienet hommat</span></div>
@@ -264,7 +264,7 @@
           <div class="pill-row" style="margin: 10px 0 12px;">
             <button class="chip preset-task" data-task-title="Vastaa yhteen viestiin" type="button">Vastaa viestiin</button>
             <button class="chip preset-task" data-task-title="Vie roskat" type="button">Vie roskat</button>
-            <button class="chip preset-task" data-task-title="Järjestä yksi pöytä" type="button">Järjestä pöytä</button>
+            <button class="chip preset-task" data-task-title="Siisti työpöytä tai keittiön taso" type="button">Siisti yksi taso</button>
             <button class="chip preset-task" data-task-title="Maksa yksi lasku" type="button">Maksa lasku</button>
             <button class="chip preset-task" data-task-title="Laita huomisen vaatteet valmiiksi" type="button">Huominen valmiiksi</button>
           </div>
@@ -273,6 +273,44 @@
             <button class="secondary" id="addTask" type="button">Lisää</button>
           </div>
           <div id="taskList" style="margin-top: 12px;"></div>
+        </section>
+
+        <section class="card">
+          <h3>Isommat hommat</h3>
+          <p>Valitse yksi vähän isompi asia päivälle. Näistä saa enemmän pisteitä kuin pienistä hommista.</p>
+          <div class="pill-row" style="margin: 10px 0 12px;">
+            <button class="chip preset-big-task" data-task-title="Hoida yksi virallinen asia" type="button">Virallinen asia</button>
+            <button class="chip preset-big-task" data-task-title="Tee 45 min tärkeää työtä" type="button">45 min tärkeää työtä</button>
+            <button class="chip preset-big-task" data-task-title="Siivoa yksi huone kunnolla" type="button">Siivoa huone</button>
+            <button class="chip preset-big-task" data-task-title="Suunnittele viikon ruuat" type="button">Viikon ruuat</button>
+          </div>
+          <div id="bigTaskList"></div>
+        </section>
+
+        <section class="card">
+          <h3>Liikunta</h3>
+          <p>Merkitse päivän liikkuminen. Kevytkin liike lasketaan.</p>
+          <div class="moods">
+            <button class="chip movement" data-movement="Kevyt kävely">Kevyt kävely</button>
+            <button class="chip movement" data-movement="Kuntosali">Kuntosali</button>
+            <button class="chip movement" data-movement="Juoksu">Juoksu</button>
+            <button class="chip movement" data-movement="Venyttely">Venyttely</button>
+            <button class="chip movement" data-movement="Lepopäivä">Lepopäivä</button>
+          </div>
+          <p id="movementHint" style="margin-top:12px;">Valitse miten liikuit tänään.</p>
+        </section>
+
+        <section class="card">
+          <h3>Ruoka</h3>
+          <p>Merkitse miten syöminen meni tänään. Tarkoitus ei ole syyllistää, vaan huomata suunta.</p>
+          <div class="moods">
+            <button class="chip food" data-food="Söin terveellisesti">Söin terveellisesti</button>
+            <button class="chip food" data-food="Ihan ok">Ihan ok</button>
+            <button class="chip food" data-food="Liian vähän">Liian vähän</button>
+            <button class="chip food" data-food="Liikaa herkkuja">Liikaa herkkuja</button>
+            <button class="chip food" data-food="En muistanut syödä kunnolla">En syönyt kunnolla</button>
+          </div>
+          <p id="foodHint" style="margin-top:12px;">Valitse päivän ruokailun tilanne.</p>
         </section>
 
         <section class="card">
@@ -378,7 +416,7 @@
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.3, jossa on lisää rutiineja, valmiita pieniä hommia, laajempi fiilisvalinta, haasteet ja pistekauppa.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.4, jossa on paremmat rutiinit, isommat hommat, liikunta, ruoka, fiilikset, haasteet ja pistekauppa.</p>
         </section>
       </section>
     </div>
@@ -395,20 +433,26 @@
       const defaultState = {
         points: 0,
         mood: "",
+        movement: "",
+        food: "",
         plusUnlocked: false,
         focusMinutes: 25,
         habits: [
-          { id: "morning", title: "Aamun tärkeimmät", minutes: 8, done: false },
+          { id: "morning", title: "Aamurutiinit", minutes: 8, done: false },
           { id: "water", title: "Juo lasi vettä", minutes: 2, done: false },
           { id: "move", title: "Pieni liike tai venyttely", minutes: 12, done: false },
-          { id: "tidy", title: "Siisti yksi pieni kohta", minutes: 5, done: false },
-          { id: "outside", title: "Käy hetki ulkona tai ikkunalla", minutes: 5, done: false },
+          { id: "tidy", title: "Siisti yksi näkyvä paikka", minutes: 5, done: false },
+          { id: "outside", title: "Käy hetki ulkona tai raittiissa ilmassa", minutes: 5, done: false },
           { id: "shutdown", title: "Päivän päätös", minutes: 10, done: false }
         ],
         tasks: [
           { id: "task-message", title: "Vastaa yhteen viestiin", done: false },
           { id: "task-trash", title: "Vie roskat", done: false },
-          { id: "task-table", title: "Järjestä yksi pöytä", done: false }
+          { id: "task-table", title: "Siisti työpöytä tai keittiön taso", done: false }
+        ],
+        bigTasks: [
+          { id: "big-paper", title: "Hoida yksi virallinen asia", done: false },
+          { id: "big-work", title: "Tee 45 min tärkeää työtä", done: false }
         ],
         week: [
           { id: "mon", day: "Ma", title: "Päätä viikon päätavoite", done: false },
@@ -418,11 +462,11 @@
         challenges: [
           { id: "water", title: "Juo vettä ennen kahvia", done: false },
           { id: "walk", title: "10 minuutin kävely ilman puhelinta", done: false },
-          { id: "clean", title: "Tyhjennä yksi pieni sotku", done: false },
+          { id: "clean", title: "Siivoa yksi näkyvä sotku", done: false },
           { id: "message", title: "Lähetä hyvä viesti yhdelle ihmiselle", done: false },
           { id: "no-scroll", title: "30 minuuttia ilman turhaa selaamista", done: false },
           { id: "plan", title: "Kirjoita huomisen ensimmäinen askel", done: false },
-          { id: "meal", title: "Syö yksi rauhallinen ateria", done: false },
+          { id: "meal", title: "Syö yksi kunnollinen ateria rauhassa", done: false },
           { id: "sleep", title: "Laita puhelin pois 20 min ennen unta", done: false }
         ],
         rewards: [],
@@ -440,6 +484,7 @@
       const moodLabel = document.querySelector("#moodLabel");
       const habitList = document.querySelector("#habitList");
       const taskList = document.querySelector("#taskList");
+      const bigTaskList = document.querySelector("#bigTaskList");
       const weekList = document.querySelector("#weekList");
       const challengeList = document.querySelector("#challengeList");
       const rewardList = document.querySelector("#rewardList");
@@ -453,14 +498,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v113") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v114") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v113", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v114", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -477,11 +522,14 @@
         renderClock();
         renderHabits();
         renderTasks();
+        renderBigTasks();
         renderWeek();
         renderChallenges();
         renderRewards();
         renderNotes();
         renderMood();
+        renderMovement();
+        renderFood();
         renderPlus();
       }
 
@@ -516,6 +564,24 @@
             const task = state.tasks.find((item) => item.id === button.dataset.task);
             task.done = !task.done;
             if (task.done) state.points += 5;
+            saveState();
+            render();
+          });
+        });
+      }
+
+      function renderBigTasks() {
+        bigTaskList.innerHTML = state.bigTasks.map((task) => `
+          <button class="task-item ${task.done ? "done" : ""}" data-big-task="${task.id}" type="button">
+            <span class="check">${task.done ? "✓" : ""}</span>
+            <span class="grow"><strong>${task.title}</strong><span>Isompi homma · 15 pistettä</span></span>
+          </button>
+        `).join("");
+        bigTaskList.querySelectorAll(".task-item").forEach((button) => {
+          button.addEventListener("click", () => {
+            const task = state.bigTasks.find((item) => item.id === button.dataset.bigTask);
+            task.done = !task.done;
+            if (task.done) state.points += 15;
             saveState();
             render();
           });
@@ -578,6 +644,34 @@
         document.querySelector("#moodHint").textContent = state.mood ? hints[state.mood] : "Valitse fiilis. Saat pienen ehdotuksen sen mukaan, miltä päivä tuntuu.";
       }
 
+      function renderMovement() {
+        document.querySelectorAll(".movement").forEach((button) => {
+          button.classList.toggle("active", button.dataset.movement === state.movement);
+        });
+        const hints = {
+          "Kevyt kävely": "Hyvä. Kevyt kävely pitää päivän liikkeessä.",
+          "Kuntosali": "Hyvä treeni. Muista myös palautuminen.",
+          "Juoksu": "Juoksu kirjattu. Pieni venyttely voi auttaa lopuksi.",
+          "Venyttely": "Hyvä valinta, varsinkin kiireisenä tai väsyneenä päivänä.",
+          "Lepopäivä": "Lepopäivä on hyväksyttävä valinta. Palautuminen kuuluu rytmiin."
+        };
+        document.querySelector("#movementHint").textContent = state.movement ? hints[state.movement] : "Valitse miten liikuit tänään.";
+      }
+
+      function renderFood() {
+        document.querySelectorAll(".food").forEach((button) => {
+          button.classList.toggle("active", button.dataset.food === state.food);
+        });
+        const hints = {
+          "Söin terveellisesti": "Hyvä. Terveellinen ruokailu tukee energiaa ja keskittymistä.",
+          "Ihan ok": "Riittävän hyvä on usein tarpeeksi. Jatka samaan suuntaan.",
+          "Liian vähän": "Kirjaa tämä ylös ja syö seuraavaksi jotain kunnollista.",
+          "Liikaa herkkuja": "Ei haittaa. Seuraava ateria voi olla tasaisempi.",
+          "En muistanut syödä kunnolla": "Tee seuraavasta syömisestä helppo ja riittävä."
+        };
+        document.querySelector("#foodHint").textContent = state.food ? hints[state.food] : "Valitse päivän ruokailun tilanne.";
+      }
+
       function renderRewards() {
         rewardList.innerHTML = state.rewards.slice().reverse().map((reward) => `
           <div class="note"><strong>${reward.date}</strong><br />${reward.title} · ${reward.cost} pistettä</div>
@@ -631,10 +725,36 @@
         });
       });
 
+      document.querySelectorAll(".preset-big-task").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.bigTasks.push({ id: `big-task-${Date.now()}`, title: button.dataset.taskTitle, done: false });
+          saveState();
+          render();
+        });
+      });
+
       document.querySelectorAll(".mood").forEach((button) => {
         button.addEventListener("click", () => {
           state.mood = button.dataset.mood;
           state.points += 3;
+          saveState();
+          render();
+        });
+      });
+
+      document.querySelectorAll(".movement").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.movement = button.dataset.movement;
+          state.points += 5;
+          saveState();
+          render();
+        });
+      });
+
+      document.querySelectorAll(".food").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.food = button.dataset.food;
+          state.points += 5;
           saveState();
           render();
         });
@@ -718,6 +838,7 @@
       document.querySelector("#resetData").addEventListener("click", () => {
         localStorage.removeItem("taskurutiini:v110");
         localStorage.removeItem("taskurutiini:v113");
+        localStorage.removeItem("taskurutiini:v114");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
