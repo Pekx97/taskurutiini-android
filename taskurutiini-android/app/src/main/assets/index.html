@@ -297,6 +297,21 @@
       }
       .badge.locked { opacity: .48; }
       .badge small { display: block; margin-top: 4px; color: var(--muted); font-weight: 750; }
+      .emoji-title { display: inline-flex; align-items: center; gap: 8px; }
+      .face-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .face {
+        border: 1px solid #d9cbb8;
+        border-radius: 8px;
+        background: var(--panel-bg);
+        padding: 10px 4px;
+        font-size: 24px;
+      }
+      .face.active { background: var(--soft-bg); border-color: var(--accent); transform: translateY(-1px); }
     </style>
   </head>
   <body>
@@ -323,22 +338,22 @@
           </div>
           <div class="streak">
             <div><strong id="streakCount">0</strong><span>päivän putki</span></div>
-            <div><strong id="dailyProgress">0%</strong><span>päivästä kasassa</span></div>
+            <div><strong id="dailyProgress">Alku</strong><span>päivän tila</span></div>
           </div>
         </section>
 
         <section class="card daily-card">
-          <h3>Päivän missio</h3>
+          <h3><span class="emoji-title">🎯 Päivän missio</span></h3>
           <p id="dailyMission">Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis.</p>
           <button class="primary" id="completeDailyMission" type="button">Merkkaa päivän missio tehdyksi</button>
         </section>
 
         <section class="card">
-          <h3>Seuraava paras askel</h3>
+          <h3><span class="emoji-title">✨ Seuraava paras askel</span></h3>
           <p id="nextStep">Aloita yhdestä helposta rutiinista.</p>
         </section>
 
-        <h3>Päivän rutiinit</h3>
+        <h3><span class="emoji-title">🌤️ Päivän rutiinit</span></h3>
         <div id="habitList"></div>
         <div class="input-row">
           <input id="newHabit" placeholder="Lisää oma rutiini" />
@@ -346,7 +361,7 @@
         </div>
 
         <section class="card">
-          <h3>Pienet hommat</h3>
+          <h3><span class="emoji-title">✅ Pienet hommat</span></h3>
           <p>Kirjaa pienet asiat, jotka haluat saada pois mielestä.</p>
           <div class="pill-row" style="margin: 10px 0 12px;">
             <button class="chip preset-task" data-task-title="Vastaa yhteen viestiin" type="button">Vastaa viestiin</button>
@@ -363,11 +378,11 @@
         </section>
 
         <section class="card">
-          <h3>Isommat hommat</h3>
+          <h3><span class="emoji-title">📌 Isommat hommat</span></h3>
           <p>Valitse yksi vähän isompi asia päivälle. Näistä saa enemmän pisteitä kuin pienistä hommista.</p>
           <div class="pill-row" style="margin: 10px 0 12px;">
             <button class="chip preset-big-task" data-task-title="Hoida yksi virallinen asia" type="button">Virallinen asia</button>
-            <button class="chip preset-big-task" data-task-title="Tee 45 min tärkeää työtä" type="button">45 min tärkeää työtä</button>
+            <button class="chip preset-big-task" data-task-title="Opiskele 45 min uutta asiaa" type="button">45 min opiskelua</button>
             <button class="chip preset-big-task" data-task-title="Siivoa yksi huone kunnolla" type="button">Siivoa huone</button>
             <button class="chip preset-big-task" data-task-title="Suunnittele viikon ruuat" type="button">Viikon ruuat</button>
           </div>
@@ -375,7 +390,7 @@
         </section>
 
         <section class="card">
-          <h3>Liikunta</h3>
+          <h3><span class="emoji-title">🏃 Liikunta</span></h3>
           <p>Merkitse päivän liikkuminen. Kevytkin liike lasketaan.</p>
           <div class="moods">
             <button class="chip movement" data-movement="Kevyt kävely">Kevyt kävely</button>
@@ -388,7 +403,7 @@
         </section>
 
         <section class="card">
-          <h3>Ruoka</h3>
+          <h3><span class="emoji-title">🥗 Ruoka</span></h3>
           <p>Merkitse miten syöminen meni tänään. Tarkoitus ei ole syyllistää, vaan huomata suunta.</p>
           <div class="moods">
             <button class="chip food" data-food="Söin terveellisesti">Söin terveellisesti</button>
@@ -401,7 +416,7 @@
         </section>
 
         <section class="card">
-          <h3>Päivän fiilis</h3>
+          <h3><span class="emoji-title">😌 Päivän fiilis</span></h3>
           <div class="moods">
             <button class="chip mood" data-mood="Virkeä">Virkeä</button>
             <button class="chip mood" data-mood="Rauhallinen">Rauhallinen</button>
@@ -414,7 +429,20 @@
         </section>
 
         <section class="card">
-          <h3>Päivän arvio</h3>
+          <h3><span class="emoji-title">🌙 Uni</span></h3>
+          <p>Arvioi oma nukkuminen. Tämän ei tarvitse olla täydellistä mittaamista, vaan nopea oma tunne.</p>
+          <div class="face-row">
+            <button class="face sleep" data-sleep="1" type="button">😵</button>
+            <button class="face sleep" data-sleep="2" type="button">😴</button>
+            <button class="face sleep" data-sleep="3" type="button">😐</button>
+            <button class="face sleep" data-sleep="4" type="button">🙂</button>
+            <button class="face sleep" data-sleep="5" type="button">😄</button>
+          </div>
+          <p id="sleepHint" style="margin-top:12px;">Valitse miltä uni tuntui tänään.</p>
+        </section>
+
+        <section class="card">
+          <h3><span class="emoji-title">⭐ Päivän arvio</span></h3>
           <p>Anna päivälle 1-5 tähteä. Tämä näkyy yhteenvedossa.</p>
           <div class="stars" id="starRating">
             <button class="star" data-rating="1" type="button">★</button>
@@ -427,7 +455,7 @@
         </section>
 
         <section class="card">
-          <h3>Päivän yhteenveto</h3>
+          <h3><span class="emoji-title">📊 Päivän yhteenveto</span></h3>
           <p id="summaryText">Yhteenveto päivittyy, kun merkitset asioita tehdyksi.</p>
           <div class="chart" id="summaryChart"></div>
         </section>
@@ -462,26 +490,27 @@
           <h2>Viikon suunta</h2>
           <p>Valitse kolme asiaa. Sovellus ei yritä hallita elämääsi, vaan pitää suunnan näkyvissä.</p>
         </section>
-        <h3>Viikkotavoitteet</h3>
+        <h3><span class="emoji-title">🧭 Viikkotavoitteet</span></h3>
         <div id="weekList"></div>
 
-        <h3>Haasteet</h3>
+        <h3><span class="emoji-title">🔥 Haasteet</span></h3>
         <div id="challengeList"></div>
 
-        <h3>Saavutukset</h3>
+        <h3><span class="emoji-title">🏅 Saavutukset</span></h3>
         <section class="card">
           <p>Saavutukset antavat syyn palata sovellukseen myös silloin, kun motivaatio on matala.</p>
           <div class="badge-grid" id="badgeList"></div>
         </section>
 
-        <h3>Pistekauppa</h3>
+        <h3><span class="emoji-title">🎁 Pistekauppa</span></h3>
         <section class="card">
-          <p>Vaihda pisteitä pieniin palkintoihin. Tämä tekee pisteistä käyttökelpoisia, ei pelkkää numeroa.</p>
+          <p>Vaihda pisteitä palkintoihin, jotka tuntuvat oikeasti mukavilta arjessa.</p>
           <div class="pill-row" style="margin-top:12px;">
-            <button class="chip reward" data-cost="30" data-title="Kahvitauko ilman kiirettä" type="button">30 p · kahvitauko</button>
-            <button class="chip reward" data-cost="50" data-title="20 min omaa aikaa" type="button">50 p · oma aika</button>
-            <button class="chip reward" data-cost="80" data-title="Valitse oma pieni palkinto" type="button">80 p · oma palkinto</button>
-            <button class="chip reward" data-cost="120" data-title="Vapaa hetki ilman selittelyä" type="button">120 p · vapaa hetki</button>
+            <button class="chip reward" data-cost="25" data-title="Rentoutushetki ilman puhelinta" type="button">25 p · rentoutushetki</button>
+            <button class="chip reward" data-cost="45" data-title="Hyvä kahvi tai tee rauhassa" type="button">45 p · hyvä kahvi</button>
+            <button class="chip reward" data-cost="70" data-title="Jakso sarjaa tai pelihetki hyvällä omallatunnolla" type="button">70 p · oma viihdehetki</button>
+            <button class="chip reward" data-cost="110" data-title="Pieni ostos tai herkku suunnitellusti" type="button">110 p · pieni palkinto</button>
+            <button class="chip reward" data-cost="180" data-title="Isompi oma palkinto viikon työstä" type="button">180 p · viikon palkinto</button>
           </div>
           <div class="note-list" id="rewardList"></div>
         </section>
@@ -517,6 +546,9 @@
             <span class="pill">Päivittäinen putki</span>
             <span class="pill">Saavutukset</span>
             <span class="pill">Viikon taso</span>
+            <span class="pill">Uniseuranta</span>
+            <span class="pill">Oma profiilityyli</span>
+            <span class="pill">Palkintohistoria</span>
           </div>
         </section>
         <section class="card">
@@ -527,6 +559,16 @@
             <div class="metric"><strong id="weeklyLevel">Alku</strong><span>viikon taso</span></div>
           </div>
           <div class="chart" id="weeklyChart"></div>
+        </section>
+        <section class="card">
+          <h3>Täysi arjen kompassi</h3>
+          <p id="plusInsight">Avaa täysi versio, niin näet oman viikon suunnan yhdellä silmäyksellä.</p>
+          <div class="pill-row">
+            <span class="pill">Viikon vahvuus</span>
+            <span class="pill">Mihin kannattaa keskittyä</span>
+            <span class="pill">Palautumisen merkki</span>
+            <span class="pill">Pisteiden käyttöhistoria</span>
+          </div>
         </section>
       </section>
 
@@ -543,6 +585,15 @@
           </div>
           <div class="input-row">
             <input id="profileGoal" placeholder="Viikon päätavoite" />
+          </div>
+          <div class="input-row">
+            <input id="profileMotto" placeholder="Oma muistutus, esim. rauhassa eteenpäin" />
+          </div>
+          <div class="pill-row">
+            <button class="chip profile-style" data-style="Rauhallinen tekijä" type="button">Rauhallinen tekijä</button>
+            <button class="chip profile-style" data-style="Tavoitteellinen" type="button">Tavoitteellinen</button>
+            <button class="chip profile-style" data-style="Palautuja" type="button">Palautuja</button>
+            <button class="chip profile-style" data-style="Uuden rakentaja" type="button">Uuden rakentaja</button>
           </div>
           <button class="primary" id="saveProfile" type="button">Tallenna profiili</button>
         </section>
@@ -561,7 +612,7 @@
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.6, jossa on arjen valmentaja, päivän missio, putki, saavutukset, profiili, värit ja täyden version viikkoseuranta.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.7, jossa on lempeä päivän tila, uni, parempi profiili, kiinnostavammat palkinnot ja lisää täyden version ominaisuuksia.</p>
         </section>
       </section>
     </div>
@@ -581,9 +632,12 @@
         mood: "",
         movement: "",
         food: "",
+        sleep: 0,
         dayRating: 0,
         profileName: "",
         profileGoal: "",
+        profileMotto: "",
+        profileStyle: "",
         theme: "forest",
         streak: 0,
         lastActiveDate: "",
@@ -606,7 +660,7 @@
         ],
         bigTasks: [
           { id: "big-paper", title: "Hoida yksi virallinen asia", done: false },
-          { id: "big-work", title: "Tee 45 min tärkeää työtä", done: false }
+          { id: "big-study", title: "Opiskele 45 min uutta asiaa", done: false }
         ],
         week: [
           { id: "mon", day: "Ma", title: "Päätä viikon päätavoite", done: false },
@@ -653,11 +707,13 @@
       const weeklyChart = document.querySelector("#weeklyChart");
       const weeklyScore = document.querySelector("#weeklyScore");
       const weeklyLevel = document.querySelector("#weeklyLevel");
+      const plusInsight = document.querySelector("#plusInsight");
       const rewardList = document.querySelector("#rewardList");
       const noteList = document.querySelector("#noteList");
       const noteText = document.querySelector("#noteText");
       const profileName = document.querySelector("#profileName");
       const profileGoal = document.querySelector("#profileGoal");
+      const profileMotto = document.querySelector("#profileMotto");
       const clock = document.querySelector("#clock");
       const start = document.querySelector("#start");
       const ownerCode = document.querySelector("#ownerCode");
@@ -666,14 +722,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v116") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v117") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v116", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v117", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -703,6 +759,7 @@
         renderMood();
         renderMovement();
         renderFood();
+        renderSleep();
         renderRating();
         renderProfile();
         applyTheme();
@@ -728,9 +785,9 @@
         const habitDone = state.habits.filter((item) => item.done).length;
         const taskDone = state.tasks.filter((item) => item.done).length;
         const bigDone = state.bigTasks.filter((item) => item.done).length;
-        const wellnessDone = [state.mood, state.movement, state.food, state.dayRating].filter(Boolean).length;
+        const wellnessDone = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
         const totalDone = habitDone + taskDone + bigDone + wellnessDone;
-        const totalAvailable = state.habits.length + Math.max(state.tasks.length, 1) + Math.max(state.bigTasks.length, 1) + 4;
+        const totalAvailable = state.habits.length + Math.max(state.tasks.length, 1) + Math.max(state.bigTasks.length, 1) + 5;
         return { habitDone, taskDone, bigDone, wellnessDone, totalDone, totalAvailable };
       }
 
@@ -739,15 +796,16 @@
         const progress = Math.min(100, Math.round((stats.totalDone / stats.totalAvailable) * 100));
         const name = state.profileName ? `${state.profileName}, ` : "";
         dailyGreeting.textContent = `${name}tee tästä päivästä vähän selkeämpi.`;
-        dailyCoach.textContent = state.profileGoal ? `Viikon päätavoite: ${state.profileGoal}. Tänään riittää yksi oikea askel siihen suuntaan.` : "Sovellus ehdottaa pienen seuraavan askeleen, jotta päivä ei jää vain ajatukseksi.";
+        dailyCoach.textContent = state.profileMotto || (state.profileGoal ? `Viikon päätavoite: ${state.profileGoal}. Tänään riittää yksi oikea askel siihen suuntaan.` : "Sovellus ehdottaa pienen seuraavan askeleen, jotta päivä ei jää vain ajatukseksi.");
         streakCount.textContent = state.streak;
-        dailyProgress.textContent = `${progress}%`;
+        dailyProgress.textContent = progress >= 70 ? "Hyvä rytmi" : progress >= 35 ? "Käynnissä" : stats.totalDone > 0 ? "Avattu" : "Alku";
         dailyMission.textContent = state.dailyMissionDone ? "Päivän missio on tehty. Huomenna jatkuu uusi putki." : "Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis.";
         if (!stats.habitDone) nextStep.textContent = "Tee ensin helpoin rutiini. Se käynnistää päivän.";
         else if (!stats.taskDone) nextStep.textContent = "Valitse yksi pieni homma ja poista se mielestä.";
         else if (!state.mood) nextStep.textContent = "Valitse päivän fiilis. Se tekee yhteenvedosta hyödyllisemmän.";
         else if (!state.movement) nextStep.textContent = "Merkitse päivän liikkuminen. Kevytkin liike lasketaan.";
         else if (!state.food) nextStep.textContent = "Merkitse päivän ruokailu. Tarkoitus on huomata suunta.";
+        else if (!state.sleep) nextStep.textContent = "Arvioi uni nopeasti. Se auttaa näkemään päivän kokonaisuuden.";
         else if (!state.dayRating) nextStep.textContent = "Anna päivälle tähtiarvio ja sulje päivä rauhassa.";
         else nextStep.textContent = "Päivän runko on kasassa. Voit tehdä haasteen tai ottaa palkinnon pisteillä.";
       }
@@ -829,14 +887,14 @@
         const habitDone = state.habits.filter((item) => item.done).length;
         const taskDone = state.tasks.filter((item) => item.done).length;
         const bigDone = state.bigTasks.filter((item) => item.done).length;
-        const wellnessDone = [state.mood, state.movement, state.food, state.dayRating].filter(Boolean).length;
+        const wellnessDone = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
         const rows = [
           ["Rutiinit", habitDone, state.habits.length],
           ["Pienet", taskDone, Math.max(state.tasks.length, 1)],
           ["Isot", bigDone, Math.max(state.bigTasks.length, 1)],
-          ["Hyvinvointi", wellnessDone, 4]
+          ["Hyvinvointi", wellnessDone, 5]
         ];
-        summaryText.textContent = `${habitDone + taskDone + bigDone} tehtyä asiaa tänään. Fiilis: ${state.mood || "ei valittu"}. Liikunta: ${state.movement || "ei valittu"}. Ruoka: ${state.food || "ei valittu"}.`;
+        summaryText.textContent = `${habitDone + taskDone + bigDone} tehtyä asiaa tänään. Fiilis: ${state.mood || "ei valittu"}. Liikunta: ${state.movement || "ei valittu"}. Ruoka: ${state.food || "ei valittu"}. Uni: ${sleepLabel()}.`;
         summaryChart.innerHTML = rows.map(([label, value, total]) => {
           const percent = Math.min(100, Math.round((value / total) * 100));
           return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
@@ -845,18 +903,23 @@
 
       function renderWeeklyPlus() {
         const doneTotal = state.habits.filter((item) => item.done).length + state.tasks.filter((item) => item.done).length + state.bigTasks.filter((item) => item.done).length + state.week.filter((item) => item.done).length + state.challenges.filter((item) => item.done).length;
-        const wellness = [state.mood, state.movement, state.food, state.dayRating].filter(Boolean).length;
+        const wellness = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
         weeklyScore.textContent = state.points;
         weeklyLevel.textContent = state.points >= 250 ? "Vahva" : state.points >= 120 ? "Hyvä" : state.points >= 50 ? "Käynnissä" : "Alku";
         weeklyChart.innerHTML = [
           ["Tehdyt asiat", doneTotal, 24],
-          ["Hyvinvointi", wellness, 4],
+          ["Hyvinvointi", wellness, 5],
           ["Viikkotavoitteet", state.week.filter((item) => item.done).length, state.week.length],
           ["Haasteet", state.challenges.filter((item) => item.done).length, state.challenges.length]
         ].map(([label, value, total]) => {
           const percent = Math.min(100, Math.round((value / total) * 100));
           return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
         }).join("");
+        plusInsight.textContent = state.sleep && state.sleep <= 2
+          ? "Tällä viikolla kannattaa painottaa palautumista ja kevyempiä rutiineja."
+          : state.points >= 180
+            ? "Viikon tekeminen on vahvaa. Voit käyttää pisteitä kunnolliseen palkintoon."
+            : "Pidä viikko yksinkertaisena: yksi rutiini, yksi homma ja yksi hyvinvointimerkintä päivässä.";
       }
 
       function renderBadges() {
@@ -865,7 +928,7 @@
           ["Aloittaja", state.points >= 10, "Kerää 10 pistettä"],
           ["Kolmen putki", state.streak >= 3, "Käytä 3 päivänä peräkkäin"],
           ["Viikon rakentaja", state.points >= 120, "Kerää 120 pistettä"],
-          ["Hyvinvoinnin seuraaja", stats.wellnessDone >= 4, "Täytä fiilis, liikunta, ruoka ja tähdet"],
+          ["Hyvinvoinnin seuraaja", stats.wellnessDone >= 5, "Täytä fiilis, liikunta, ruoka, uni ja tähdet"],
           ["Tekijä", stats.taskDone + stats.bigDone >= 3, "Tee kolme hommaa"],
           ["Haastaja", state.challenges.some((item) => item.done), "Tee yksi haaste"]
         ];
@@ -958,6 +1021,24 @@
         document.querySelector("#foodHint").textContent = state.food ? hints[state.food] : "Valitse päivän ruokailun tilanne.";
       }
 
+      function sleepLabel() {
+        return ["ei valittu", "tosi huono", "huono", "kohtalainen", "hyvä", "tosi hyvä"][state.sleep] || "ei valittu";
+      }
+
+      function renderSleep() {
+        document.querySelectorAll(".sleep").forEach((button) => {
+          button.classList.toggle("active", Number(button.dataset.sleep) === state.sleep);
+        });
+        const hints = {
+          1: "Uni oli tosi huono. Tee päivästä mahdollisimman kevyt.",
+          2: "Uni oli huono. Pieni eteneminen riittää tänään.",
+          3: "Uni oli kohtalainen. Pidä tauot mukana.",
+          4: "Uni oli hyvä. Hyvä päivä rakentaa rytmiä.",
+          5: "Uni oli tosi hyvä. Ota tästä hyöty irti rauhassa."
+        };
+        document.querySelector("#sleepHint").textContent = state.sleep ? hints[state.sleep] : "Valitse miltä uni tuntui tänään.";
+      }
+
       function renderRewards() {
         rewardList.innerHTML = state.rewards.slice().reverse().map((reward) => `
           <div class="note"><strong>${reward.date}</strong><br />${reward.title} · ${reward.cost} pistettä</div>
@@ -978,7 +1059,11 @@
       function renderProfile() {
         profileName.value = state.profileName;
         profileGoal.value = state.profileGoal;
+        profileMotto.value = state.profileMotto;
         document.querySelector(".kicker").textContent = state.profileName ? `TaskuRutiini · ${state.profileName}` : "TaskuRutiini";
+        document.querySelectorAll(".profile-style").forEach((button) => {
+          button.classList.toggle("active", button.dataset.style === state.profileStyle);
+        });
       }
 
       function applyTheme() {
@@ -1076,6 +1161,15 @@
         });
       });
 
+      document.querySelectorAll(".sleep").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.sleep = Number(button.dataset.sleep);
+          state.points += state.sleep;
+          saveState();
+          render();
+        });
+      });
+
       document.querySelectorAll(".star").forEach((button) => {
         button.addEventListener("click", () => {
           state.dayRating = Number(button.dataset.rating);
@@ -1102,8 +1196,17 @@
       document.querySelector("#saveProfile").addEventListener("click", () => {
         state.profileName = profileName.value.trim();
         state.profileGoal = profileGoal.value.trim();
+        state.profileMotto = profileMotto.value.trim();
         saveState();
         render();
+      });
+
+      document.querySelectorAll(".profile-style").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.profileStyle = button.dataset.style;
+          saveState();
+          render();
+        });
       });
 
       document.querySelectorAll(".swatch").forEach((button) => {
@@ -1195,6 +1298,7 @@
         localStorage.removeItem("taskurutiini:v114");
         localStorage.removeItem("taskurutiini:v115");
         localStorage.removeItem("taskurutiini:v116");
+        localStorage.removeItem("taskurutiini:v117");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
