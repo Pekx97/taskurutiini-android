@@ -11,13 +11,22 @@
     <link rel="apple-touch-icon" href="./icon-192.png" />
     <title>TaskuRutiini</title>
     <style>
+      :root {
+        --page-bg: #f7f1e7;
+        --panel-bg: #fff9ee;
+        --soft-bg: #efe3d0;
+        --ink: #251d18;
+        --muted: #5f5144;
+        --accent: #5b7f68;
+        --line: #e4d7c5;
+      }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
       body {
         margin: 0;
         min-height: 100vh;
-        background: #f7f1e7;
-        color: #251d18;
+        background: var(--page-bg);
+        color: var(--ink);
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
       .app {
@@ -34,7 +43,7 @@
         margin-bottom: 16px;
       }
       .kicker {
-        color: #6c5c48;
+        color: var(--accent);
         font-size: 12px;
         font-weight: 800;
         letter-spacing: .06em;
@@ -43,7 +52,7 @@
       h1 { margin: 4px 0 0; font-size: 26px; line-height: 1.08; }
       h2 { margin: 0 0 10px; font-size: 24px; line-height: 1.18; }
       h3 { margin: 22px 0 12px; font-size: 20px; }
-      p { margin: 0; color: #5f5144; font-size: 15px; line-height: 1.48; }
+      p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.48; }
       button, input, textarea { font: inherit; }
       textarea {
         width: 100%;
@@ -59,7 +68,7 @@
         min-width: 74px;
         border-radius: 18px;
         padding: 10px 12px;
-        background: #251d18;
+        background: var(--ink);
         color: #fff7e8;
         text-align: center;
       }
@@ -69,11 +78,11 @@
         border-radius: 8px;
         padding: 18px;
       }
-      .hero { background: #efe3d0; }
+      .hero { background: var(--soft-bg); }
       .card {
         margin-top: 14px;
-        border: 1px solid #e4d7c5;
-        background: #fff9ee;
+        border: 1px solid var(--line);
+        background: var(--panel-bg);
       }
       .stats {
         display: grid;
@@ -81,7 +90,7 @@
         gap: 10px;
         margin-top: 16px;
       }
-      .metric { border-radius: 8px; padding: 12px; background: #f8f0e3; }
+      .metric { border-radius: 8px; padding: 12px; background: color-mix(in srgb, var(--soft-bg) 72%, white); }
       .metric strong { display: block; font-size: 18px; }
       .metric span { color: #796b5d; font-size: 12px; font-weight: 800; }
       .habit, .week-goal, .challenge, .task-item {
@@ -91,9 +100,9 @@
         align-items: center;
         gap: 12px;
         margin-bottom: 10px;
-        border: 1px solid #e4d7c5;
+        border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fff9ee;
+        background: var(--panel-bg);
         padding: 14px;
         color: inherit;
         text-align: left;
@@ -102,7 +111,7 @@
         background: #edf3ea;
         border-color: #aec8b3;
       }
-      .stripe { width: 12px; height: 42px; border-radius: 8px; background: #5b7f68; }
+      .stripe { width: 12px; height: 42px; border-radius: 8px; background: var(--accent); }
       .habit:nth-of-type(2n) .stripe { background: #a66b4f; }
       .habit:nth-of-type(3n) .stripe { background: #476c8a; }
       .habit-text, .grow { flex: 1; }
@@ -117,7 +126,7 @@
         border-radius: 50%;
         font-weight: 900;
       }
-      .done .check { background: #5b7f68; border-color: #5b7f68; color: #fff9ee; }
+      .done .check { background: var(--accent); border-color: var(--accent); color: #fff9ee; }
       .controls, .moods {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -131,7 +140,7 @@
         color: #67584a;
         font-weight: 850;
       }
-      .chip.active, .primary { background: #251d18; color: #fff9ee; }
+      .chip.active, .primary { background: var(--ink); color: #fff9ee; }
       .primary {
         width: 100%;
         margin-top: 12px;
@@ -142,8 +151,8 @@
       }
       .secondary {
         border: 1px solid #d9cbb8;
-        background: #fff9ee;
-        color: #5b7f68;
+        background: var(--panel-bg);
+        color: var(--accent);
         border-radius: 8px;
         padding: 12px;
         font-weight: 900;
@@ -155,8 +164,8 @@
         border: 1px solid #d9cbb8;
         border-radius: 8px;
         padding: 12px;
-        background: #fff9ee;
-        color: #251d18;
+        background: var(--panel-bg);
+        color: var(--ink);
       }
       .clock { margin: 10px 0 12px; text-align: center; font-size: 66px; font-weight: 900; }
       .day {
@@ -165,7 +174,7 @@
         display: grid;
         place-items: center;
         border-radius: 8px;
-        background: #efe3d0;
+        background: var(--soft-bg);
         font-weight: 900;
       }
       .setting-row {
@@ -174,9 +183,9 @@
         justify-content: space-between;
         gap: 12px;
         margin-bottom: 10px;
-        border: 1px solid #e4d7c5;
+        border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fff9ee;
+        background: var(--panel-bg);
         padding: 16px;
         font-weight: 800;
       }
@@ -184,7 +193,7 @@
       .note-list { margin-top: 12px; display: grid; gap: 8px; }
       .note {
         border-radius: 8px;
-        background: #efe3d0;
+        background: var(--soft-bg);
         padding: 12px;
         color: #44382f;
         font-size: 14px;
@@ -193,7 +202,7 @@
       .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
       .pill {
         border-radius: 999px;
-        background: #efe3d0;
+        background: var(--soft-bg);
         color: #4d4137;
         padding: 8px 10px;
         font-size: 13px;
@@ -207,12 +216,12 @@
         max-width: 512px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 4px;
         padding: 6px;
         border: 1px solid #e1d5c4;
         border-radius: 8px;
-        background: #fff9ee;
+        background: var(--panel-bg);
       }
       nav a {
         border-radius: 8px;
@@ -224,7 +233,38 @@
         text-align: center;
         text-decoration: none;
       }
-      nav a.active { background: #251d18; color: #fff9ee; }
+      nav a.active { background: var(--ink); color: #fff9ee; }
+      .delete-button {
+        border: 0;
+        border-radius: 8px;
+        background: #f0ded4;
+        color: #8d3f2f;
+        padding: 8px 10px;
+        font-weight: 900;
+      }
+      .chart { display: grid; gap: 10px; margin-top: 14px; }
+      .chart-row { display: grid; grid-template-columns: 92px 1fr 38px; gap: 8px; align-items: center; font-size: 13px; font-weight: 850; }
+      .bar { height: 12px; border-radius: 999px; background: color-mix(in srgb, var(--soft-bg) 70%, white); overflow: hidden; }
+      .bar span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+      .stars { display: flex; gap: 8px; margin-top: 12px; }
+      .star {
+        flex: 1;
+        border: 1px solid #d9cbb8;
+        border-radius: 8px;
+        background: var(--panel-bg);
+        color: #b28a22;
+        padding: 10px 0;
+        font-size: 23px;
+        line-height: 1;
+      }
+      .star.active { background: #fff0b8; border-color: #d6a928; color: #8b6500; }
+      .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+      .swatch { min-height: 44px; border: 2px solid transparent; border-radius: 8px; color: white; font-weight: 900; }
+      .swatch.active { border-color: var(--ink); outline: 2px solid #fff; }
+      .swatch[data-theme="forest"] { background: #5b7f68; }
+      .swatch[data-theme="sand"] { background: #a66b4f; }
+      .swatch[data-theme="blue"] { background: #476c8a; }
+      .swatch[data-theme="rose"] { background: #9b5c68; }
     </style>
   </head>
   <body>
@@ -232,7 +272,7 @@
       <header>
         <div>
           <div class="kicker">TaskuRutiini</div>
-          <h1>Pieni päivä, parempi rytmi.</h1>
+          <h1>Oma rytmi, selkeämpi päivä.</h1>
         </div>
         <div class="score">
           <strong id="score">0</strong>
@@ -325,6 +365,25 @@
           </div>
           <p id="moodHint" style="margin-top:12px;">Valitse fiilis. Saat pienen ehdotuksen sen mukaan, miltä päivä tuntuu.</p>
         </section>
+
+        <section class="card">
+          <h3>Päivän arvio</h3>
+          <p>Anna päivälle 1-5 tähteä. Tämä näkyy yhteenvedossa.</p>
+          <div class="stars" id="starRating">
+            <button class="star" data-rating="1" type="button">★</button>
+            <button class="star" data-rating="2" type="button">★</button>
+            <button class="star" data-rating="3" type="button">★</button>
+            <button class="star" data-rating="4" type="button">★</button>
+            <button class="star" data-rating="5" type="button">★</button>
+          </div>
+          <p id="ratingText" style="margin-top:12px;">Ei arviota vielä.</p>
+        </section>
+
+        <section class="card">
+          <h3>Päivän yhteenveto</h3>
+          <p id="summaryText">Yhteenveto päivittyy, kun merkitset asioita tehdyksi.</p>
+          <div class="chart" id="summaryChart"></div>
+        </section>
       </section>
 
       <section id="focus" class="screen">
@@ -404,6 +463,15 @@
             <span class="pill">Keskittyminen</span>
           </div>
         </section>
+        <section class="card">
+          <h3>Täysi viikkoseuranta</h3>
+          <p>Seuraa omaa viikkoa yhdestä näkymästä. Tämä on täyden version erikoisominaisuus.</p>
+          <div class="stats" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="metric"><strong id="weeklyScore">0</strong><span>viikon pisteet</span></div>
+            <div class="metric"><strong id="weeklyLevel">Alku</strong><span>viikon taso</span></div>
+          </div>
+          <div class="chart" id="weeklyChart"></div>
+        </section>
       </section>
 
       <section id="settings" class="screen">
@@ -411,12 +479,33 @@
           <h2>Asetukset</h2>
           <p>TaskuRutiini tallentaa tiedot tälle laitteelle. Tiliä ei tarvita testikäyttöön.</p>
         </section>
+        <section class="card">
+          <h3>Oma profiili</h3>
+          <p>Voit nimetä sovelluksen omaan käyttöön ja kirjoittaa viikon päätavoitteen.</p>
+          <div class="input-row">
+            <input id="profileName" placeholder="Nimi tai lempinimi" />
+          </div>
+          <div class="input-row">
+            <input id="profileGoal" placeholder="Viikon päätavoite" />
+          </div>
+          <button class="primary" id="saveProfile" type="button">Tallenna profiili</button>
+        </section>
+        <section class="card">
+          <h3>Sovelluksen väri</h3>
+          <p>Valitse sovellukselle oma värimaailma.</p>
+          <div class="swatches">
+            <button class="swatch" data-theme="forest" type="button">Metsä</button>
+            <button class="swatch" data-theme="sand" type="button">Savi</button>
+            <button class="swatch" data-theme="blue" type="button">Sininen</button>
+            <button class="swatch" data-theme="rose" type="button">Roosa</button>
+          </div>
+        </section>
         <div class="setting-row"><span>Päivän muistutukset</span><input type="checkbox" checked /></div>
         <div class="setting-row"><span>Selkeä tila</span><input type="checkbox" checked /></div>
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.4, jossa on paremmat rutiinit, isommat hommat, liikunta, ruoka, fiilikset, haasteet ja pistekauppa.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.5, jossa on profiili, värit, päivän yhteenveto, tähtiarvio, poistettavat hommat ja täyden version viikkoseuranta.</p>
         </section>
       </section>
     </div>
@@ -427,6 +516,7 @@
       <a href="#week">Viikko</a>
       <a href="#journal">Kirja</a>
       <a href="#plus-screen">Täysi</a>
+      <a href="#settings">Oma</a>
     </nav>
 
     <script>
@@ -435,6 +525,10 @@
         mood: "",
         movement: "",
         food: "",
+        dayRating: 0,
+        profileName: "",
+        profileGoal: "",
+        theme: "forest",
         plusUnlocked: false,
         focusMinutes: 25,
         habits: [
@@ -485,11 +579,18 @@
       const habitList = document.querySelector("#habitList");
       const taskList = document.querySelector("#taskList");
       const bigTaskList = document.querySelector("#bigTaskList");
+      const summaryChart = document.querySelector("#summaryChart");
+      const summaryText = document.querySelector("#summaryText");
       const weekList = document.querySelector("#weekList");
       const challengeList = document.querySelector("#challengeList");
+      const weeklyChart = document.querySelector("#weeklyChart");
+      const weeklyScore = document.querySelector("#weeklyScore");
+      const weeklyLevel = document.querySelector("#weeklyLevel");
       const rewardList = document.querySelector("#rewardList");
       const noteList = document.querySelector("#noteList");
       const noteText = document.querySelector("#noteText");
+      const profileName = document.querySelector("#profileName");
+      const profileGoal = document.querySelector("#profileGoal");
       const clock = document.querySelector("#clock");
       const start = document.querySelector("#start");
       const ownerCode = document.querySelector("#ownerCode");
@@ -498,14 +599,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v114") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v115") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v114", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v115", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -523,13 +624,18 @@
         renderHabits();
         renderTasks();
         renderBigTasks();
+        renderSummary();
         renderWeek();
         renderChallenges();
+        renderWeeklyPlus();
         renderRewards();
         renderNotes();
         renderMood();
         renderMovement();
         renderFood();
+        renderRating();
+        renderProfile();
+        applyTheme();
         renderPlus();
       }
 
@@ -554,10 +660,11 @@
 
       function renderTasks() {
         taskList.innerHTML = state.tasks.map((task) => `
-          <button class="task-item ${task.done ? "done" : ""}" data-task="${task.id}" type="button">
+          <div class="task-item ${task.done ? "done" : ""}" data-task="${task.id}">
             <span class="check">${task.done ? "✓" : ""}</span>
             <span class="grow"><strong>${task.title}</strong><span>Pieni homma</span></span>
-          </button>
+            <button class="delete-button" data-delete-task="${task.id}" type="button">Poista</button>
+          </div>
         `).join("");
         taskList.querySelectorAll(".task-item").forEach((button) => {
           button.addEventListener("click", () => {
@@ -568,14 +675,23 @@
             render();
           });
         });
+        taskList.querySelectorAll("[data-delete-task]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            state.tasks = state.tasks.filter((item) => item.id !== button.dataset.deleteTask);
+            saveState();
+            render();
+          });
+        });
       }
 
       function renderBigTasks() {
         bigTaskList.innerHTML = state.bigTasks.map((task) => `
-          <button class="task-item ${task.done ? "done" : ""}" data-big-task="${task.id}" type="button">
+          <div class="task-item ${task.done ? "done" : ""}" data-big-task="${task.id}">
             <span class="check">${task.done ? "✓" : ""}</span>
             <span class="grow"><strong>${task.title}</strong><span>Isompi homma · 15 pistettä</span></span>
-          </button>
+            <button class="delete-button" data-delete-big-task="${task.id}" type="button">Poista</button>
+          </div>
         `).join("");
         bigTaskList.querySelectorAll(".task-item").forEach((button) => {
           button.addEventListener("click", () => {
@@ -586,6 +702,48 @@
             render();
           });
         });
+        bigTaskList.querySelectorAll("[data-delete-big-task]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            state.bigTasks = state.bigTasks.filter((item) => item.id !== button.dataset.deleteBigTask);
+            saveState();
+            render();
+          });
+        });
+      }
+
+      function renderSummary() {
+        const habitDone = state.habits.filter((item) => item.done).length;
+        const taskDone = state.tasks.filter((item) => item.done).length;
+        const bigDone = state.bigTasks.filter((item) => item.done).length;
+        const wellnessDone = [state.mood, state.movement, state.food, state.dayRating].filter(Boolean).length;
+        const rows = [
+          ["Rutiinit", habitDone, state.habits.length],
+          ["Pienet", taskDone, Math.max(state.tasks.length, 1)],
+          ["Isot", bigDone, Math.max(state.bigTasks.length, 1)],
+          ["Hyvinvointi", wellnessDone, 4]
+        ];
+        summaryText.textContent = `${habitDone + taskDone + bigDone} tehtyä asiaa tänään. Fiilis: ${state.mood || "ei valittu"}. Liikunta: ${state.movement || "ei valittu"}. Ruoka: ${state.food || "ei valittu"}.`;
+        summaryChart.innerHTML = rows.map(([label, value, total]) => {
+          const percent = Math.min(100, Math.round((value / total) * 100));
+          return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
+        }).join("");
+      }
+
+      function renderWeeklyPlus() {
+        const doneTotal = state.habits.filter((item) => item.done).length + state.tasks.filter((item) => item.done).length + state.bigTasks.filter((item) => item.done).length + state.week.filter((item) => item.done).length + state.challenges.filter((item) => item.done).length;
+        const wellness = [state.mood, state.movement, state.food, state.dayRating].filter(Boolean).length;
+        weeklyScore.textContent = state.points;
+        weeklyLevel.textContent = state.points >= 250 ? "Vahva" : state.points >= 120 ? "Hyvä" : state.points >= 50 ? "Käynnissä" : "Alku";
+        weeklyChart.innerHTML = [
+          ["Tehdyt asiat", doneTotal, 24],
+          ["Hyvinvointi", wellness, 4],
+          ["Viikkotavoitteet", state.week.filter((item) => item.done).length, state.week.length],
+          ["Haasteet", state.challenges.filter((item) => item.done).length, state.challenges.length]
+        ].map(([label, value, total]) => {
+          const percent = Math.min(100, Math.round((value / total) * 100));
+          return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
+        }).join("");
       }
 
       function renderWeek() {
@@ -681,6 +839,36 @@
         });
       }
 
+      function renderRating() {
+        document.querySelectorAll(".star").forEach((button) => {
+          button.classList.toggle("active", Number(button.dataset.rating) <= state.dayRating);
+        });
+        const text = ["Ei arviota vielä.", "Raskas päivä", "Vaikea mutta hoidettu", "Ihan hyvä päivä", "Hyvä päivä", "Erittäin hyvä päivä"];
+        document.querySelector("#ratingText").textContent = text[state.dayRating] || text[0];
+      }
+
+      function renderProfile() {
+        profileName.value = state.profileName;
+        profileGoal.value = state.profileGoal;
+        document.querySelector(".kicker").textContent = state.profileName ? `TaskuRutiini · ${state.profileName}` : "TaskuRutiini";
+      }
+
+      function applyTheme() {
+        const themes = {
+          forest: ["#f7f1e7", "#fff9ee", "#efe3d0", "#251d18", "#5f5144", "#5b7f68", "#e4d7c5"],
+          sand: ["#f8efe8", "#fffaf4", "#ead6c8", "#2d201a", "#655146", "#a66b4f", "#e3cfc1"],
+          blue: ["#eef4f7", "#fbfdff", "#dcebf1", "#172631", "#4c5d66", "#476c8a", "#c9dce6"],
+          rose: ["#fbf0f2", "#fff9fa", "#efd9de", "#2f1c22", "#664d55", "#9b5c68", "#e4cbd1"]
+        };
+        const values = themes[state.theme] || themes.forest;
+        ["--page-bg", "--panel-bg", "--soft-bg", "--ink", "--muted", "--accent", "--line"].forEach((name, index) => {
+          document.documentElement.style.setProperty(name, values[index]);
+        });
+        document.querySelectorAll(".swatch").forEach((button) => {
+          button.classList.toggle("active", button.dataset.theme === state.theme);
+        });
+      }
+
       function renderClock() {
         const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
         const rest = String(seconds % 60).padStart(2, "0");
@@ -755,6 +943,30 @@
         button.addEventListener("click", () => {
           state.food = button.dataset.food;
           state.points += 5;
+          saveState();
+          render();
+        });
+      });
+
+      document.querySelectorAll(".star").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.dayRating = Number(button.dataset.rating);
+          state.points += state.dayRating;
+          saveState();
+          render();
+        });
+      });
+
+      document.querySelector("#saveProfile").addEventListener("click", () => {
+        state.profileName = profileName.value.trim();
+        state.profileGoal = profileGoal.value.trim();
+        saveState();
+        render();
+      });
+
+      document.querySelectorAll(".swatch").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.theme = button.dataset.theme;
           saveState();
           render();
         });
@@ -839,6 +1051,7 @@
         localStorage.removeItem("taskurutiini:v110");
         localStorage.removeItem("taskurutiini:v113");
         localStorage.removeItem("taskurutiini:v114");
+        localStorage.removeItem("taskurutiini:v115");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
