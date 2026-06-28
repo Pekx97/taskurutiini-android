@@ -350,7 +350,7 @@
       <header>
         <div>
           <div class="kicker">TaskuRutiini</div>
-          <h1>Oma rytmi, selkeämpi päivä.</h1>
+          <h1>Rakenna hyvä päivä.</h1>
         </div>
         <div class="score">
           <strong id="score">0</strong>
@@ -370,7 +370,7 @@
             <div class="metric"><strong id="moodLabel">-</strong><span>fiilis</span></div>
           </div>
           <div class="streak">
-            <div><strong id="streakCount">0</strong><span>päivän putki</span></div>
+            <div><strong id="streakCount">0 päivän 🔥</strong><span>streak</span></div>
             <div><strong id="dailyProgress">Alku</strong><span>päivän tila</span></div>
           </div>
         </section>
@@ -399,9 +399,9 @@
           <div class="pill-row" style="margin: 10px 0 12px;">
             <button class="chip preset-task" data-task-title="Vastaa yhteen viestiin" type="button">Vastaa viestiin</button>
             <button class="chip preset-task" data-task-title="Vie roskat" type="button">Vie roskat</button>
-            <button class="chip preset-task" data-task-title="Siisti työpöytä tai keittiön taso" type="button">Siisti yksi taso</button>
+            <button class="chip preset-task" data-task-title="Tee 5 min pikasiivous" type="button">5 min pikasiivous</button>
             <button class="chip preset-task" data-task-title="Maksa yksi lasku" type="button">Maksa lasku</button>
-            <button class="chip preset-task" data-task-title="Laita huomisen vaatteet valmiiksi" type="button">Huominen valmiiksi</button>
+            <button class="chip preset-task" data-task-title="Valmistele huomista vähän etukäteen" type="button">Valmistele huomista</button>
           </div>
           <div class="input-row">
             <input id="newTask" placeholder="Esim. vastaa viestiin" />
@@ -414,7 +414,7 @@
           <h3><span class="emoji-title">📌 Isommat hommat</span></h3>
           <p>Valitse yksi vähän isompi asia päivälle. Näistä saa enemmän pisteitä kuin pienistä hommista.</p>
           <div class="pill-row" style="margin: 10px 0 12px;">
-            <button class="chip preset-big-task" data-task-title="Hoida yksi virallinen asia" type="button">Virallinen asia</button>
+            <button class="chip preset-big-task" data-task-title="Hoida yksi tärkeä käytännön asia" type="button">Käytännön asia</button>
             <button class="chip preset-big-task" data-task-title="Opiskele 45 min uutta asiaa" type="button">45 min opiskelua</button>
             <button class="chip preset-big-task" data-task-title="Siivoa yksi huone kunnolla" type="button">Siivoa huone</button>
             <button class="chip preset-big-task" data-task-title="Suunnittele viikon ruuat" type="button">Viikon ruuat</button>
@@ -430,6 +430,7 @@
             <button class="chip movement" data-movement="Kuntosali">Kuntosali</button>
             <button class="chip movement" data-movement="Juoksu">Juoksu</button>
             <button class="chip movement" data-movement="Venyttely">Venyttely</button>
+            <button class="chip movement" data-movement="Muu urheilu">Muu urheilu</button>
             <button class="chip movement" data-movement="Lepopäivä">Lepopäivä</button>
           </div>
           <p id="movementHint" style="margin-top:12px;">Valitse miten liikuit tänään.</p>
@@ -503,6 +504,10 @@
             <button class="chip timer-choice active" data-min="25">25 min</button>
             <button class="chip timer-choice" data-min="45">45 min</button>
           </div>
+          <div class="input-row">
+            <input id="customFocusMinutes" type="number" min="1" max="180" placeholder="Oma aika minuutteina" />
+            <button class="secondary" id="setCustomFocus" type="button">Aseta</button>
+          </div>
           <button class="primary" id="start" type="button">Aloita keskittyminen</button>
           <button class="secondary" id="resetTimer" type="button" style="width:100%;margin-top:8px;">Nollaa</button>
         </section>
@@ -524,6 +529,10 @@
           <p>Täällä katsotaan isompaa kuvaa: tavoitteet, haasteet ja saavutukset. Päivän asiat ovat omalla Päivä-sivulla.</p>
         </section>
         <h3><span class="emoji-title">🧭 Viikkotavoitteet</span></h3>
+        <div class="input-row">
+          <input id="newWeekGoal" placeholder="Lisää oma viikkotavoite" />
+          <button class="secondary" id="addWeekGoal" type="button">Lisää</button>
+        </div>
         <div id="weekList"></div>
 
         <h3><span class="emoji-title">🔥 Haasteet</span></h3>
@@ -648,7 +657,7 @@
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.8, jossa on erillinen Päivä-näkymä, Viikko-näkymä, pyyhkäisy, oma pistekauppa, profiilisivu, ulkoasusivu ja kannustavampi käyttö.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.9, jossa on parempi streak, oma keskittymisaika, omat viikkotavoitteet, selkeämmät tekstit ja lisää haasteita.</p>
           <a class="text-link" href="#plus-screen" data-open-screen="plus-screen">Avaa Täysi versio</a>
         </section>
       </section>
@@ -706,11 +715,13 @@
         focusMinutes: 25,
         habits: [
           { id: "morning", title: "Aamurutiinit", minutes: 8, done: false },
+          { id: "make-bed", title: "Sängyn petaus", minutes: 3, done: false },
+          { id: "brush-teeth", title: "Hampaiden pesu", minutes: 3, done: false },
           { id: "water", title: "Juo lasi vettä", minutes: 2, done: false },
           { id: "move", title: "Pieni liike tai venyttely", minutes: 12, done: false },
-          { id: "tidy", title: "Siisti yksi näkyvä paikka", minutes: 5, done: false },
+          { id: "tidy", title: "5 min pikasiivous", minutes: 5, done: false },
           { id: "outside", title: "Käy hetki ulkona tai raittiissa ilmassa", minutes: 5, done: false },
-          { id: "shutdown", title: "Päivän päätös", minutes: 10, done: false }
+          { id: "shutdown", title: "Iltarutiinit", minutes: 10, done: false }
         ],
         tasks: [
           { id: "task-message", title: "Vastaa yhteen viestiin", done: false },
@@ -718,7 +729,7 @@
           { id: "task-table", title: "Siisti työpöytä tai keittiön taso", done: false }
         ],
         bigTasks: [
-          { id: "big-paper", title: "Hoida yksi virallinen asia", done: false },
+          { id: "big-paper", title: "Hoida yksi tärkeä käytännön asia", done: false },
           { id: "big-study", title: "Opiskele 45 min uutta asiaa", done: false }
         ],
         week: [
@@ -732,9 +743,13 @@
           { id: "clean", title: "Siivoa yksi näkyvä sotku", done: false },
           { id: "message", title: "Lähetä hyvä viesti yhdelle ihmiselle", done: false },
           { id: "no-scroll", title: "30 minuuttia ilman turhaa selaamista", done: false },
-          { id: "plan", title: "Kirjoita huomisen ensimmäinen askel", done: false },
+          { id: "plan", title: "Tee huomisen päivänsuunnittelu", done: false },
           { id: "meal", title: "Syö yksi kunnollinen ateria rauhassa", done: false },
-          { id: "sleep", title: "Laita puhelin pois 20 min ennen unta", done: false }
+          { id: "sleep", title: "Laita puhelin pois 20 min ennen unta", done: false },
+          { id: "fresh-air", title: "Käy ulkona ilman kiirettä", done: false },
+          { id: "learn", title: "Opiskele 20 minuuttia jotain hyödyllistä", done: false },
+          { id: "finance", title: "Katso yksi raha-asia kuntoon", done: false },
+          { id: "reset-evening", title: "Tee rauhallinen iltarutiini", done: false }
         ],
         rewards: [],
         notes: []
@@ -773,9 +788,11 @@
       const rewardList = document.querySelector("#rewardList");
       const noteList = document.querySelector("#noteList");
       const noteText = document.querySelector("#noteText");
+      const newWeekGoal = document.querySelector("#newWeekGoal");
       const profileName = document.querySelector("#profileName");
       const profileGoal = document.querySelector("#profileGoal");
       const profileMotto = document.querySelector("#profileMotto");
+      const customFocusMinutes = document.querySelector("#customFocusMinutes");
       const clock = document.querySelector("#clock");
       const start = document.querySelector("#start");
       const ownerCode = document.querySelector("#ownerCode");
@@ -784,14 +801,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v118") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v119") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v118", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v119", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -859,8 +876,8 @@
         const name = state.profileName ? `${state.profileName}, ` : "";
         dailyGreeting.textContent = `${name}hyvä että olet täällä.`;
         dailyCoach.textContent = state.profileMotto || (state.profileGoal ? `Viikon päätavoite: ${state.profileGoal}. Jokainen pieni askel lasketaan.` : "Sinun ei tarvitse tehdä täydellistä päivää. Sovellus auttaa löytämään seuraavan hyvän askeleen.");
-        streakCount.textContent = state.streak;
-        dailyProgress.textContent = progress >= 70 ? "Hyvä rytmi" : progress >= 35 ? "Käynnissä" : stats.totalDone > 0 ? "Avattu" : "Alku";
+        streakCount.textContent = `${state.streak} päivän 🔥`;
+        dailyProgress.textContent = progress >= 70 ? "Hyvä rytmi" : progress >= 35 ? "Rytmi löytyy" : stats.totalDone > 0 ? "Hyvä alku" : "Aloitus";
         dailyMission.textContent = state.dailyMissionDone ? "Hyvin hoidettu. Päivän missio on valmis ja putki jatkuu." : "Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis. Tämä on hyvä alku.";
         if (!stats.habitDone) nextStep.textContent = "Tee ensin helpoin rutiini. Se käynnistää päivän.";
         else if (!stats.taskDone) nextStep.textContent = "Valitse yksi pieni homma ja poista se mielestä.";
@@ -967,7 +984,7 @@
         const doneTotal = state.habits.filter((item) => item.done).length + state.tasks.filter((item) => item.done).length + state.bigTasks.filter((item) => item.done).length + state.week.filter((item) => item.done).length + state.challenges.filter((item) => item.done).length;
         const wellness = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
         weeklyScore.textContent = state.points;
-        weeklyLevel.textContent = state.points >= 250 ? "Vahva" : state.points >= 120 ? "Hyvä" : state.points >= 50 ? "Käynnissä" : "Alku";
+        weeklyLevel.textContent = state.points >= 250 ? "Vahva" : state.points >= 120 ? "Hyvä" : state.points >= 50 ? "Nousussa" : "Aloitus";
         weeklyChart.innerHTML = [
           ["Tehdyt asiat", doneTotal, 24],
           ["Hyvinvointi", wellness, 5],
@@ -1199,6 +1216,15 @@
         });
       });
 
+      document.querySelector("#addWeekGoal").addEventListener("click", () => {
+        const title = newWeekGoal.value.trim();
+        if (!title) return;
+        state.week.push({ id: `week-${Date.now()}`, day: "Oma", title, done: false });
+        newWeekGoal.value = "";
+        saveState();
+        render();
+      });
+
       document.querySelectorAll(".mood").forEach((button) => {
         button.addEventListener("click", () => {
           state.mood = button.dataset.mood;
@@ -1311,6 +1337,20 @@
         });
       });
 
+      document.querySelector("#setCustomFocus").addEventListener("click", () => {
+        const minutes = Math.max(1, Math.min(180, Number(customFocusMinutes.value)));
+        if (!minutes) return;
+        document.querySelectorAll(".timer-choice").forEach((item) => item.classList.remove("active"));
+        state.focusMinutes = minutes;
+        seconds = minutes * 60;
+        running = false;
+        clearInterval(interval);
+        start.textContent = "Aloita keskittyminen";
+        customFocusMinutes.value = "";
+        saveState();
+        renderClock();
+      });
+
       start.addEventListener("click", () => {
         running = !running;
         start.textContent = running ? "Tauko" : "Aloita keskittyminen";
@@ -1365,6 +1405,7 @@
         localStorage.removeItem("taskurutiini:v116");
         localStorage.removeItem("taskurutiini:v117");
         localStorage.removeItem("taskurutiini:v118");
+        localStorage.removeItem("taskurutiini:v119");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
