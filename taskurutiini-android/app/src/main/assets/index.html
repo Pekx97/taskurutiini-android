@@ -167,6 +167,15 @@
         background: var(--panel-bg);
         color: var(--ink);
       }
+      .week-note {
+        width: 100%;
+        margin-top: 8px;
+        border: 1px solid #d9cbb8;
+        border-radius: 8px;
+        padding: 10px;
+        background: color-mix(in srgb, var(--panel-bg) 86%, white);
+        color: var(--ink);
+      }
       .clock { margin: 10px 0 12px; text-align: center; font-size: 66px; font-weight: 900; }
       .day {
         width: 42px;
@@ -226,7 +235,7 @@
         max-width: 512px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 4px;
         padding: 6px;
         border: 1px solid #e1d5c4;
@@ -397,11 +406,14 @@
           <h3><span class="emoji-title">✅ Pienet hommat</span></h3>
           <p>Kirjaa pienet asiat, jotka haluat saada pois mielestä.</p>
           <div class="pill-row" style="margin: 10px 0 12px;">
-            <button class="chip preset-task" data-task-title="Vastaa yhteen viestiin" type="button">Vastaa viestiin</button>
+            <button class="chip preset-task" data-task-title="Vastaa viestiin, puheluun tai ole yhteydessä toiseen ihmiseen" type="button">Vastaa / ole yhteydessä</button>
             <button class="chip preset-task" data-task-title="Vie roskat" type="button">Vie roskat</button>
             <button class="chip preset-task" data-task-title="Tee 5 min pikasiivous" type="button">5 min pikasiivous</button>
             <button class="chip preset-task" data-task-title="Maksa yksi lasku" type="button">Maksa lasku</button>
             <button class="chip preset-task" data-task-title="Valmistele huomista vähän etukäteen" type="button">Valmistele huomista</button>
+            <button class="chip preset-task" data-task-title="Laita pyykit tai tiskit eteenpäin" type="button">Pyykit / tiskit</button>
+            <button class="chip preset-task" data-task-title="Varaa tai tarkista yksi aika" type="button">Tarkista aika</button>
+            <button class="chip preset-task" data-task-title="Käy yksi tärkeä sähköposti läpi" type="button">Sähköposti</button>
           </div>
           <div class="input-row">
             <input id="newTask" placeholder="Esim. vastaa viestiin" />
@@ -418,6 +430,9 @@
             <button class="chip preset-big-task" data-task-title="Opiskele 45 min uutta asiaa" type="button">45 min opiskelua</button>
             <button class="chip preset-big-task" data-task-title="Siivoa yksi huone kunnolla" type="button">Siivoa huone</button>
             <button class="chip preset-big-task" data-task-title="Suunnittele viikon ruuat" type="button">Viikon ruuat</button>
+            <button class="chip preset-big-task" data-task-title="Tee 60 min oma projekti eteenpäin" type="button">Oma projekti</button>
+            <button class="chip preset-big-task" data-task-title="Hoida raha-asiat rauhassa läpi" type="button">Raha-asiat</button>
+            <button class="chip preset-big-task" data-task-title="Tee kodin isompi järjestely" type="button">Kodin järjestely</button>
           </div>
           <div id="bigTaskList"></div>
         </section>
@@ -652,24 +667,9 @@
           </div>
           <button class="primary" id="saveProfile" type="button">Tallenna profiili</button>
         </section>
-        <div class="setting-row"><span>Päivän muistutukset</span><input type="checkbox" checked /></div>
-        <div class="setting-row"><span>Selkeä tila</span><input type="checkbox" checked /></div>
-        <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
-        <section class="card">
-          <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.9, jossa on parempi streak, oma keskittymisaika, omat viikkotavoitteet, selkeämmät tekstit ja lisää haasteita.</p>
-          <a class="text-link" href="#plus-screen" data-open-screen="plus-screen">Avaa Täysi versio</a>
-        </section>
-      </section>
-
-      <section id="appearance" class="screen">
-        <section class="hero">
-          <h2>🎨 Sovelluksen ulkoasu</h2>
-          <p>Tee sovelluksesta oman näköinen. Väri on nyt oma sivu, eikä profiilin alla piilossa.</p>
-        </section>
         <section class="card">
           <h3>Sovelluksen väri</h3>
-          <p>Valitse värimaailma, joka tuntuu omaan arkeen sopivalta.</p>
+          <p>Valitse värimaailma samaan paikkaan profiilin kanssa.</p>
           <div class="swatches">
             <button class="swatch" data-theme="forest" type="button">Metsä</button>
             <button class="swatch" data-theme="sand" type="button">Savi</button>
@@ -677,11 +677,16 @@
             <button class="swatch" data-theme="rose" type="button">Roosa</button>
           </div>
         </section>
+        <div class="setting-row"><span>Päivän muistutukset</span><input type="checkbox" checked /></div>
+        <div class="setting-row"><span>Selkeä tila</span><input type="checkbox" checked /></div>
+        <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
-          <h3>Selkeys</h3>
-          <p>Sivut on erotettu toisistaan: Päivä, Viikko, Kauppa, Profiili ja Ulkoasu. Pyyhkäisy vaihtaa sivua.</p>
+          <strong>Asennus</strong>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.10, jossa pyyhkäisyjärjestys, profiilin värit, viikkotavoitteiden muistiinpanot ja uudet tehtävävalinnat on päivitetty.</p>
+          <a class="text-link" href="#plus-screen" data-open-screen="plus-screen">Avaa Täysi versio</a>
         </section>
       </section>
+
     </div>
 
     <nav aria-label="Välilehdet">
@@ -691,7 +696,6 @@
       <a href="#journal">Kirja</a>
       <a href="#rewards">Kauppa</a>
       <a href="#settings">Profiili</a>
-      <a href="#appearance">Väri</a>
     </nav>
 
     <script>
@@ -724,18 +728,20 @@
           { id: "shutdown", title: "Iltarutiinit", minutes: 10, done: false }
         ],
         tasks: [
-          { id: "task-message", title: "Vastaa yhteen viestiin", done: false },
+          { id: "task-message", title: "Vastaa viestiin, puheluun tai ole yhteydessä toiseen ihmiseen", done: false },
           { id: "task-trash", title: "Vie roskat", done: false },
-          { id: "task-table", title: "Siisti työpöytä tai keittiön taso", done: false }
+          { id: "task-table", title: "Siisti työpöytä tai keittiön taso", done: false },
+          { id: "task-dishes", title: "Laita pyykit tai tiskit eteenpäin", done: false }
         ],
         bigTasks: [
           { id: "big-paper", title: "Hoida yksi tärkeä käytännön asia", done: false },
-          { id: "big-study", title: "Opiskele 45 min uutta asiaa", done: false }
+          { id: "big-study", title: "Opiskele 45 min uutta asiaa", done: false },
+          { id: "big-project", title: "Tee 60 min oma projekti eteenpäin", done: false }
         ],
         week: [
-          { id: "mon", day: "Ma", title: "Päätä viikon päätavoite", done: false },
-          { id: "wed", day: "Ke", title: "Tee puolen tunnin keskittymishetki", done: false },
-          { id: "fri", day: "Pe", title: "Kirjaa yksi opittu asia", done: false }
+          { id: "mon", day: "Ma", title: "Päätä viikon päätavoite", note: "", done: false },
+          { id: "wed", day: "Ke", title: "Tee puolen tunnin keskittymishetki", note: "", done: false },
+          { id: "fri", day: "Pe", title: "Kirjaa yksi opittu asia", note: "", done: false }
         ],
         challenges: [
           { id: "water", title: "Juo vettä ennen kahvia", done: false },
@@ -801,14 +807,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v119") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v120") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v119", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v120", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -1016,17 +1022,48 @@
         `).join("");
       }
 
+      function escapeHtml(value = "") {
+        return String(value).replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[char]));
+      }
+
       function renderWeek() {
         weekList.innerHTML = state.week.map((goal) => `
-          <button class="week-goal ${goal.done ? "done" : ""}" data-week="${goal.id}" type="button">
-            <span class="day">${goal.day}</span><span class="grow"><strong>${goal.title}</strong><span>Viikkotavoite</span></span>
-          </button>
+          <div class="week-goal ${goal.done ? "done" : ""}">
+            <button class="check" data-toggle-week="${goal.id}" type="button">${goal.done ? "✓" : ""}</button>
+            <span class="day">${escapeHtml(goal.day)}</span>
+            <span class="grow">
+              <strong>${escapeHtml(goal.title)}</strong>
+              <span>Viikkotavoite</span>
+              <input class="week-note" data-week-note="${goal.id}" value="${escapeHtml(goal.note || "")}" placeholder="Kirjaa ajatus, eteneminen tai seuraava askel" />
+            </span>
+            ${String(goal.id).startsWith("week-") ? `<button class="delete-button" data-delete-week="${goal.id}" type="button">Poista</button>` : ""}
+          </div>
         `).join("");
-        weekList.querySelectorAll(".week-goal").forEach((button) => {
+        weekList.querySelectorAll("[data-toggle-week]").forEach((button) => {
           button.addEventListener("click", () => {
-            const goal = state.week.find((item) => item.id === button.dataset.week);
+            const goal = state.week.find((item) => item.id === button.dataset.toggleWeek);
             goal.done = !goal.done;
             if (goal.done) state.points += 15;
+            saveState();
+            render();
+          });
+        });
+        weekList.querySelectorAll("[data-week-note]").forEach((input) => {
+          input.addEventListener("input", () => {
+            const goal = state.week.find((item) => item.id === input.dataset.weekNote);
+            goal.note = input.value;
+            saveState();
+          });
+        });
+        weekList.querySelectorAll("[data-delete-week]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.week = state.week.filter((item) => item.id !== button.dataset.deleteWeek);
             saveState();
             render();
           });
@@ -1219,7 +1256,7 @@
       document.querySelector("#addWeekGoal").addEventListener("click", () => {
         const title = newWeekGoal.value.trim();
         if (!title) return;
-        state.week.push({ id: `week-${Date.now()}`, day: "Oma", title, done: false });
+        state.week.push({ id: `week-${Date.now()}`, day: "Oma", title, note: "", done: false });
         newWeekGoal.value = "";
         saveState();
         render();
@@ -1406,12 +1443,13 @@
         localStorage.removeItem("taskurutiini:v117");
         localStorage.removeItem("taskurutiini:v118");
         localStorage.removeItem("taskurutiini:v119");
+        localStorage.removeItem("taskurutiini:v120");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
       });
 
-      const screenOrder = ["rewards", "settings", "today", "week", "focus", "journal", "plus-screen", "appearance"];
+      const screenOrder = ["today", "focus", "week", "journal", "rewards", "settings", "plus-screen"];
       let currentScreen = "today";
 
       function openScreen(id) {
