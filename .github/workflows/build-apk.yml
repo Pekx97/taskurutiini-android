@@ -1,42 +1,5 @@
-name: Build Android APK
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Find project
-        run: |
-          echo "Repository files:"
-          find . -maxdepth 3 -type f | sort
-          PROJECT_DIR=$(dirname "$(find . -name settings.gradle | head -n 1)")
-          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
-
       - name: Build debug APK
         run: |
-          cd "$PROJECT_DIR"
+          cd taskurutiini-android
           gradle assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: TaskuRutiini-debug-apk
-          path: "**/app/build/outputs/apk/debug/*.apk"
+                    path: "**/app/build/outputs/apk/debug/*.apk"
