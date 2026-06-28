@@ -246,7 +246,7 @@
           <p>Merkitse rutiinit, valitse mieliala ja tee yksi pieni voitto. Kaikki tallentuu tälle laitteelle.</p>
           <div class="stats">
             <div class="metric"><strong id="doneCount">0/3</strong><span>tehty</span></div>
-            <div class="metric"><strong id="taskCount">0</strong><span>pikatehtävät</span></div>
+            <div class="metric"><strong id="taskCount">0</strong><span>pienet hommat</span></div>
             <div class="metric"><strong id="moodLabel">-</strong><span>fiilis</span></div>
           </div>
         </section>
@@ -259,7 +259,7 @@
         </div>
 
         <section class="card">
-          <h3>Pikatehtävälista</h3>
+          <h3>Pienet hommat</h3>
           <p>Kirjaa pienet asiat, jotka haluat saada pois mielestä.</p>
           <div class="input-row">
             <input id="newTask" placeholder="Esim. vastaa viestiin" />
@@ -280,19 +280,19 @@
 
       <section id="focus" class="screen">
         <section class="card">
-          <h3>Fokusajastin</h3>
+          <h3>Keskittymisajastin</h3>
           <div class="clock" id="clock">25:00</div>
           <div class="controls">
             <button class="chip timer-choice" data-min="15">15 min</button>
             <button class="chip timer-choice active" data-min="25">25 min</button>
             <button class="chip timer-choice" data-min="45">45 min</button>
           </div>
-          <button class="primary" id="start" type="button">Aloita fokus</button>
+          <button class="primary" id="start" type="button">Aloita keskittyminen</button>
           <button class="secondary" id="resetTimer" type="button" style="width:100%;margin-top:8px;">Nollaa</button>
         </section>
 
         <section class="card">
-          <h3>Syvätyöohje</h3>
+          <h3>Keskittymisen muistilista</h3>
           <div class="pill-row">
             <span class="pill">Sulje ilmoitukset</span>
             <span class="pill">Yksi tehtävä</span>
@@ -304,7 +304,7 @@
 
       <section id="week" class="screen">
         <section class="hero">
-          <h2>Viikon suunnitelma</h2>
+          <h2>Viikon suunta</h2>
           <p>Valitse kolme asiaa. Sovellus ei yritä hallita elämääsi, vaan pitää suunnan näkyvissä.</p>
         </section>
         <h3>Viikkotavoitteet</h3>
@@ -328,19 +328,19 @@
 
       <section id="plus-screen" class="screen">
         <section class="card" id="plus">
-          <h3>TaskuRutiini Plus</h3>
-          <p id="plusText">Avaa omistajan Plus-tila koodilla. Plus avaa kaikki kokeiluominaisuudet tässä laitteessa.</p>
+          <h3>TaskuRutiini Täysi versio</h3>
+          <p id="plusText">Avaa omistajan täysi tila koodilla. Täysi versio avaa kaikki kokeiluominaisuudet tässä laitteessa.</p>
           <input id="ownerCode" placeholder="Omistajakoodi" style="width:100%;margin-top:12px;border:1px solid #d9cbb8;border-radius:8px;padding:13px;background:#fff9ee;color:#251d18" />
           <button class="primary" id="unlockPlus" type="button">Avaa kaikki ominaisuudet</button>
         </section>
         <section class="card">
-          <h3>Plus-edut</h3>
+          <h3>Täyden version edut</h3>
           <div class="pill-row">
             <span class="pill">Rajattomat rutiinit</span>
             <span class="pill">Pisteet</span>
             <span class="pill">Päiväkirja</span>
             <span class="pill">Haasteet</span>
-            <span class="pill">Syvätyö</span>
+            <span class="pill">Keskittyminen</span>
           </div>
         </section>
       </section>
@@ -350,22 +350,22 @@
           <h2>Asetukset</h2>
           <p>TaskuRutiini tallentaa tiedot tälle laitteelle. Tiliä ei tarvita testikäyttöön.</p>
         </section>
-        <div class="setting-row"><span>Päivän lempeät muistutukset</span><input type="checkbox" checked /></div>
-        <div class="setting-row"><span>Rauhallinen tila</span><input type="checkbox" checked /></div>
+        <div class="setting-row"><span>Päivän muistutukset</span><input type="checkbox" checked /></div>
+        <div class="setting-row"><span>Selkeä tila</span><input type="checkbox" checked /></div>
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.1, jossa on rutiinit, pikatehtävät, haasteet, pisteet ja päiväkirja.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.2, jossa on rutiinit, pienet hommat, haasteet, pisteet ja päiväkirja.</p>
         </section>
       </section>
     </div>
 
     <nav aria-label="Välilehdet">
       <a class="active" href="#today">Tänään</a>
-      <a href="#focus">Fokus</a>
+      <a href="#focus">Keskity</a>
       <a href="#week">Viikko</a>
       <a href="#journal">Kirja</a>
-      <a href="#plus-screen">Plus</a>
+      <a href="#plus-screen">Täysi</a>
     </nav>
 
     <script>
@@ -375,14 +375,14 @@
         plusUnlocked: false,
         focusMinutes: 25,
         habits: [
-          { id: "morning", title: "Aamun kolme tärkeintä", minutes: 8, done: false },
-          { id: "move", title: "Kevyt liike tai venyttely", minutes: 12, done: false },
-          { id: "shutdown", title: "Työpäivän sulku", minutes: 10, done: false }
+          { id: "morning", title: "Aamun tärkeimmät", minutes: 8, done: false },
+          { id: "move", title: "Pieni liike tai venyttely", minutes: 12, done: false },
+          { id: "shutdown", title: "Päivän päätös", minutes: 10, done: false }
         ],
         tasks: [],
         week: [
           { id: "mon", day: "Ma", title: "Päätä viikon päätavoite", done: false },
-          { id: "wed", day: "Ke", title: "Tee 30 min syvätyöjakso", done: false },
+          { id: "wed", day: "Ke", title: "Tee puolen tunnin keskittymishetki", done: false },
           { id: "fri", day: "Pe", title: "Kirjaa yksi opittu asia", done: false }
         ],
         challenges: [
@@ -470,7 +470,7 @@
         taskList.innerHTML = state.tasks.map((task) => `
           <button class="task-item ${task.done ? "done" : ""}" data-task="${task.id}" type="button">
             <span class="check">${task.done ? "✓" : ""}</span>
-            <span class="grow"><strong>${task.title}</strong><span>Pikatehtävä</span></span>
+            <span class="grow"><strong>${task.title}</strong><span>Pieni homma</span></span>
           </button>
         `).join("");
         taskList.querySelectorAll(".task-item").forEach((button) => {
@@ -539,11 +539,11 @@
 
       function renderPlus() {
         if (!state.plusUnlocked) return;
-        plusText.textContent = "Plus on käytössä. Sinulla on omistajana kaikki ominaisuudet auki tällä laitteella.";
+        plusText.textContent = "Täysi versio on käytössä. Sinulla on omistajana kaikki ominaisuudet auki tällä laitteella.";
         ownerCode.value = "";
-        ownerCode.placeholder = "Plus avattu";
+        ownerCode.placeholder = "Täysi versio avattu";
         ownerCode.disabled = true;
-        unlockPlus.textContent = "Plus käytössä";
+        unlockPlus.textContent = "Täysi versio käytössä";
         unlockPlus.disabled = true;
       }
 
@@ -584,7 +584,7 @@
           seconds = state.focusMinutes * 60;
           running = false;
           clearInterval(interval);
-          start.textContent = "Aloita fokus";
+          start.textContent = "Aloita keskittyminen";
           saveState();
           renderClock();
         });
@@ -592,7 +592,7 @@
 
       start.addEventListener("click", () => {
         running = !running;
-        start.textContent = running ? "Tauko" : "Aloita fokus";
+        start.textContent = running ? "Tauko" : "Aloita keskittyminen";
         clearInterval(interval);
         if (!running) return;
         interval = setInterval(() => {
@@ -611,7 +611,7 @@
         running = false;
         clearInterval(interval);
         seconds = state.focusMinutes * 60;
-        start.textContent = "Aloita fokus";
+        start.textContent = "Aloita keskittyminen";
         renderClock();
       });
 
