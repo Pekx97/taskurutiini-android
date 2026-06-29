@@ -12,13 +12,13 @@
     <title>TaskuRutiini</title>
     <style>
       :root {
-        --page-bg: #f7f1e7;
-        --panel-bg: #fff9ee;
-        --soft-bg: #efe3d0;
+        --page-bg: #eef7f1;
+        --panel-bg: #fbfffc;
+        --soft-bg: #dff1e6;
         --ink: #251d18;
         --muted: #5f5144;
-        --accent: #5b7f68;
-        --line: #e4d7c5;
+        --accent: #2f8f6b;
+        --line: #cfe4d6;
       }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -177,6 +177,30 @@
         color: var(--ink);
       }
       .clock { margin: 10px 0 12px; text-align: center; font-size: 66px; font-weight: 900; }
+
+      .mission-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--accent) 16%, white);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 950;
+      }
+      .daily-card {
+        border: 2px solid color-mix(in srgb, var(--accent) 38%, var(--line));
+        box-shadow: 0 12px 30px rgba(47, 143, 107, .12);
+      }
+      .next-step-ready {
+        border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+        background: color-mix(in srgb, var(--accent) 12%, var(--panel-bg));
+      }
+      .surprise-card {
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, white), var(--panel-bg));
+      }
       .day {
         width: 42px;
         height: 42px;
@@ -372,7 +396,7 @@
       <section id="today" class="screen active">
         <section class="hero">
           <h2 id="dailyGreeting">Hyvä että avasit sovelluksen.</h2>
-          <p id="dailyCoach">Täällä ei tarvitse suorittaa kaikkea. Yksi hyvä merkintä riittää käynnistämään päivän.</p>
+          <p id="dailyCoach">Tee pieni askel, kerää hyvä rytmi ja rakenna arkea ilman turhaa painetta.</p>
           <div class="stats">
             <div class="metric"><strong id="doneCount">0/3</strong><span>tehty</span></div>
             <div class="metric"><strong id="taskCount">0</strong><span>pienet hommat</span></div>
@@ -384,7 +408,13 @@
           </div>
         </section>
 
+        <section class="card surprise-card">
+          <h3><span class="emoji-title">🎲 Päivän yllätyskortti</span></h3>
+          <p id="dailySurprise">Tee yksi pieni asia eri tavalla kuin eilen. Sovellus antaa sinulle joka päivä uuden pienen suunnan.</p>
+        </section>
+
         <section class="card daily-card">
+          <div class="mission-badge">MERKATTU TÄRKEÄKSI · PÄIVÄN MISSIO</div>
           <h3><span class="emoji-title">🎯 Päivän missio</span></h3>
           <p id="dailyMission">Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis. Saat tästä hyvän alun.</p>
           <button class="primary" id="completeDailyMission" type="button">Merkkaa päivän missio tehdyksi</button>
@@ -412,7 +442,7 @@
             <button class="chip preset-task" data-task-title="Maksa yksi lasku" type="button">Maksa lasku</button>
             <button class="chip preset-task" data-task-title="Valmistele huomista vähän etukäteen" type="button">Valmistele huomista</button>
             <button class="chip preset-task" data-task-title="Laita pyykit tai tiskit eteenpäin" type="button">Pyykit / tiskit</button>
-            <button class="chip preset-task" data-task-title="Varaa tai tarkista yksi aika" type="button">Tarkista aika</button>
+            <button class="chip preset-task" data-task-title="Hoida kalenteriasia" type="button">Kalenteriasia</button>
             <button class="chip preset-task" data-task-title="Käy yksi tärkeä sähköposti läpi" type="button">Sähköposti</button>
           </div>
           <div class="input-row">
@@ -543,6 +573,11 @@
           <h2>Viikko erikseen</h2>
           <p>Täällä katsotaan isompaa kuvaa: tavoitteet, haasteet ja saavutukset. Päivän asiat ovat omalla Päivä-sivulla.</p>
         </section>
+        <section class="card">
+          <h3><span class="emoji-title">🧑‍🚀 Viikon hahmo ja taso</span></h3>
+          <p id="weekCharacter">Tällä viikolla olet Aloittaja. Tee pieniä merkintöjä ja nouse tasoissa: Aloittaja → Rakentaja → Rytmin löytäjä → Arjen mestari.</p>
+        </section>
+
         <h3><span class="emoji-title">🧭 Viikkotavoitteet</span></h3>
         <div class="input-row">
           <input id="newWeekGoal" placeholder="Lisää oma viikkotavoite" />
@@ -574,13 +609,23 @@
           </div>
         </section>
         <section class="card">
+          <h3>🏆 Oma oikea palkinto</h3>
+          <p>Kirjoita konkreettinen palkinto, jota kohti keräät pisteitä. Esimerkiksi leffailta, uusi kirja, saunahetki tai oma retki.</p>
+          <div class="input-row">
+            <input id="trueRewardInput" placeholder="Kun saan pisteitä, palkitsen itseni..." />
+            <button class="secondary" id="saveTrueReward" type="button">Tallenna</button>
+          </div>
+          <p id="trueRewardDisplay" style="margin-top:10px;">Omaa palkintoa ei ole vielä valittu.</p>
+        </section>
+
+        <section class="card">
           <h3>Palkinnot</h3>
           <div class="pill-row" style="margin-top:12px;">
-            <button class="chip reward" data-cost="25" data-title="Rentoutushetki ilman puhelinta" type="button">25 p · rentoutushetki</button>
-            <button class="chip reward" data-cost="45" data-title="Hyvä kahvi tai tee rauhassa" type="button">45 p · hyvä kahvi</button>
-            <button class="chip reward" data-cost="70" data-title="Jakso sarjaa tai pelihetki hyvällä omallatunnolla" type="button">70 p · oma viihdehetki</button>
-            <button class="chip reward" data-cost="110" data-title="Pieni ostos tai herkku suunnitellusti" type="button">110 p · pieni palkinto</button>
-            <button class="chip reward" data-cost="180" data-title="Isompi oma palkinto viikon työstä" type="button">180 p · viikon palkinto</button>
+            <button class="chip reward" data-cost="25" data-title="Luvallinen palautumishetki ilman huonoa omaatuntoa" type="button">25 p · rentoutushetki</button>
+            <button class="chip reward" data-cost="45" data-title="Oma kahvi-, tee- tai ulkoiluhetki rauhassa" type="button">45 p · hyvä kahvi</button>
+            <button class="chip reward" data-cost="70" data-title="Suunniteltu viihdehetki hyvällä omallatunnolla" type="button">70 p · oma viihdehetki</button>
+            <button class="chip reward" data-cost="110" data-title="Itse valittu pieni palkinto" type="button">110 p · pieni palkinto</button>
+            <button class="chip reward" data-cost="180" data-title="Viikon voitto: isompi oma palkinto" type="button">180 p · viikon palkinto</button>
           </div>
           <div class="note-list" id="rewardList"></div>
         </section>
@@ -591,6 +636,16 @@
           <h2>Päiväkirja</h2>
           <p>Kirjoita lyhyt merkintä. Paras sovellus tuntuu omalta vasta, kun sinne jää omia jälkiä.</p>
         </section>
+        <section class="card">
+          <h3>🌙 Päivän lopetusrituaali</h3>
+          <p>Kolme nopeaa kysymystä tekee päiväkirjasta hyödyllisemmän: mikä onnistui, mikä jää huomiselle ja mikä on huomisen ensimmäinen askel?</p>
+          <div class="pill-row" style="margin-top:12px;">
+            <button class="chip journal-prompt" data-prompt="Onnistuminen: " type="button">Onnistuminen</button>
+            <button class="chip journal-prompt" data-prompt="Huomisen helpotus: " type="button">Huomisen helpotus</button>
+            <button class="chip journal-prompt" data-prompt="Oivallus: " type="button">Oivallus</button>
+          </div>
+        </section>
+
         <section class="card">
           <textarea id="noteText" placeholder="Mitä opin tänään? Mikä helpottaisi huomista?"></textarea>
           <button class="primary" id="saveNote" type="button">Tallenna merkintä</button>
@@ -619,6 +674,10 @@
             <span class="pill">Uniseuranta</span>
             <span class="pill">Oma profiilityyli</span>
             <span class="pill">Palkintohistoria</span>
+            <span class="pill">Päivän yllätyskortit</span>
+            <span class="pill">Viikon hahmo</span>
+            <span class="pill">Oma oikea palkinto</span>
+            <span class="pill">Päivän lopetusrituaali</span>
           </div>
         </section>
         <section class="card">
@@ -632,7 +691,7 @@
         </section>
         <section class="card">
           <h3>Täysi arjen kompassi</h3>
-          <p id="plusInsight">Avaa täysi versio, niin näet oman viikon suunnan yhdellä silmäyksellä.</p>
+          <p id="plusInsight">Arjen kompassi kertoo viikon vahvuuden, palautumisen merkit ja seuraavan järkevän askeleen ilman syyllistämistä.</p>
           <div class="pill-row">
             <span class="pill">Viikon vahvuus</span>
             <span class="pill">Mihin kannattaa keskittyä</span>
@@ -663,7 +722,7 @@
             <button class="chip profile-style" data-style="Rauhallinen tekijä" type="button">Rauhallinen tekijä</button>
             <button class="chip profile-style" data-style="Tavoitteellinen" type="button">Tavoitteellinen</button>
             <button class="chip profile-style" data-style="Palautuja" type="button">Palautuja</button>
-            <button class="chip profile-style" data-style="Uuden rakentaja" type="button">Uuden rakentaja</button>
+            <button class="chip profile-style" data-style="Arjen kehittäjä" type="button">Arjen kehittäjä</button>
           </div>
           <button class="primary" id="saveProfile" type="button">Tallenna profiili</button>
         </section>
@@ -682,7 +741,7 @@
         <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         <section class="card">
           <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.10, jossa pyyhkäisyjärjestys, profiilin värit, viikkotavoitteiden muistiinpanot ja uudet tehtävävalinnat on päivitetty.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.14, jossa on päivän yllätyskortti, viikon hahmo, oma oikea palkinto, lopetusrituaali ja Arjen kompassi.</p>
           <a class="text-link" href="#plus-screen" data-open-screen="plus-screen">Avaa Täysi versio</a>
         </section>
       </section>
@@ -710,6 +769,7 @@
         profileGoal: "",
         profileMotto: "",
         profileStyle: "",
+        trueReward: "",
         theme: "forest",
         streak: 0,
         lastActiveDate: "",
@@ -792,6 +852,8 @@
       const rewardCount = document.querySelector("#rewardCount");
       const rewardHint = document.querySelector("#rewardHint");
       const rewardList = document.querySelector("#rewardList");
+      const trueRewardInput = document.querySelector("#trueRewardInput");
+      const trueRewardDisplay = document.querySelector("#trueRewardDisplay");
       const noteList = document.querySelector("#noteList");
       const noteText = document.querySelector("#noteText");
       const newWeekGoal = document.querySelector("#newWeekGoal");
@@ -807,14 +869,14 @@
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v120") || "{}") };
+          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v124") || "{}") };
         } catch {
           return structuredClone(defaultState);
         }
       }
 
       function saveState() {
-        localStorage.setItem("taskurutiini:v120", JSON.stringify(state));
+        localStorage.setItem("taskurutiini:v124", JSON.stringify(state));
       }
 
       function addPoints(amount) {
@@ -837,8 +899,20 @@
         renderSummary();
         renderWeek();
         renderChallenges();
+        if (nextStep?.parentElement) nextStep.parentElement.classList.toggle("next-step-ready", completionStats().habitDone > 0);
         renderBadges();
         renderWeeklyPlus();
+
+        const surpriseIdeas = ["Tee yksi asia heti kahden minuutin sisällä.", "Käy ulkona ilman puhelinta viideksi minuutiksi.", "Lähetä kannustava viesti yhdelle ihmiselle.", "Jätä yksi turha selailu väliin.", "Kirjoita yksi asia, josta olet tyytyväinen."];
+        const dayIndex = new Date().getDate() % surpriseIdeas.length;
+        const dailySurprise = document.querySelector("#dailySurprise");
+        if (dailySurprise) dailySurprise.textContent = surpriseIdeas[dayIndex];
+        const weekCharacter = document.querySelector("#weekCharacter");
+        if (weekCharacter) {
+          const doneTotal = completionStats().habitDone + completionStats().taskDone + completionStats().bigDone + state.week.filter((item) => item.done).length;
+          const level = doneTotal >= 14 ? "Arjen mestari" : doneTotal >= 9 ? "Rytmin löytäjä" : doneTotal >= 4 ? "Rakentaja" : "Aloittaja";
+          weekCharacter.textContent = `Tällä viikolla olet ${level}. Jokainen pieni merkintä rakentaa rytmiäsi.`;
+        }
         renderRewards();
         renderNotes();
         renderMood();
@@ -1162,7 +1236,18 @@
         rewardList.innerHTML = state.rewards.slice().reverse().map((reward) => `
           <div class="note"><strong>${reward.date}</strong><br />${reward.title} · ${reward.cost} pistettä</div>
         `).join("");
-        document.querySelectorAll(".reward").forEach((button) => {
+        if (trueRewardDisplay) trueRewardDisplay.textContent = state.trueReward ? `Tavoitepalkinto: ${state.trueReward}` : "Omaa palkintoa ei ole vielä valittu.";
+  
+      document.querySelector("#saveTrueReward")?.addEventListener("click", () => {
+        const value = trueRewardInput.value.trim();
+        if (!value) return;
+        state.trueReward = value;
+        trueRewardInput.value = "";
+        saveState();
+        render();
+      });
+
+      document.querySelectorAll(".reward").forEach((button) => {
           button.disabled = state.points < Number(button.dataset.cost);
         });
       }
@@ -1413,6 +1498,14 @@
         renderClock();
       });
 
+
+      document.querySelectorAll(".journal-prompt").forEach((button) => {
+        button.addEventListener("click", () => {
+          noteText.value = `${noteText.value}${noteText.value ? "\n" : ""}${button.dataset.prompt}`;
+          noteText.focus();
+        });
+      });
+
       document.querySelector("#saveNote").addEventListener("click", () => {
         const text = noteText.value.trim();
         if (!text) return;
@@ -1443,7 +1536,7 @@
         localStorage.removeItem("taskurutiini:v117");
         localStorage.removeItem("taskurutiini:v118");
         localStorage.removeItem("taskurutiini:v119");
-        localStorage.removeItem("taskurutiini:v120");
+        localStorage.removeItem("taskurutiini:v124");
         state = structuredClone(defaultState);
         seconds = state.focusMinutes * 60;
         render();
