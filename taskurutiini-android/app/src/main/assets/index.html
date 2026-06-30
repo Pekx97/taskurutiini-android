@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#F7F1E7" />
+    <meta name="theme-color" content="#EAF7F0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="TaskuRutiini" />
@@ -12,619 +12,448 @@
     <title>TaskuRutiini</title>
     <style>
       :root {
-        --page-bg: #eef7f1;
-        --panel-bg: #fbfffc;
-        --soft-bg: #dff1e6;
-        --ink: #251d18;
-        --muted: #5f5144;
-        --accent: #2f8f6b;
-        --line: #cfe4d6;
+        --page-bg: #eaf7f0;
+        --panel-bg: #ffffff;
+        --soft-bg: #d8f1e2;
+        --ink: #17211d;
+        --muted: #5c6861;
+        --accent: #1f9f72;
+        --accent-2: #0f6b54;
+        --line: #c8e3d2;
+        --warm: #fff4d9;
+        --danger: #b85542;
+        --shadow: 0 18px 45px rgba(20, 45, 35, .09);
       }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
       body {
         margin: 0;
         min-height: 100vh;
-        background: var(--page-bg);
+        background:
+          radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34%),
+          radial-gradient(circle at 95% 14%, color-mix(in srgb, var(--accent-2) 14%, transparent), transparent 28%),
+          var(--page-bg);
         color: var(--ink);
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
       .app {
         min-height: 100vh;
-        max-width: 540px;
+        max-width: 560px;
         margin: 0 auto;
-        padding: max(18px, env(safe-area-inset-top)) 18px max(104px, env(safe-area-inset-bottom));
+        padding: max(18px, env(safe-area-inset-top)) 16px max(106px, env(safe-area-inset-bottom));
       }
       header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 14px;
-        margin-bottom: 16px;
+        gap: 12px;
+        margin-bottom: 12px;
       }
       .kicker {
-        color: var(--accent);
+        display:inline-flex;
+        gap: 8px;
+        align-items:center;
+        color: var(--accent-2);
         font-size: 12px;
-        font-weight: 800;
-        letter-spacing: .06em;
+        font-weight: 900;
+        letter-spacing: .08em;
         text-transform: uppercase;
       }
-      h1 { margin: 4px 0 0; font-size: 26px; line-height: 1.08; }
-      h2 { margin: 0 0 10px; font-size: 24px; line-height: 1.18; }
-      h3 { margin: 22px 0 12px; font-size: 20px; }
+      h1 { margin: 4px 0 0; font-size: 25px; line-height: 1.08; }
+      h2 { margin: 0 0 10px; font-size: 24px; line-height: 1.15; }
+      h3 { margin: 20px 0 10px; font-size: 19px; }
       p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.48; }
       button, input, textarea { font: inherit; }
-      textarea {
+      input, textarea {
         width: 100%;
-        min-height: 92px;
-        resize: vertical;
-        border: 1px solid #d9cbb8;
-        border-radius: 8px;
-        padding: 12px;
-        background: #fff9ee;
-        color: #251d18;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 13px;
+        background: color-mix(in srgb, var(--panel-bg) 92%, white);
+        color: var(--ink);
       }
+      textarea { min-height: 92px; resize: vertical; }
       .score {
-        min-width: 74px;
-        border-radius: 18px;
+        min-width: 78px;
+        border-radius: 22px;
         padding: 10px 12px;
-        background: var(--ink);
-        color: #fff7e8;
+        background: linear-gradient(135deg, var(--ink), color-mix(in srgb, var(--ink) 80%, var(--accent)));
+        color: #fff;
         text-align: center;
+        box-shadow: var(--shadow);
       }
-      .score strong { display: block; font-size: 19px; }
-      .score span { display: block; color: #dbc9a9; font-size: 11px; font-weight: 800; }
+      .score strong { display: block; font-size: 20px; }
+      .score span { display: block; color: color-mix(in srgb, white 80%, var(--soft-bg)); font-size: 11px; font-weight: 850; }
+      .nav-hint { margin: -3px 0 13px; color: var(--muted); font-size: 12px; font-weight: 800; }
+      .screen { display: none; min-height: calc(100vh - 132px); animation: slideIn .18s ease-out; }
+      .screen.active { display: block; }
+      @keyframes slideIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
       .hero, .card {
-        border-radius: 8px;
+        border-radius: 24px;
         padding: 18px;
+        box-shadow: var(--shadow);
       }
-      .hero { background: var(--soft-bg); }
+      .hero {
+        background: linear-gradient(135deg, color-mix(in srgb, var(--soft-bg) 82%, white), color-mix(in srgb, var(--panel-bg) 90%, white));
+        border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--line));
+      }
       .card {
         margin-top: 14px;
         border: 1px solid var(--line);
-        background: var(--panel-bg);
+        background: color-mix(in srgb, var(--panel-bg) 96%, white);
       }
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 16px;
+      .rhythm-card {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 92% 0%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 36%),
+          linear-gradient(145deg, color-mix(in srgb, var(--soft-bg) 78%, white), var(--panel-bg));
+        border: 2px solid color-mix(in srgb, var(--accent) 40%, var(--line));
       }
-      .metric { border-radius: 8px; padding: 12px; background: color-mix(in srgb, var(--soft-bg) 72%, white); }
-      .metric strong { display: block; font-size: 18px; }
-      .metric span { color: #796b5d; font-size: 12px; font-weight: 800; }
-      .habit, .week-goal, .challenge, .task-item {
-        width: 100%;
-        min-height: 70px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 10px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel-bg);
-        padding: 14px;
-        color: inherit;
-        text-align: left;
-      }
-      .habit.done, .week-goal.done, .challenge.done, .task-item.done {
-        background: #edf3ea;
-        border-color: #aec8b3;
-      }
-      .stripe { width: 12px; height: 42px; border-radius: 8px; background: var(--accent); }
-      .habit:nth-of-type(2n) .stripe { background: #a66b4f; }
-      .habit:nth-of-type(3n) .stripe { background: #476c8a; }
-      .habit-text, .grow { flex: 1; }
-      .habit-text strong, .grow strong { display: block; font-size: 16px; }
-      .habit-text span, .grow span { color: #7d6f62; font-size: 13px; }
-      .check {
-        width: 30px;
-        height: 30px;
-        display: grid;
-        place-items: center;
-        border: 2px solid #bbae9d;
-        border-radius: 50%;
-        font-weight: 900;
-      }
-      .done .check { background: var(--accent); border-color: var(--accent); color: #fff9ee; }
-      .controls, .moods {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-      }
-      .chip {
-        border: 1px solid #d9cbb8;
-        border-radius: 8px;
-        padding: 10px 8px;
-        background: transparent;
-        color: #67584a;
-        font-weight: 850;
-      }
-      .chip.active, .primary { background: var(--ink); color: #fff9ee; }
-      .primary {
-        width: 100%;
-        margin-top: 12px;
-        border: 0;
-        border-radius: 8px;
-        padding: 15px;
-        font-weight: 900;
-      }
-      .secondary {
-        border: 1px solid #d9cbb8;
-        background: var(--panel-bg);
-        color: var(--accent);
-        border-radius: 8px;
-        padding: 12px;
-        font-weight: 900;
-      }
-      .input-row { display: flex; gap: 8px; margin-top: 12px; }
-      .input-row input {
-        min-width: 0;
-        flex: 1;
-        border: 1px solid #d9cbb8;
-        border-radius: 8px;
-        padding: 12px;
-        background: var(--panel-bg);
-        color: var(--ink);
-      }
-      .week-note {
-        width: 100%;
-        margin-top: 8px;
-        border: 1px solid #d9cbb8;
-        border-radius: 8px;
-        padding: 10px;
-        background: color-mix(in srgb, var(--panel-bg) 86%, white);
-        color: var(--ink);
-      }
-      .clock { margin: 10px 0 12px; text-align: center; font-size: 66px; font-weight: 900; }
-
-      .mission-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 10px;
-        padding: 8px 10px;
+      .rhythm-card:before {
+        content: "";
+        position: absolute;
+        right: -42px;
+        top: -42px;
+        width: 130px;
+        height: 130px;
         border-radius: 999px;
-        background: color-mix(in srgb, var(--accent) 16%, white);
-        color: var(--accent);
-        font-size: 12px;
-        font-weight: 950;
+        background: color-mix(in srgb, var(--accent) 12%, white);
       }
-      .daily-card {
-        border: 2px solid color-mix(in srgb, var(--accent) 38%, var(--line));
-        box-shadow: 0 12px 30px rgba(47, 143, 107, .12);
+      .rhythm-card > * { position: relative; }
+      .quiet-card {
+        border: 2px solid color-mix(in srgb, var(--accent) 25%, var(--line));
+        background: linear-gradient(135deg, color-mix(in srgb, var(--warm) 62%, var(--panel-bg)), var(--panel-bg));
       }
+      .daily-card { border: 2px solid color-mix(in srgb, var(--accent) 45%, var(--line)); }
       .next-step-ready {
-        border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
-        background: color-mix(in srgb, var(--accent) 12%, var(--panel-bg));
+        border-color: color-mix(in srgb, var(--accent) 72%, var(--line));
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, var(--panel-bg)), var(--panel-bg));
       }
-      .surprise-card {
-        background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, white), var(--panel-bg));
-      }
-      .day {
-        width: 42px;
-        height: 42px;
-        display: grid;
-        place-items: center;
-        border-radius: 8px;
-        background: var(--soft-bg);
-        font-weight: 900;
-      }
-      .setting-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 10px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel-bg);
-        padding: 16px;
-        font-weight: 800;
-      }
-      .screen {
-        display: none;
-        min-height: calc(100vh - 132px);
-        scroll-margin-top: 18px;
-        animation: slideIn .18s ease-out;
-      }
-      .screen.active { display: block; }
-      @keyframes slideIn {
-        from { opacity: 0; transform: translateX(14px); }
-        to { opacity: 1; transform: translateX(0); }
-      }
-      .note-list { margin-top: 12px; display: grid; gap: 8px; }
-      .note {
-        border-radius: 8px;
-        background: var(--soft-bg);
-        padding: 12px;
-        color: #44382f;
-        font-size: 14px;
-        line-height: 1.45;
-      }
-      .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-      .pill {
-        border-radius: 999px;
-        background: var(--soft-bg);
-        color: #4d4137;
-        padding: 8px 10px;
-        font-size: 13px;
-        font-weight: 800;
-      }
-      nav {
-        position: fixed;
-        left: 14px;
-        right: 14px;
-        bottom: max(14px, env(safe-area-inset-bottom));
-        max-width: 512px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 4px;
-        padding: 6px;
-        border: 1px solid #e1d5c4;
-        border-radius: 8px;
-        background: var(--panel-bg);
-      }
-      nav a {
-        border-radius: 8px;
-        padding: 10px 4px;
-        background: transparent;
-        color: #75685b;
-        font-size: 12px;
-        font-weight: 850;
-        text-align: center;
-        text-decoration: none;
-      }
-      nav a.active { background: var(--ink); color: #fff9ee; }
-      .delete-button {
-        border: 0;
-        border-radius: 8px;
-        background: #f0ded4;
-        color: #8d3f2f;
-        padding: 8px 10px;
-        font-weight: 900;
-      }
-      .chart { display: grid; gap: 10px; margin-top: 14px; }
-      .chart-row { display: grid; grid-template-columns: 92px 1fr 38px; gap: 8px; align-items: center; font-size: 13px; font-weight: 850; }
-      .bar { height: 12px; border-radius: 999px; background: color-mix(in srgb, var(--soft-bg) 70%, white); overflow: hidden; }
-      .bar span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
-      .stars { display: flex; gap: 8px; margin-top: 12px; }
-      .star {
-        flex: 1;
-        border: 1px solid #d9cbb8;
-        border-radius: 8px;
-        background: var(--panel-bg);
-        color: #b28a22;
-        padding: 10px 0;
-        font-size: 23px;
-        line-height: 1;
-      }
-      .star.active { background: #fff0b8; border-color: #d6a928; color: #8b6500; }
-      .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
-      .swatch { min-height: 44px; border: 2px solid transparent; border-radius: 8px; color: white; font-weight: 900; }
-      .swatch.active { border-color: var(--ink); outline: 2px solid #fff; }
-      .swatch[data-theme="forest"] { background: #5b7f68; }
-      .swatch[data-theme="sand"] { background: #a66b4f; }
-      .swatch[data-theme="blue"] { background: #476c8a; }
-      .swatch[data-theme="rose"] { background: #9b5c68; }
-      .daily-card {
-        border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
-        background: linear-gradient(135deg, color-mix(in srgb, var(--soft-bg) 78%, white), var(--panel-bg));
-      }
+      .surprise-card { background: linear-gradient(135deg, color-mix(in srgb, var(--accent-2) 12%, white), var(--panel-bg)); }
+      .rescue-card { border: 2px dashed color-mix(in srgb, var(--accent) 62%, var(--line)); }
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 14px; }
+      .metric { border-radius: 16px; padding: 12px; background: color-mix(in srgb, var(--soft-bg) 68%, white); }
+      .metric strong { display: block; font-size: 18px; }
+      .metric span { color: var(--muted); font-size: 12px; font-weight: 850; }
       .streak {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
         margin-top: 12px;
-        border-radius: 8px;
-        background: var(--ink);
-        color: #fff9ee;
-        padding: 12px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #141817, color-mix(in srgb, var(--accent-2) 44%, #111));
+        color: #fff;
+        padding: 13px;
       }
-      .streak strong { display: block; font-size: 24px; }
-      .streak span { color: #e7d7bd; font-size: 12px; font-weight: 800; }
-      .badge-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        margin-top: 12px;
+      .streak strong { display: block; font-size: 23px; }
+      .streak span { color: rgba(255,255,255,.76); font-size: 12px; font-weight: 850; }
+      .mission-badge, .mini-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 10px;
+        padding: 8px 11px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--accent) 16%, white);
+        color: var(--accent-2);
+        font-size: 12px;
+        font-weight: 950;
       }
-      .badge {
-        border-radius: 8px;
-        background: color-mix(in srgb, var(--soft-bg) 68%, white);
-        padding: 12px;
+      .emoji-title { display: inline-flex; align-items: center; gap: 8px; }
+      .pill-row, .button-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+      .pill {
+        border-radius: 999px;
+        background: var(--soft-bg);
+        color: var(--ink);
+        padding: 8px 10px;
         font-size: 13px;
         font-weight: 850;
       }
-      .badge.locked { opacity: .48; }
-      .badge small { display: block; margin-top: 4px; color: var(--muted); font-weight: 750; }
-      .nav-hint {
-        margin: -4px 0 14px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 800;
-      }
-      .screen-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 14px;
-      }
-      .screen-title h2 { margin: 0; }
-      .text-link {
-        display: inline-block;
-        margin-top: 12px;
-        color: var(--accent);
-        font-weight: 900;
-        text-decoration: none;
-      }
-      .emoji-title { display: inline-flex; align-items: center; gap: 8px; }
-      .face-row {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        margin-top: 12px;
-      }
-      .face {
-        border: 1px solid #d9cbb8;
-        border-radius: 8px;
-        background: var(--panel-bg);
-        padding: 10px 4px;
-        font-size: 24px;
-      }
-      .face.active { background: var(--soft-bg); border-color: var(--accent); transform: translateY(-1px); }
-
-      .rhythm-card {
-        background: radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 22%, white), var(--panel-bg) 62%);
-        border: 2px solid color-mix(in srgb, var(--accent) 36%, var(--line));
-      }
-      .mini-steps { display: grid; gap: 8px; margin-top: 12px; }
-      .mini-step {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border-radius: 8px;
-        padding: 10px;
-        background: color-mix(in srgb, var(--soft-bg) 74%, white);
+      .chip {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 10px 9px;
+        background: color-mix(in srgb, var(--panel-bg) 94%, white);
+        color: var(--ink);
         font-weight: 850;
       }
-      .level-grid { display: grid; gap: 8px; margin-top: 12px; }
-      .level-card {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 12px;
-        background: var(--panel-bg);
-      }
-      .level-card.active {
-        background: color-mix(in srgb, var(--accent) 14%, var(--panel-bg));
-        border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
-      }
-      .level-card strong { display:block; margin-bottom:4px; }
-      .avatar-box {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-top: 12px;
-        border-radius: 8px;
+      .chip.active, .chip.claimed { background: var(--ink); color: white; border-color: var(--ink); }
+      .primary, .secondary {
+        border: 0;
+        border-radius: 16px;
         padding: 14px;
-        background: color-mix(in srgb, var(--soft-bg) 72%, white);
+        font-weight: 950;
       }
-      .avatar-face { font-size: 42px; line-height: 1; }
-      .theme-store { display: grid; gap: 8px; margin-top: 12px; }
-      .theme-prize {
+      .primary { width: 100%; margin-top: 12px; background: var(--ink); color: white; }
+      .secondary { border: 1px solid var(--line); background: var(--panel-bg); color: var(--accent-2); }
+      .danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, var(--line)); }
+      .input-row { display: flex; gap: 8px; margin-top: 12px; }
+      .input-row input { min-width: 0; flex: 1; }
+      .item, .habit, .task-item, .week-goal, .challenge {
+        width: 100%;
+        min-height: 68px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        margin-bottom: 10px;
         border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 12px;
+        border-radius: 18px;
         background: var(--panel-bg);
+        padding: 13px;
+        color: inherit;
+        text-align: left;
       }
-      .theme-prize button { width: auto; margin: 0; padding: 10px 12px; }
-      .swatch:disabled { opacity: .45; filter: grayscale(.2); }
-      .story-box {
-        border-left: 5px solid var(--accent);
-        padding: 12px;
-        border-radius: 8px;
-        background: color-mix(in srgb, var(--soft-bg) 74%, white);
-        margin-top: 12px;
+      .habit.done, .task-item.done, .week-goal.done, .challenge.done, .item.done {
+        background: color-mix(in srgb, var(--accent) 12%, var(--panel-bg));
+        border-color: color-mix(in srgb, var(--accent) 52%, var(--line));
       }
-      .contract-box {
+      .challenge.ready-claim {
+        border-color: color-mix(in srgb, #f2a900 72%, var(--line));
+        background: linear-gradient(135deg, #fff6d6, var(--panel-bg));
+      }
+      .stripe { width: 10px; height: 42px; border-radius: 999px; background: var(--accent); flex: 0 0 auto; }
+      .check {
+        width: 30px;
+        height: 30px;
+        flex: 0 0 auto;
         display: grid;
-        gap: 8px;
-        margin-top: 12px;
+        place-items: center;
+        border: 2px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+        border-radius: 50%;
+        font-weight: 950;
       }
-      .contract-box textarea { min-height: 76px; }
-      .quiet-card {
-        background: linear-gradient(135deg, color-mix(in srgb, var(--soft-bg) 82%, white), var(--panel-bg));
+      .done .check, .ready-claim .check { background: var(--accent); border-color: var(--accent); color: white; }
+      .grow { flex: 1; min-width: 0; }
+      .grow strong { display: block; font-size: 15px; }
+      .grow span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+      .delete-button, .claim-button {
+        border: 0;
+        border-radius: 12px;
+        padding: 9px 10px;
+        font-size: 12px;
+        font-weight: 950;
       }
-      .rescue-card {
-        border: 2px dashed color-mix(in srgb, var(--accent) 55%, var(--line));
+      .delete-button { background: #ffe2db; color: #8d3f2f; }
+      .claim-button { background: var(--ink); color: white; }
+      .mini-steps, .level-grid, .rescue-steps, .theme-store, .note-list { display: grid; gap: 8px; margin-top: 12px; }
+      .mini-step, .rescue-step, .level-card, .theme-prize, .note {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px;
+        background: color-mix(in srgb, var(--panel-bg) 94%, white);
       }
-      .challenge.done {
-        box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent) inset;
-        transform: translateY(-1px);
+      .mini-step, .rescue-step, .theme-prize { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .mini-step.done, .rescue-step.done, .level-card.active { background: color-mix(in srgb, var(--accent) 13%, var(--panel-bg)); border-color: color-mix(in srgb, var(--accent) 58%, var(--line)); }
+      .level-card strong { display: block; margin-bottom: 4px; }
+      .controls, .moods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .face-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
+      .face { border: 1px solid var(--line); border-radius: 16px; background: var(--panel-bg); padding: 10px 4px; font-size: 23px; }
+      .face.active { background: var(--soft-bg); border-color: var(--accent); transform: translateY(-1px); }
+      .clock { margin: 12px 0; text-align: center; font-size: 62px; font-weight: 950; letter-spacing: -.04em; }
+      .sound-pad { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+      .sound-pad .chip { min-height: 58px; }
+      .chart { display: grid; gap: 10px; margin-top: 14px; }
+      .chart-row { display: grid; grid-template-columns: 92px 1fr 38px; gap: 8px; align-items: center; font-size: 13px; font-weight: 850; }
+      .bar { height: 12px; border-radius: 999px; background: color-mix(in srgb, var(--soft-bg) 70%, white); overflow: hidden; }
+      .bar span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+      .stars { display: flex; gap: 8px; margin-top: 12px; }
+      .star { flex: 1; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-bg); color: #b28a22; padding: 10px 0; font-size: 23px; line-height: 1; }
+      .star.active { background: #fff0b8; border-color: #d6a928; color: #8b6500; }
+      .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+      .swatch { min-height: 52px; border: 2px solid transparent; border-radius: 16px; color: white; font-weight: 950; text-shadow: 0 1px 8px rgba(0,0,0,.25); }
+      .swatch.active { border-color: var(--ink); outline: 2px solid #fff; }
+      .swatch:disabled { opacity: .45; filter: grayscale(.3); }
+      .badge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+      .badge { border-radius: 16px; background: color-mix(in srgb, var(--soft-bg) 68%, white); padding: 12px; font-size: 13px; font-weight: 850; }
+      .badge.locked { opacity: .45; }
+      .badge small { display: block; margin-top: 4px; color: var(--muted); font-weight: 750; }
+      .story-box { border-left: 5px solid var(--accent); padding: 12px; border-radius: 16px; background: color-mix(in srgb, var(--soft-bg) 74%, white); margin-top: 12px; }
+      .contract-box { display: grid; gap: 8px; margin-top: 12px; }
+      .week-note { margin-top: 8px; min-height: 44px; }
+      .text-link { display: inline-block; margin-top: 12px; color: var(--accent-2); font-weight: 950; text-decoration: none; }
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: max(92px, calc(env(safe-area-inset-bottom) + 90px));
+        transform: translate(-50%, 20px);
+        z-index: 20;
+        border-radius: 999px;
+        padding: 12px 16px;
+        background: var(--ink);
+        color: white;
+        font-weight: 950;
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 16px 42px rgba(0,0,0,.18);
+        transition: .22s ease;
       }
+      #toast.show { opacity: 1; transform: translate(-50%, 0); }
+      nav {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        max-width: 530px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 4px;
+        padding: 6px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: color-mix(in srgb, var(--panel-bg) 92%, white);
+        box-shadow: 0 10px 40px rgba(0,0,0,.12);
+      }
+      nav a { border-radius: 16px; padding: 10px 3px; color: var(--muted); font-size: 12px; font-weight: 900; text-align: center; text-decoration: none; }
+      nav a.active { background: var(--ink); color: white; }
+      @media (max-width: 390px) { .stats { grid-template-columns: 1fr; } .clock { font-size: 54px; } nav a { font-size: 11px; } }
     </style>
   </head>
   <body>
     <div class="app">
       <header>
         <div>
-          <div class="kicker">TaskuRutiini</div>
-          <h1>Pieni askel tänään.</h1>
+          <div class="kicker">✨ TaskuRutiini</div>
+          <h1 id="topTitle">Päivä kerrallaan parempaan rytmiin.</h1>
         </div>
-        <div class="score">
-          <strong id="score">0</strong>
-          <span>pistettä</span>
-        </div>
+        <div class="score"><strong id="score">0</strong><span>pistettä</span></div>
       </header>
-
-      <p class="nav-hint">Pyyhkäise sivulle tai käytä alavalikkoa.</p>
+      <p class="nav-hint">Pyyhkäise sivulle tai käytä alavalikkoa. Jokainen pieni merkintä vie eteenpäin.</p>
 
       <section id="today" class="screen active">
-        <section class="hero">
-          <h2 id="dailyGreeting">Hyvä että avasit sovelluksen.</h2>
-          <p id="dailyCoach">Tee pieni askel, kerää hyvä rytmi ja rakenna arkea ilman turhaa painetta.</p>
+        <section class="hero rhythm-card">
+          <span class="mini-badge">🌅 ENSIMMÄINEN KORTTI</span>
+          <h2>Päivän rytmikortti</h2>
+          <p id="dailyCoach">Aloita tästä. Tänään ei tarvitse tehdä kaikkea, vain yksi järkevä askel kerrallaan.</p>
           <div class="stats">
-            <div class="metric"><strong id="doneCount">0/3</strong><span>tehty</span></div>
-            <div class="metric"><strong id="taskCount">0</strong><span>pienet hommat</span></div>
+            <div class="metric"><strong id="streakCount">🔥 0</strong><span>päivän putki</span></div>
+            <div class="metric"><strong id="dailyProgress">Lempeä alku</strong><span>päivän rytmi</span></div>
             <div class="metric"><strong id="moodLabel">-</strong><span>fiilis</span></div>
           </div>
-          <div class="streak">
-            <div><strong id="streakCount">0 päivän 🔥</strong><span>streak</span></div>
-            <div><strong id="dailyProgress">Alku</strong><span>päivän tila</span></div>
-          </div>
-        </section>
-
-        <section class="card rhythm-card">
-          <h3><span class="emoji-title">🌅 Päivän rytmikortti</span></h3>
-          <p><strong>Tänään riittää tämä:</strong> tee yksi pieni asia, yksi yhteydenotto ja yksi hyvinvointimerkintä. Sovellus näyttää lempeän suunnan, ei täydellistä listaa.</p>
           <div class="mini-steps" id="rhythmSteps"></div>
         </section>
 
+        <section class="card quiet-card">
+          <span class="mini-badge">🤫 HILJAINEN KANNUSTAJA</span>
+          <h3 id="quietTitle">Hyvä että avasit sovelluksen.</h3>
+          <p id="quietCoach">Pieni liike on silti liike. Aloitetaan rauhassa.</p>
+        </section>
+
+        <section class="card daily-card">
+          <div class="mission-badge">🎯 MERKATTU TÄRKEÄKSI · PÄIVÄN MISSIO</div>
+          <h3>Päivän missio</h3>
+          <p id="dailyMission">Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis. Saat tästä hyvän alun.</p>
+          <button class="primary" id="completeDailyMission" type="button">Lunasta missio +25 pistettä</button>
+        </section>
+
+        <section class="card surprise-card">
+          <span class="mini-badge">🎲 PÄIVÄN YLLÄTYS</span>
+          <h3>Päivän yllätyskortti</h3>
+          <p id="dailySurprise">Pieni yllätys latautuu...</p>
+          <button class="primary" id="claimSurprise" type="button">Tein yllätyksen · +10 pistettä</button>
+        </section>
+
+        <section class="card" id="nextStepCard">
+          <h3>➡️ Seuraava paras askel</h3>
+          <p id="nextStep">Aloita yhdestä helposta rutiinista.</p>
+        </section>
+
         <section class="card rescue-card">
-          <h3><span class="emoji-title">🛟 Pelasta päivä</span></h3>
-          <p>Huono päivä ei pilaa putkea. Paina nappia, niin sovellus lisää kolme pientä pelastavaa askelta.</p>
-          <button class="primary" id="rescueDay" type="button">Pelasta päivä kolmella askeleella</button>
-          <p id="rescueHint" style="margin-top:10px;">Tämä on tarkoitettu niihin päiviin, kun kaikki tuntuu liian isolta.</p>
+          <h3>🛟 Pelasta päivä</h3>
+          <p>Kun päivä tuntuu raskaalta, tee vain kolme pientä askelta. Jokaisesta saa pisteitä ja onnistumisen tunteen.</p>
+          <button class="primary" id="rescueDay" type="button">Avaa kolme pientä askelta</button>
+          <div class="rescue-steps" id="rescueSteps"></div>
+          <p id="rescueHint" style="margin-top:10px;">Tämä ei ole varasuunnitelma epäonnistumiselle, vaan tapa palata takaisin rytmiin.</p>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">🪜 Päivän kolme tasoa</span></h3>
+          <h3>🪜 Päivän kolme tasoa</h3>
           <p>Valitse päivän taso energian mukaan. Minimi riittää, hyvä päivä etenee ja voittopäivä on lisäbonus.</p>
           <div class="level-grid" id="dayLevels"></div>
         </section>
 
-        <section class="card quiet-card">
-          <h3><span class="emoji-title">🤫 Hiljainen kannustaja</span></h3>
-          <p id="quietCoach">Pieni liike on silti liike. Aloitetaan rauhassa.</p>
-        </section>
-
-        <section class="card surprise-card">
-          <h3><span class="emoji-title">🎲 Päivän yllätyskortti</span></h3>
-          <p id="dailySurprise">Tee yksi pieni asia eri tavalla kuin eilen. Sovellus antaa sinulle joka päivä uuden pienen suunnan.</p>
-        </section>
-
-        <section class="card daily-card">
-          <div class="mission-badge">MERKATTU TÄRKEÄKSI · PÄIVÄN MISSIO</div>
-          <h3><span class="emoji-title">🎯 Päivän missio</span></h3>
-          <p id="dailyMission">Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis. Saat tästä hyvän alun.</p>
-          <button class="primary" id="completeDailyMission" type="button">Merkkaa päivän missio tehdyksi</button>
+        <section class="card">
+          <h3>✅ Päivän rutiinit</h3>
+          <div id="habitList"></div>
+          <div class="input-row"><input id="newHabit" placeholder="Lisää oma rutiini" /><button class="secondary" id="addHabit" type="button">Lisää</button></div>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">✨ Seuraava paras askel</span></h3>
-          <p id="nextStep">Aloita yhdestä helposta rutiinista.</p>
-        </section>
-
-        <h3><span class="emoji-title">🌤️ Päivän rutiinit</span></h3>
-        <div id="habitList"></div>
-        <div class="input-row">
-          <input id="newHabit" placeholder="Lisää oma rutiini" />
-          <button class="secondary" id="addHabit" type="button">Lisää</button>
-        </div>
-
-        <section class="card">
-          <h3><span class="emoji-title">✅ Pienet hommat</span></h3>
-          <p>Kirjaa pienet asiat, jotka haluat saada pois mielestä.</p>
-          <div class="pill-row" style="margin: 10px 0 12px;">
-            <button class="chip preset-task" data-task-title="Vastaa viestiin, puheluun tai ole yhteydessä toiseen ihmiseen" type="button">Vastaa / ole yhteydessä</button>
-            <button class="chip preset-task" data-task-title="Vie roskat" type="button">Vie roskat</button>
-            <button class="chip preset-task" data-task-title="Tee 5 min pikasiivous" type="button">5 min pikasiivous</button>
-            <button class="chip preset-task" data-task-title="Maksa yksi lasku" type="button">Maksa lasku</button>
-            <button class="chip preset-task" data-task-title="Valmistele huomista vähän etukäteen" type="button">Valmistele huomista</button>
-            <button class="chip preset-task" data-task-title="Laita pyykit tai tiskit eteenpäin" type="button">Pyykit / tiskit</button>
-            <button class="chip preset-task" data-task-title="Hoida kalenteriasia" type="button">Kalenteriasia</button>
-            <button class="chip preset-task" data-task-title="Käy yksi tärkeä sähköposti läpi" type="button">Sähköposti</button>
-            <button class="chip preset-task" data-task-title="Täytä juomapullo" type="button">Juomapullo</button>
-            <button class="chip preset-task" data-task-title="Valitse huomisen vaatteet tai laukku valmiiksi" type="button">Huominen valmiiksi</button>
-            <button class="chip preset-task" data-task-title="Tee yksi nopea järjestely" type="button">Nopea järjestely</button>
+          <h3>⚡ Pienet hommat</h3>
+          <div class="pill-row">
+            <button class="chip quick-task" data-task="Vastaa viestiin, puheluun tai ole yhteydessä toiseen ihmiseen" type="button">Yhteys toiseen ihmiseen</button>
+            <button class="chip quick-task" data-task="Hoida kalenteriasia" type="button">Hoida kalenteriasia</button>
+            <button class="chip quick-task" data-task="Vie roskat" type="button">Vie roskat</button>
+            <button class="chip quick-task" data-task="Tee 5 min pikasiivous" type="button">5 min pikasiivous</button>
+            <button class="chip quick-task" data-task="Täytä vesipullo" type="button">Täytä vesipullo</button>
+            <button class="chip quick-task" data-task="Laita huomisen vaatteet valmiiksi" type="button">Huominen helpommaksi</button>
+            <button class="chip quick-task" data-task="Maksa tai tarkista yksi lasku" type="button">Yksi raha-asia</button>
+            <button class="chip quick-task" data-task="Varaa tai siirrä yksi aika" type="button">Varaa aika</button>
           </div>
-          <div class="input-row">
-            <input id="newTask" placeholder="Esim. vastaa viestiin" />
-            <button class="secondary" id="addTask" type="button">Lisää</button>
-          </div>
-          <div id="taskList" style="margin-top: 12px;"></div>
+          <div class="input-row"><input id="newTask" placeholder="Lisää pieni homma" /><button class="secondary" id="addTask" type="button">Lisää</button></div>
+          <div id="taskList" style="margin-top:12px;"></div>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">📌 Isommat hommat</span></h3>
-          <p>Valitse yksi vähän isompi asia päivälle. Näistä saa enemmän pisteitä kuin pienistä hommista.</p>
-          <div class="pill-row" style="margin: 10px 0 12px;">
-            <button class="chip preset-big-task" data-task-title="Hoida yksi tärkeä käytännön asia" type="button">Käytännön asia</button>
-            <button class="chip preset-big-task" data-task-title="Opiskele 45 min uutta asiaa" type="button">45 min opiskelua</button>
-            <button class="chip preset-big-task" data-task-title="Siivoa yksi huone kunnolla" type="button">Siivoa huone</button>
-            <button class="chip preset-big-task" data-task-title="Suunnittele viikon ruuat" type="button">Viikon ruuat</button>
-            <button class="chip preset-big-task" data-task-title="Tee 60 min oma projekti eteenpäin" type="button">Oma projekti</button>
-            <button class="chip preset-big-task" data-task-title="Hoida raha-asiat rauhassa läpi" type="button">Raha-asiat</button>
-            <button class="chip preset-big-task" data-task-title="Tee kodin isompi järjestely" type="button">Kodin järjestely</button>
-            <button class="chip preset-big-task" data-task-title="Tee 90 min syvää opiskelua tai projektia" type="button">90 min projekti</button>
-            <button class="chip preset-big-task" data-task-title="Hoida yksi omaa terveyttä tukeva asia" type="button">Terveysasia</button>
-            <button class="chip preset-big-task" data-task-title="Tee viikon raha- tai paperiasiat selkeäksi" type="button">Paperiasiat</button>
+          <h3>🧱 Isommat hommat</h3>
+          <div class="pill-row">
+            <button class="chip quick-big" data-task="45 min opiskelua yhteen asiaan" type="button">45 min opiskelua</button>
+            <button class="chip quick-big" data-task="Tee rauhassa yksi tärkeä hoidettava asia" type="button">Yksi hoidettava asia</button>
+            <button class="chip quick-big" data-task="Suunnittele seuraava viikko 15 minuutissa" type="button">Viikon suunnittelu</button>
+            <button class="chip quick-big" data-task="Käy läpi sähköpostit tai viestit selkeään kohtaan asti" type="button">Viestit kuntoon</button>
+            <button class="chip quick-big" data-task="Tee 30 min kodin isompaa järjestelyä" type="button">Kodin järjestely</button>
+            <button class="chip quick-big" data-task="Harjoittele tai opiskele 60 min omaa tavoitetta" type="button">60 min tavoite</button>
           </div>
-          <div id="bigTaskList"></div>
+          <div id="bigTaskList" style="margin-top:12px;"></div>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">🏃 Liikunta</span></h3>
-          <p>Merkitse päivän liikkuminen. Kevytkin liike lasketaan.</p>
-          <div class="moods">
-            <button class="chip movement" data-movement="Kevyt kävely">Kevyt kävely</button>
-            <button class="chip movement" data-movement="Kuntosali">Kuntosali</button>
-            <button class="chip movement" data-movement="Juoksu">Juoksu</button>
-            <button class="chip movement" data-movement="Venyttely">Venyttely</button>
-            <button class="chip movement" data-movement="Muu urheilu">Muu urheilu</button>
-            <button class="chip movement" data-movement="Lepopäivä">Lepopäivä</button>
+          <h3>🏃 Liikunta</h3>
+          <div class="controls">
+            <button class="chip movement" data-movement="Kävely" type="button">Kävely</button>
+            <button class="chip movement" data-movement="Kuntosali" type="button">Kuntosali</button>
+            <button class="chip movement" data-movement="Venyttely" type="button">Venyttely</button>
+            <button class="chip movement" data-movement="Juoksu" type="button">Juoksu</button>
+            <button class="chip movement" data-movement="Lajitreeni" type="button">Lajitreeni</button>
+            <button class="chip movement" data-movement="Muu urheilu" type="button">Muu urheilu</button>
           </div>
           <p id="movementHint" style="margin-top:12px;">Valitse miten liikuit tänään.</p>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">🥗 Ruoka</span></h3>
-          <p>Merkitse miten syöminen meni tänään. Tarkoitus ei ole syyllistää, vaan huomata suunta.</p>
-          <div class="moods">
-            <button class="chip food" data-food="Söin terveellisesti">Söin terveellisesti</button>
-            <button class="chip food" data-food="Ihan ok">Ihan ok</button>
-            <button class="chip food" data-food="Liian vähän">Liian vähän</button>
-            <button class="chip food" data-food="Liikaa herkkuja">Liikaa herkkuja</button>
-            <button class="chip food" data-food="En muistanut syödä kunnolla">En syönyt kunnolla</button>
+          <h3>🥗 Ruoka</h3>
+          <div class="controls">
+            <button class="chip food" data-food="Söin terveellisesti" type="button">Terveellisesti</button>
+            <button class="chip food" data-food="Ihan ok" type="button">Ihan ok</button>
+            <button class="chip food" data-food="Liian vähän" type="button">Liian vähän</button>
+            <button class="chip food" data-food="Liikaa herkkuja" type="button">Liikaa herkkuja</button>
+            <button class="chip food" data-food="Säännölliset ateriat" type="button">Säännöllisesti</button>
+            <button class="chip food" data-food="Tarvitsen huomenna paremman suunnan" type="button">Huomenna paremmin</button>
           </div>
-          <p id="foodHint" style="margin-top:12px;">Valitse päivän ruokailun tilanne.</p>
+          <p id="foodHint" style="margin-top:12px;">Valitse päivän ruokailun tilanne lempeästi.</p>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">😌 Päivän fiilis</span></h3>
+          <h3>🙂 Päivän fiilis</h3>
           <div class="moods">
-            <button class="chip mood" data-mood="Virkeä">Virkeä</button>
-            <button class="chip mood" data-mood="Rauhallinen">Rauhallinen</button>
-            <button class="chip mood" data-mood="Tavallinen">Tavallinen</button>
-            <button class="chip mood" data-mood="Levoton">Levoton</button>
-            <button class="chip mood" data-mood="Väsynyt">Väsynyt</button>
-            <button class="chip mood" data-mood="Raskas">Raskas</button>
+            <button class="chip mood" data-mood="Virkeä" type="button">😄 Virkeä</button>
+            <button class="chip mood" data-mood="Rauhallinen" type="button">🙂 Rauhallinen</button>
+            <button class="chip mood" data-mood="Tavallinen" type="button">😐 Tavallinen</button>
+            <button class="chip mood" data-mood="Levoton" type="button">😵‍💫 Levoton</button>
+            <button class="chip mood" data-mood="Väsynyt" type="button">😴 Väsynyt</button>
+            <button class="chip mood" data-mood="Raskas" type="button">🌧️ Raskas</button>
           </div>
           <p id="moodHint" style="margin-top:12px;">Valitse fiilis. Saat pienen ehdotuksen sen mukaan, miltä päivä tuntuu.</p>
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">🧸 Päivän hahmo</span></h3>
-          <p>Fiilis muuttuu pieneksi hahmoksi. Se tekee päivästä kevyemmän ja helpommin muistettavan.</p>
-          <div class="avatar-box">
-            <div class="avatar-face" id="moodAvatar">🌱</div>
-            <p id="moodAvatarText">Valitse fiilis, niin päivän hahmo herää.</p>
-          </div>
-        </section>
-
-        <section class="card">
-          <h3><span class="emoji-title">🌙 Uni</span></h3>
-          <p>Arvioi oma nukkuminen. Tämän ei tarvitse olla täydellistä mittaamista, vaan nopea oma tunne.</p>
+          <h3>🛌 Uni</h3>
+          <p>Arvioi uni nopeasti. Tämä auttaa näkemään, milloin arki kaipaa palautumista.</p>
           <div class="face-row">
             <button class="face sleep" data-sleep="1" type="button">😵</button>
-            <button class="face sleep" data-sleep="2" type="button">😴</button>
+            <button class="face sleep" data-sleep="2" type="button">😟</button>
             <button class="face sleep" data-sleep="3" type="button">😐</button>
             <button class="face sleep" data-sleep="4" type="button">🙂</button>
             <button class="face sleep" data-sleep="5" type="button">😄</button>
@@ -633,8 +462,8 @@
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">⭐ Päivän arvio</span></h3>
-          <p>Anna päivälle 1-5 tähteä. Tämä näkyy yhteenvedossa.</p>
+          <h3>⭐ Päivän arvio</h3>
+          <p>Anna päivälle lempeä tähtiarvio. Yksi tähti ei ole epäonnistuminen, vaan merkintä siitä miltä tuntui.</p>
           <div class="stars" id="starRating">
             <button class="star" data-rating="1" type="button">★</button>
             <button class="star" data-rating="2" type="button">★</button>
@@ -646,214 +475,137 @@
         </section>
 
         <section class="card">
-          <h3><span class="emoji-title">📊 Päivän yhteenveto</span></h3>
+          <h3>📊 Päivän yhteenveto</h3>
           <p id="summaryText">Yhteenveto päivittyy, kun merkitset asioita tehdyksi.</p>
           <div class="chart" id="summaryChart"></div>
         </section>
       </section>
 
       <section id="focus" class="screen">
+        <section class="hero">
+          <h2>🧘 Keskittyminen</h2>
+          <p>Valitse aika, laita rauhoittava taustaääni päälle ja tee yksi asia kerrallaan.</p>
+        </section>
         <section class="card">
           <h3>Keskittymisajastin</h3>
           <div class="clock" id="clock">25:00</div>
           <div class="controls">
-            <button class="chip timer-choice" data-min="15">15 min</button>
-            <button class="chip timer-choice active" data-min="25">25 min</button>
-            <button class="chip timer-choice" data-min="45">45 min</button>
+            <button class="chip timer-choice active" data-min="15" type="button">15 min</button>
+            <button class="chip timer-choice" data-min="25" type="button">25 min</button>
+            <button class="chip timer-choice" data-min="45" type="button">45 min</button>
           </div>
-          <div class="input-row">
-            <input id="customFocusMinutes" type="number" min="1" max="180" placeholder="Oma aika minuutteina" />
-            <button class="secondary" id="setCustomFocus" type="button">Aseta</button>
-          </div>
+          <div class="input-row"><input id="customFocusMinutes" type="number" min="1" max="180" placeholder="Oma aika minuutteina" /><button class="secondary" id="setCustomFocus" type="button">Aseta</button></div>
           <button class="primary" id="start" type="button">Aloita keskittyminen</button>
           <button class="secondary" id="resetTimer" type="button" style="width:100%;margin-top:8px;">Nollaa</button>
         </section>
-
+        <section class="card quiet-card">
+          <h3>🎧 Rauhoittava taustaääni</h3>
+          <p>Valitse halutessasi pehmeä taustaääni. Ääni luodaan laitteessa, eikä se tarvitse internetiä.</p>
+          <div class="sound-pad">
+            <button class="chip sound-choice" data-sound="calm" type="button">🌊 Rauhallinen aalto</button>
+            <button class="chip sound-choice" data-sound="rain" type="button">🌧️ Kevyt sade</button>
+            <button class="chip sound-choice" data-sound="forest" type="button">🌲 Metsän humina</button>
+            <button class="chip sound-choice" data-sound="deep" type="button">🫧 Syvä hengitys</button>
+          </div>
+          <button class="secondary" id="stopSound" type="button" style="width:100%;margin-top:10px;">Pysäytä ääni</button>
+          <p id="soundStatus" style="margin-top:10px;">Taustaääni ei ole päällä.</p>
+        </section>
         <section class="card">
           <h3>Keskittymisen muistilista</h3>
-          <div class="pill-row">
-            <span class="pill">Sulje ilmoitukset</span>
-            <span class="pill">Yksi tehtävä</span>
-            <span class="pill">Tauko lopussa</span>
-          </div>
-          <p style="margin-top:12px;">Kun ajastin loppuu, saat pisteitä ja voit jatkaa seuraavaan jaksoon.</p>
+          <div class="pill-row"><span class="pill">Puhelin pois</span><span class="pill">Yksi asia auki</span><span class="pill">Tauko lopuksi</span><span class="pill">Ei täydellisyyttä</span></div>
         </section>
       </section>
 
       <section id="week" class="screen">
         <section class="hero">
-          <h2>Viikko erikseen</h2>
-          <p>Täällä katsotaan isompaa kuvaa: tavoitteet, haasteet ja saavutukset. Päivän asiat ovat omalla Päivä-sivulla.</p>
+          <h2>📅 Viikko</h2>
+          <p id="weekCharacter">Viikon hahmo päivittyy, kun keräät pisteitä ja merkintöjä.</p>
         </section>
         <section class="card">
-          <h3><span class="emoji-title">🧑‍🚀 Viikon hahmo ja taso</span></h3>
-          <p id="weekCharacter">Tällä viikolla olet Aloittaja. Tee pieniä merkintöjä ja nouse tasoissa: Aloittaja → Rakentaja → Rytmin löytäjä → Arjen mestari.</p>
-        </section>
-
-        <section class="card">
-          <h3><span class="emoji-title">📖 Viikon tarina</span></h3>
-          <p>Viikon lopussa näet tarinan siitä, miten arki rakentui. Tämä tekee edistymisestä näkyvää ilman kovia prosentteja.</p>
-          <div class="story-box" id="weekStory">Tarina alkaa, kun merkitset ensimmäisiä asioita.</div>
-        </section>
-
-        <section class="card">
-          <h3><span class="emoji-title">🧭 Arjen kompassi</span></h3>
+          <h3>🧭 Arjen kompassi</h3>
           <p id="compassText">Kompassi kertoo mihin kannattaa keskittyä seuraavaksi: energiaan, palautumiseen, liikkeeseen tai selkeyteen.</p>
         </section>
-
-        <h3><span class="emoji-title">🧭 Viikkotavoitteet</span></h3>
-        <div class="input-row">
-          <input id="newWeekGoal" placeholder="Lisää oma viikkotavoite" />
-          <button class="secondary" id="addWeekGoal" type="button">Lisää</button>
-        </div>
-        <div id="weekList"></div>
-
-        <h3><span class="emoji-title">🔥 Haasteet</span></h3>
-        <div id="challengeList"></div>
-
-        <h3><span class="emoji-title">🏅 Saavutukset</span></h3>
         <section class="card">
-          <p>Saavutukset antavat syyn palata sovellukseen myös silloin, kun motivaatio on matala.</p>
+          <h3>📖 Viikon tarina</h3>
+          <div class="story-box" id="weekStory">Tarina alkaa, kun merkitset ensimmäisiä asioita.</div>
+        </section>
+        <section class="card">
+          <h3>Viikkotavoitteet</h3>
+          <p>Kirjaa valmiisiin tavoitteisiin oma tarkennus. Itse lisätyt tavoitteet voi myös poistaa.</p>
+          <div class="input-row"><input id="newWeekGoal" placeholder="Lisää oma viikkotavoite" /><button class="secondary" id="addWeekGoal" type="button">Lisää</button></div>
+          <div id="weekList" style="margin-top:12px;"></div>
+        </section>
+        <section class="card">
+          <h3>🎲 Haasteet</h3>
+          <p>Esillä on aina 8 haastetta. Kun merkkaat haasteen tehdyksi, voit lunastaa pisteet. Sen jälkeen tilalle tulee uusi eri haaste.</p>
+          <div id="challengeList" style="margin-top:12px;"></div>
+        </section>
+        <section class="card">
+          <h3>🏅 Saavutukset</h3>
           <div class="badge-grid" id="badgeList"></div>
-        </section>
-
-      </section>
-
-      <section id="rewards" class="screen">
-        <section class="hero">
-          <div class="screen-title">
-            <h2>🎁 Pistekauppa</h2>
-          </div>
-          <p>Vaihda pisteitä palkintoihin, jotka tuntuvat oikeasti mukavilta arjessa. Tämä on oma sivu, jotta palkinnot eivät huku muiden listojen sekaan.</p>
-          <div class="stats">
-            <div class="metric"><strong id="rewardPoints">0</strong><span>käytössä</span></div>
-            <div class="metric"><strong id="rewardCount">0</strong><span>lunastettu</span></div>
-            <div class="metric"><strong id="rewardHint">Valitse</strong><span>seuraava</span></div>
-          </div>
-        </section>
-        <section class="card">
-          <h3>🏆 Oma oikea palkinto</h3>
-          <p>Kirjoita konkreettinen palkinto, jota kohti keräät pisteitä. Esimerkiksi leffailta, uusi kirja, saunahetki tai oma retki.</p>
-          <div class="input-row">
-            <input id="trueRewardInput" placeholder="Kun saan pisteitä, palkitsen itseni..." />
-            <button class="secondary" id="saveTrueReward" type="button">Tallenna</button>
-          </div>
-          <p id="trueRewardDisplay" style="margin-top:10px;">Omaa palkintoa ei ole vielä valittu.</p>
-        </section>
-
-        <section class="card">
-          <h3><span class="emoji-title">🎨 Pisteillä avattavat teemat</span></h3>
-          <p>Avaa uusia värejä pisteillä. Tämä tekee pisteistä oikeasti hyödyllisempiä, koska sovellus muuttuu omannäköiseksi.</p>
-          <div class="theme-store" id="themeStore"></div>
-        </section>
-
-        <section class="card">
-          <h3>Palkinnot</h3>
-          <div class="pill-row" style="margin-top:12px;">
-            <button class="chip reward" data-cost="25" data-title="Luvallinen palautumishetki ilman huonoa omaatuntoa" type="button">25 p · rentoutushetki</button>
-            <button class="chip reward" data-cost="45" data-title="Oma kahvi-, tee- tai ulkoiluhetki rauhassa" type="button">45 p · hyvä kahvi</button>
-            <button class="chip reward" data-cost="70" data-title="Suunniteltu viihdehetki hyvällä omallatunnolla" type="button">70 p · oma viihdehetki</button>
-            <button class="chip reward" data-cost="110" data-title="Itse valittu pieni palkinto" type="button">110 p · pieni palkinto</button>
-            <button class="chip reward" data-cost="180" data-title="Viikon voitto: isompi oma palkinto" type="button">180 p · viikon palkinto</button>
-            <button class="chip reward" data-cost="220" data-title="Oikea arjen palkinto: tee itse valitsemasi palkinto todeksi" type="button">220 p · oikea palkinto</button>
-            <button class="chip reward" data-cost="300" data-title="Täysi palautumisilta ilman suorittamista" type="button">300 p · palautumisilta</button>
-          </div>
-          <div class="note-list" id="rewardList"></div>
         </section>
       </section>
 
       <section id="journal" class="screen">
         <section class="hero">
-          <h2>Päiväkirja</h2>
-          <p>Kirjoita lyhyt merkintä. Paras sovellus tuntuu omalta vasta, kun sinne jää omia jälkiä.</p>
+          <h2>✍️ Päiväkirja</h2>
+          <p>Kirjoita nopeasti. Päiväkirjan tarkoitus ei ole olla täydellinen, vaan hyödyllinen.</p>
         </section>
         <section class="card">
           <h3>🌙 Päivän lopetusrituaali</h3>
-          <p>Kolme nopeaa kysymystä tekee päiväkirjasta hyödyllisemmän: mikä onnistui, mikä jää huomiselle ja mikä on huomisen ensimmäinen askel?</p>
-          <div class="pill-row" style="margin-top:12px;">
-            <button class="chip journal-prompt" data-prompt="Onnistuminen: " type="button">Onnistuminen</button>
-            <button class="chip journal-prompt" data-prompt="Huomisen helpotus: " type="button">Huomisen helpotus</button>
-            <button class="chip journal-prompt" data-prompt="Oivallus: " type="button">Oivallus</button>
-            <button class="chip journal-prompt" data-prompt="Mikä vei energiaa: " type="button">Energia</button>
+          <p>Kolme nopeaa kysymystä tekee lopetuksesta selkeämmän.</p>
+          <div class="pill-row">
+            <button class="chip journal-prompt" data-prompt="Onnistuminen tänään: " type="button">Onnistuminen</button>
+            <button class="chip journal-prompt" data-prompt="Huomisen päivänsuunnittelu: " type="button">Huomisen suunnittelu</button>
+            <button class="chip journal-prompt" data-prompt="Huomisen ensimmäinen askel: " type="button">Ensimmäinen askel</button>
+            <button class="chip journal-prompt" data-prompt="Mikä palautti energiaa: " type="button">Energia</button>
             <button class="chip journal-prompt" data-prompt="Yksi asia josta olen kiitollinen: " type="button">Kiitollisuus</button>
             <button class="chip journal-prompt" data-prompt="Jätän tähän päivään: " type="button">Jätän tähän</button>
           </div>
         </section>
-
         <section class="card">
           <h3>🧠 Päiväkirja+</h3>
-          <p>Päiväkirjan ei tarvitse olla pitkä. Kirjoita yksi rivi: mitä opin, mikä helpottaa huomista tai mitä haluan jättää taakseni.</p>
+          <p id="journalIdea">Tämän päivän kirjoitusidea: kirjoita yksi asia, joka teki arjesta vähän helpomman.</p>
         </section>
-
         <section class="card">
           <textarea id="noteText" placeholder="Mitä opin tänään? Mikä helpottaisi huomista?"></textarea>
-          <button class="primary" id="saveNote" type="button">Tallenna merkintä</button>
+          <button class="primary" id="saveNote" type="button">Tallenna merkintä · +8 pistettä</button>
           <div class="note-list" id="noteList"></div>
         </section>
       </section>
 
-      <section id="plus-screen" class="screen">
-        <section class="card" id="plus">
-          <h3>TaskuRutiini Täysi versio</h3>
-          <p id="plusText">Avaa omistajan täysi tila koodilla. Täysi versio avaa kaikki kokeiluominaisuudet tässä laitteessa.</p>
-          <input id="ownerCode" placeholder="Omistajakoodi" style="width:100%;margin-top:12px;border:1px solid #d9cbb8;border-radius:8px;padding:13px;background:#fff9ee;color:#251d18" />
-          <button class="primary" id="unlockPlus" type="button">Avaa kaikki ominaisuudet</button>
+      <section id="rewards" class="screen">
+        <section class="hero">
+          <h2>🎁 Pistekauppa</h2>
+          <p>Pisteiden tarkoitus on tehdä hyvästä arjesta näkyvämpää. Valitse palkintoja, joista on oikeasti iloa.</p>
+          <div class="stats"><div class="metric"><strong id="rewardPoints">0</strong><span>käytössä</span></div><div class="metric"><strong id="rewardCount">0</strong><span>lunastettu</span></div><div class="metric"><strong id="rewardHint">Valitse</strong><span>seuraava</span></div></div>
         </section>
         <section class="card">
-          <h3>Täyden version edut</h3>
+          <h3>🎯 Oma oikea palkinto</h3>
+          <p>Kirjoita konkreettinen palkinto, johon keräät pisteitä. Esimerkiksi uusi kahvihetki, leffa, sauna, pelihetki tai pieni ostos.</p>
+          <div class="input-row"><input id="trueRewardInput" placeholder="Kun saan 220 pistettä, palkitsen itseni..." /><button class="secondary" id="saveTrueReward" type="button">Tallenna</button></div>
+          <p id="trueRewardDisplay" style="margin-top:10px;">Omaa palkintoa ei ole vielä valittu.</p>
+        </section>
+        <section class="card">
+          <h3>🎨 Pisteillä avattavat teemat</h3>
+          <p>Osta vahvempia ja tummempia teemoja pisteillä. Täysi versio voi myöhemmin avata lisää teemapaketteja.</p>
+          <div class="theme-store" id="themeStore"></div>
+        </section>
+        <section class="card">
+          <h3>📺 Päivän bonus</h3>
+          <p>Play Kauppa -versiossa tähän voi tulla vapaaehtoinen palkittu mainos: katso mainos ja saat pisteitä. Täysi versio voi poistaa mainokset.</p>
+          <button class="secondary" id="adReward" type="button" style="width:100%;margin-top:10px;">Testaa bonus · +20 pistettä</button>
+        </section>
+        <section class="card">
+          <h3>Palkinnot</h3>
           <div class="pill-row">
-            <span class="pill">Rajattomat rutiinit</span>
-            <span class="pill">Pisteet</span>
-            <span class="pill">Päiväkirja</span>
-            <span class="pill">Haasteet</span>
-            <span class="pill">Keskittyminen</span>
-            <span class="pill">Päivittäinen putki</span>
-            <span class="pill">Saavutukset</span>
-            <span class="pill">Viikon taso</span>
-            <span class="pill">Uniseuranta</span>
-            <span class="pill">Oma profiilityyli</span>
-            <span class="pill">Palkintohistoria</span>
-            <span class="pill">Päivän yllätyskortit</span>
-            <span class="pill">Viikon hahmo</span>
-            <span class="pill">Oma oikea palkinto</span>
-            <span class="pill">Päivän lopetusrituaali</span>
-            <span class="pill">Pelasta päivä -tila</span>
-            <span class="pill">Päivän kolme tasoa</span>
-            <span class="pill">Pisteillä avattavat teemat</span>
-            <span class="pill">Viikon tarina</span>
-            <span class="pill">Oma arjen sopimus</span>
-            <span class="pill">Hiljainen kannustaja</span>
+            <button class="chip reward" data-cost="30" data-title="Luvallinen 15 minuutin tauko ilman huonoa omaatuntoa" type="button">30 p · rauhallinen tauko</button>
+            <button class="chip reward" data-cost="70" data-title="Oma viihdehetki hyvällä omallatunnolla" type="button">70 p · oma hetki</button>
+            <button class="chip reward" data-cost="120" data-title="Pieni oikea palkinto, jonka olet itse valinnut" type="button">120 p · pieni palkinto</button>
+            <button class="chip reward" data-cost="220" data-title="Oikea arjen palkinto: tee oma palkintosi todeksi" type="button">220 p · oikea palkinto</button>
+            <button class="chip reward" data-cost="320" data-title="Viikon voitto: suunniteltu palautumisilta" type="button">320 p · viikon voitto</button>
           </div>
-        </section>
-        <section class="card">
-          <h3>🚀 Täyden version hittipaketti</h3>
-          <p>Täysi versio voi Play Kaupassa erottautua arjen kompassilla, viikon tarinalla, rajattomilla omilla tavoitteilla, lisäteemoilla, palkintohistorialla ja mainoksettomuudella.</p>
-          <div class="pill-row">
-            <span class="pill">Ei mainoksia</span>
-            <span class="pill">Lisäteemat</span>
-            <span class="pill">Rajattomat tavoitteet</span>
-            <span class="pill">Syvempi viikon yhteenveto</span>
-            <span class="pill">Lisää päiväkirjakysymyksiä</span>
-          </div>
-        </section>
-        <section class="card">
-          <h3>Täysi viikkoseuranta</h3>
-          <p>Seuraa omaa viikkoa yhdestä näkymästä. Tämä on täyden version erikoisominaisuus.</p>
-          <div class="stats" style="grid-template-columns: repeat(2, 1fr);">
-            <div class="metric"><strong id="weeklyScore">0</strong><span>viikon pisteet</span></div>
-            <div class="metric"><strong id="weeklyLevel">Alku</strong><span>viikon taso</span></div>
-          </div>
-          <div class="chart" id="weeklyChart"></div>
-        </section>
-        <section class="card">
-          <h3>Täysi arjen kompassi</h3>
-          <p id="plusInsight">Arjen kompassi kertoo viikon vahvuuden, palautumisen merkit, päivän minimitason ja seuraavan järkevän askeleen ilman syyllistämistä.</p>
-          <div class="pill-row">
-            <span class="pill">Viikon vahvuus</span>
-            <span class="pill">Mihin kannattaa keskittyä</span>
-            <span class="pill">Palautumisen merkki</span>
-            <span class="pill">Pisteiden käyttöhistoria</span>
-          </div>
+          <div class="note-list" id="rewardList"></div>
         </section>
       </section>
 
@@ -864,16 +616,9 @@
         </section>
         <section class="card">
           <h3>Oma profiili</h3>
-          <p>Voit nimetä sovelluksen omaan käyttöön ja kirjoittaa viikon päätavoitteen.</p>
-          <div class="input-row">
-            <input id="profileName" placeholder="Nimi tai lempinimi" />
-          </div>
-          <div class="input-row">
-            <input id="profileGoal" placeholder="Viikon päätavoite" />
-          </div>
-          <div class="input-row">
-            <input id="profileMotto" placeholder="Oma muistutus, esim. rauhassa eteenpäin" />
-          </div>
+          <div class="input-row"><input id="profileName" placeholder="Nimi tai lempinimi" /></div>
+          <div class="input-row"><input id="profileGoal" placeholder="Viikon päätavoite" /></div>
+          <div class="input-row"><input id="profileMotto" placeholder="Oma muistutus, esim. rauhassa eteenpäin" /></div>
           <div class="pill-row">
             <button class="chip profile-style" data-style="Rauhallinen tekijä" type="button">Rauhallinen tekijä</button>
             <button class="chip profile-style" data-style="Tavoitteellinen" type="button">Tavoitteellinen</button>
@@ -882,7 +627,6 @@
           </div>
           <div class="contract-box">
             <h3>📝 Minun arjen sopimus</h3>
-            <p>Kirjoita miksi käytät sovellusta ja mitä lupaat itsellesi tällä viikolla.</p>
             <textarea id="contractWhy" placeholder="Käytän tätä sovellusta, koska..."></textarea>
             <textarea id="contractPromise" placeholder="Tämän viikon lupaukseni itselleni..."></textarea>
           </div>
@@ -890,30 +634,25 @@
         </section>
         <section class="card">
           <h3>Sovelluksen väri</h3>
-          <p>Valitse värimaailma samaan paikkaan profiilin kanssa.</p>
-          <div class="swatches">
-            <button class="swatch" data-theme="forest" type="button">Metsä</button>
-            <button class="swatch" data-theme="sand" type="button">Savi</button>
-            <button class="swatch" data-theme="blue" type="button">Sininen</button>
-            <button class="swatch" data-theme="rose" type="button">Roosa</button>
-            <button class="swatch" data-theme="mint" type="button">Minttu</button>
-            <button class="swatch" data-theme="sunset" type="button">Auringonlasku</button>
-            <button class="swatch" data-theme="aurora" type="button">Revontuli</button>
-            <button class="swatch" data-theme="midnight" type="button">Yötila</button>
-          </div>
+          <p>Avaa lisää teemoja pistekaupassa ja valitse ne täällä.</p>
+          <div class="swatches" id="profileThemes"></div>
         </section>
-        <div class="setting-row"><span>Päivän muistutukset</span><input type="checkbox" checked /></div>
-        <div class="setting-row"><span>Selkeä tila</span><input type="checkbox" checked /></div>
-        <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
+        <section class="card" id="plus">
+          <h3>TaskuRutiini Täysi versio</h3>
+          <p id="plusText">Avaa omistajan täysi tila koodilla. Täysi versio avaa kaikki kokeiluominaisuudet tässä laitteessa.</p>
+          <input id="ownerCode" placeholder="Omistajakoodi" />
+          <button class="primary" id="unlockPlus" type="button">Avaa kaikki ominaisuudet</button>
+          <div class="pill-row"><span class="pill">Ei mainoksia</span><span class="pill">Arjen kompassi</span><span class="pill">Lisäteemat</span><span class="pill">Syvempi viikkotarina</span><span class="pill">Palkintohistoria</span><span class="pill">Rajattomat tavoitteet</span></div>
+        </section>
         <section class="card">
-          <strong>Asennus</strong>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.15, jossa on rytmikortti, Pelasta päivä -tila, tasot, avattavat teemat, viikon tarina ja arjen sopimus.</p>
-          <a class="text-link" href="#plus-screen" data-open-screen="plus-screen">Avaa Täysi versio</a>
+          <h3>Asennus</h3>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.16, jossa on toimiva Pelasta päivä -tila, 80 haasteen järjestelmä, rauhoittavat taustaäänet, pisteilmoitukset ja uudet teemat.</p>
+          <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         </section>
       </section>
-
     </div>
 
+    <div id="toast">+5 pistettä</div>
     <nav aria-label="Välilehdet">
       <a class="active" href="#today">Päivä</a>
       <a href="#focus">Keskity</a>
@@ -924,860 +663,672 @@
     </nav>
 
     <script>
+      const APP_VERSION = "1.1.16";
+      const STORAGE_KEY = "taskurutiini:v116";
+      const todayKey = () => new Date().toISOString().slice(0, 10);
+      const yesterdayKey = () => { const d = new Date(); d.setDate(d.getDate() - 1); return d.toISOString().slice(0, 10); };
+
+      const THEMES = {
+        softGreen: { name: "Raikas", cost: 0, colors: ["#eaf7f0", "#ffffff", "#d8f1e2", "#17211d", "#5c6861", "#1f9f72", "#0f6b54", "#c8e3d2"] },
+        ocean: { name: "Meri", cost: 0, colors: ["#eaf4fb", "#ffffff", "#d8ecf8", "#14232e", "#5c6870", "#247ba0", "#125777", "#c8dcea"] },
+        berry: { name: "Marja", cost: 90, colors: ["#fff0f5", "#ffffff", "#ffdce8", "#2b1821", "#745866", "#b83270", "#7a1f4f", "#efbdd0"] },
+        ember: { name: "Hehku", cost: 120, colors: ["#fff4e7", "#fffdfa", "#ffe0ba", "#2b1d14", "#705b49", "#d05b2d", "#8c341b", "#f0c6a5"] },
+        aurora: { name: "Revontuli", cost: 160, colors: ["#eef9f6", "#ffffff", "#d7f3ed", "#102622", "#546963", "#00a896", "#7b2cbf", "#bce8df"] },
+        midnight: { name: "Yötila", cost: 190, colors: ["#101820", "#18232d", "#233444", "#f5fbff", "#bfd0dd", "#63c7b2", "#8ab4f8", "#2e4658"] },
+        graphite: { name: "Grafiitti", cost: 210, colors: ["#141414", "#1e1e1e", "#2c2c2c", "#f4f4f4", "#c9c9c9", "#ffb703", "#fb8500", "#3a3a3a"] },
+        neon: { name: "Neon", cost: 260, colors: ["#111827", "#172033", "#24324f", "#f8fbff", "#cbd5e1", "#22d3ee", "#a855f7", "#334155"] }
+      };
+
+      const CHALLENGE_BANK = [
+        "Kävele 10 minuuttia ulkona", "Petaa sänky heti aamulla", "Juo iso lasi vettä", "Tee 5 minuutin venyttely", "Kirjoita yksi onnistuminen", "Lähetä kannustava viesti", "Siivoa yksi näkyvä taso", "Tee 10 kyykkyä", "Sulje yksi turha välilehti", "Valmistele huomisen ensimmäinen asia",
+        "Lue 5 sivua", "Tee 15 min opiskelua", "Laita pyykit liikkeelle", "Vie roskat", "Hengitä rauhassa 2 minuuttia", "Käy suihkussa ilman kiirettä", "Soita tai vastaa yhdelle ihmiselle", "Tee yksi raha-asia", "Kirjoita huomisen päivänsuunnittelu", "Pidä 10 min puhelintauko",
+        "Tee aamurutiinit ilman kiirettä", "Valitse illalle rauhallinen lopetus", "Syö yksi kunnollinen ateria", "Tee 20 min kävely", "Tee yksi kehonhuoltoharjoitus", "Järjestä työpöytä", "Tyhjennä tiskiallas", "Tee yksi sähköpostivastaus", "Avaa kalenteri ja tarkista huominen", "Kirjoita kolme asiaa jotka auttavat",
+        "Tee 25 min keskittymisjakso", "Pidä vesipullo lähellä", "Avaa ikkuna ja hengitä hetki", "Laita yksi asia oikealle paikalle", "Valitse yksi asia jonka jätät tekemättä", "Tee ruoka valmiiksi myöhemmäksi", "Käy lyhyellä happihyppelyllä", "Tee 5 min lattian siistimistä", "Kirjoita yksi kiitollisuuden aihe", "Tee yksi askel isoon hommaan",
+        "Varaa yksi aika", "Maksa yksi lasku", "Tarkista yksi tärkeä viesti", "Lähetä yksi tarvittava viesti", "Tee 10 min rauhallista lukemista", "Kuuntele rauhoittava ääni 5 min", "Tee iltarutiinit ajoissa", "Pese hampaat hyvissä ajoin", "Laita huomisen vaatteet valmiiksi", "Tyhjennä laukku tai reppu",
+        "Tee 30 min kodin järjestelyä", "Pidä 15 min tauko ilman näyttöä", "Kävele portaat rauhassa", "Kirjoita yksi asia joka jäi kesken", "Tee yksi ystävällinen teko", "Kysy kuulumiset yhdeltä ihmiseltä", "Aloita päivä ilman somea 10 min", "Päätä yksi pieni asia loppuun", "Tee 5 min hengitysharjoitus", "Laita herätys järkevään aikaan",
+        "Tee yksi terveellisempi ruokavalinta", "Lisää aterialle jotain vihreää", "Täytä tiskikone tai tyhjennä se", "Pyyhi yksi pöytä", "Käy ulkona ennen iltaa", "Tee 10 min kevyttä liikettä", "Kirjoita oma arjen lupaus", "Tee yksi asia joka helpottaa aamua", "Laita puhelin lataukseen ajoissa", "Valitse huomisen tärkein suunta",
+        "Tee yksi vaikea asia 5 minuuttia", "Järjestä yksi laatikko", "Pysähdy ennen seuraavaa tehtävää", "Tee yksi venytys niskalle", "Suunnittele seuraava ateria", "Kerro itsellesi yksi kehu", "Vähennä yksi turha häiriö", "Käy lyhyellä asiointikävelyllä", "Tee yksi merkintä päiväkirjaan", "Lopeta päivä yhdellä rauhallisella rutiinilla"
+      ];
+
+      const SURPRISES = [
+        "Tee yksi asia heti kahden minuutin sisällä.", "Käy ulkona ilman puhelinta viideksi minuutiksi.", "Lähetä kannustava viesti yhdelle ihmiselle.", "Jätä yksi turha selailu väliin.", "Kirjoita yksi asia, josta olet tyytyväinen.", "Laita yksi tavara omalle paikalleen.", "Tee 10 rauhallista hengitystä.", "Valitse huomisen helpottaja jo nyt.", "Juo vettä ennen seuraavaa tehtävää.", "Anna itsellesi yksi selkeä kehu."
+      ];
+
       const defaultState = {
+        version: APP_VERSION,
+        currentDate: todayKey(),
         points: 0,
+        streak: 0,
+        lastActiveDate: "",
+        theme: "softGreen",
+        unlockedThemes: ["softGreen", "ocean"],
+        plusUnlocked: false,
+        profileName: "",
+        profileGoal: "",
+        profileMotto: "",
+        profileStyle: "Arjen kehittäjä",
+        contractWhy: "",
+        contractPromise: "",
+        focusMinutes: 25,
         mood: "",
         movement: "",
         food: "",
         sleep: 0,
         dayRating: 0,
-        profileName: "",
-        profileGoal: "",
-        profileMotto: "",
-        profileStyle: "",
-        contractWhy: "",
-        contractPromise: "",
-        trueReward: "",
-        unlockedThemes: ["forest", "sand", "blue", "rose"],
-        theme: "forest",
-        streak: 0,
-        lastActiveDate: "",
         dailyMissionDone: false,
-        dailyMissionDate: "",
-        plusUnlocked: false,
-        focusMinutes: 25,
+        surpriseClaimedDate: "",
+        rhythmDone: [],
+        rescueActive: false,
+        rescueDone: [],
+        dayLevel: "",
+        trueReward: "",
         habits: [
-          { id: "morning", title: "Aamurutiinit", minutes: 8, done: false },
-          { id: "make-bed", title: "Sängyn petaus", minutes: 3, done: false },
-          { id: "brush-teeth", title: "Hampaiden pesu", minutes: 3, done: false },
-          { id: "water", title: "Juo lasi vettä", minutes: 2, done: false },
-          { id: "move", title: "Pieni liike tai venyttely", minutes: 12, done: false },
-          { id: "tidy", title: "5 min pikasiivous", minutes: 5, done: false },
-          { id: "outside", title: "Käy hetki ulkona tai raittiissa ilmassa", minutes: 5, done: false },
-          { id: "shutdown", title: "Iltarutiinit", minutes: 10, done: false }
+          { id: "bed", title: "Sängyn petaus", note: "Pieni selkeä alku", done: false },
+          { id: "teeth", title: "Hampaiden pesu", note: "Aamun tai illan perusaskel", done: false },
+          { id: "morning", title: "Aamurutiinit", note: "Aloita päivä rauhassa", done: false },
+          { id: "water", title: "Juo vettä", note: "Pidä keho mukana", done: false },
+          { id: "tidy5", title: "Noin 5 min pikasiivous", note: "Siisti yksi näkyvä paikka", done: false },
+          { id: "evening", title: "Iltarutiinit", note: "Sulje päivä lempeästi", done: false }
         ],
-        tasks: [
-          { id: "task-message", title: "Vastaa viestiin, puheluun tai ole yhteydessä toiseen ihmiseen", done: false },
-          { id: "task-trash", title: "Vie roskat", done: false },
-          { id: "task-table", title: "Siisti työpöytä tai keittiön taso", done: false },
-          { id: "task-dishes", title: "Laita pyykit tai tiskit eteenpäin", done: false },
-          { id: "task-calendar", title: "Hoida kalenteriasia", done: false },
-          { id: "task-water", title: "Täytä juomapullo", done: false }
-        ],
-        bigTasks: [
-          { id: "big-paper", title: "Hoida yksi tärkeä käytännön asia", done: false },
-          { id: "big-study", title: "Opiskele 45 min uutta asiaa", done: false },
-          { id: "big-project", title: "Tee 60 min oma projekti eteenpäin", done: false },
-          { id: "big-deep-clean", title: "Tee kodin isompi järjestely", done: false },
-          { id: "big-health", title: "Hoida yksi omaa terveyttä tukeva asia", done: false }
-        ],
+        tasks: [],
+        bigTasks: [],
         week: [
-          { id: "mon", day: "Ma", title: "Päätä viikon päätavoite", note: "", done: false },
-          { id: "wed", day: "Ke", title: "Tee puolen tunnin keskittymishetki", note: "", done: false },
-          { id: "fri", day: "Pe", title: "Kirjaa yksi opittu asia", note: "", done: false }
+          { id: "week-move", day: "Ma", title: "Liiku vähintään kolmena päivänä", note: "", done: false, custom: false },
+          { id: "week-sleep", day: "Ti", title: "Pidä unesta huolta", note: "", done: false, custom: false },
+          { id: "week-study", day: "Ke", title: "Tee kaksi keskittymishetkeä", note: "", done: false, custom: false },
+          { id: "week-home", day: "To", title: "Helpota kotia yhdellä järjestelyllä", note: "", done: false, custom: false },
+          { id: "week-journal", day: "Pe", title: "Kirjoita päiväkirjaan kahdesti", note: "", done: false, custom: false }
         ],
-        challenges: [
-          { id: "water", title: "Juo vettä ennen kahvia", done: false },
-          { id: "walk", title: "10 minuutin kävely ilman puhelinta", done: false },
-          { id: "clean", title: "Siivoa yksi näkyvä sotku", done: false },
-          { id: "message", title: "Lähetä hyvä viesti yhdelle ihmiselle", done: false },
-          { id: "no-scroll", title: "30 minuuttia ilman turhaa selaamista", done: false },
-          { id: "plan", title: "Tee huomisen päivänsuunnittelu", done: false },
-          { id: "meal", title: "Syö yksi kunnollinen ateria rauhassa", done: false },
-          { id: "sleep", title: "Laita puhelin pois 20 min ennen unta", done: false },
-          { id: "fresh-air", title: "Käy ulkona ilman kiirettä", done: false },
-          { id: "learn", title: "Opiskele 20 minuuttia jotain hyödyllistä", done: false },
-          { id: "finance", title: "Katso yksi raha-asia kuntoon", done: false },
-          { id: "reset-evening", title: "Tee rauhallinen iltarutiini", done: false },
-          { id: "kindness", title: "Tee yksi ystävällinen teko ilman meteliä", done: false },
-          { id: "single-task", title: "Tee yksi asia loppuun ilman vaihtelua", done: false },
-          { id: "reset-room", title: "Palauta yksi huone parempaan kuntoon", done: false }
-        ],
-        rewards: [],
-        notes: []
+        challenges: [],
+        notes: [],
+        rewards: []
       };
 
+      const $ = (selector) => document.querySelector(selector);
       let state = loadState();
+      resetDailyIfNeeded();
+      ensureChallenges();
+
       let seconds = state.focusMinutes * 60;
       let running = false;
-      let interval;
-
-      const score = document.querySelector("#score");
-      const dailyGreeting = document.querySelector("#dailyGreeting");
-      const dailyCoach = document.querySelector("#dailyCoach");
-      const streakCount = document.querySelector("#streakCount");
-      const dailyProgress = document.querySelector("#dailyProgress");
-      const dailyMission = document.querySelector("#dailyMission");
-      const rhythmSteps = document.querySelector("#rhythmSteps");
-      const dayLevels = document.querySelector("#dayLevels");
-      const quietCoach = document.querySelector("#quietCoach");
-      const moodAvatar = document.querySelector("#moodAvatar");
-      const moodAvatarText = document.querySelector("#moodAvatarText");
-      const weekStory = document.querySelector("#weekStory");
-      const compassText = document.querySelector("#compassText");
-      const themeStore = document.querySelector("#themeStore");
-      const nextStep = document.querySelector("#nextStep");
-      const doneCount = document.querySelector("#doneCount");
-      const taskCount = document.querySelector("#taskCount");
-      const moodLabel = document.querySelector("#moodLabel");
-      const habitList = document.querySelector("#habitList");
-      const taskList = document.querySelector("#taskList");
-      const bigTaskList = document.querySelector("#bigTaskList");
-      const summaryChart = document.querySelector("#summaryChart");
-      const summaryText = document.querySelector("#summaryText");
-      const weekList = document.querySelector("#weekList");
-      const challengeList = document.querySelector("#challengeList");
-      const badgeList = document.querySelector("#badgeList");
-      const weeklyChart = document.querySelector("#weeklyChart");
-      const weeklyScore = document.querySelector("#weeklyScore");
-      const weeklyLevel = document.querySelector("#weeklyLevel");
-      const plusInsight = document.querySelector("#plusInsight");
-      const rewardPoints = document.querySelector("#rewardPoints");
-      const rewardCount = document.querySelector("#rewardCount");
-      const rewardHint = document.querySelector("#rewardHint");
-      const rewardList = document.querySelector("#rewardList");
-      const trueRewardInput = document.querySelector("#trueRewardInput");
-      const trueRewardDisplay = document.querySelector("#trueRewardDisplay");
-      const noteList = document.querySelector("#noteList");
-      const noteText = document.querySelector("#noteText");
-      const newWeekGoal = document.querySelector("#newWeekGoal");
-      const profileName = document.querySelector("#profileName");
-      const profileGoal = document.querySelector("#profileGoal");
-      const profileMotto = document.querySelector("#profileMotto");
-      const contractWhy = document.querySelector("#contractWhy");
-      const contractPromise = document.querySelector("#contractPromise");
-      const customFocusMinutes = document.querySelector("#customFocusMinutes");
-      const clock = document.querySelector("#clock");
-      const start = document.querySelector("#start");
-      const ownerCode = document.querySelector("#ownerCode");
-      const unlockPlus = document.querySelector("#unlockPlus");
-      const plusText = document.querySelector("#plusText");
+      let interval = null;
+      let audioCtx = null;
+      let soundNodes = [];
+      let toastTimer = null;
 
       function loadState() {
         try {
-          return { ...defaultState, ...JSON.parse(localStorage.getItem("taskurutiini:v125") || "{}") };
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          return saved ? mergeState(structuredClone(defaultState), saved) : structuredClone(defaultState);
         } catch {
           return structuredClone(defaultState);
         }
       }
 
-      function saveState() {
-        localStorage.setItem("taskurutiini:v125", JSON.stringify(state));
-      }
-
-      function addPoints(amount) {
-        state.points += amount;
-        saveState();
-        render();
-      }
-
-      function render() {
-        score.textContent = state.points;
-        updateDailyVisit();
-        renderDailyCoach();
-        doneCount.textContent = `${state.habits.filter((item) => item.done).length}/${state.habits.length}`;
-        taskCount.textContent = state.tasks.length;
-        moodLabel.textContent = state.mood || "-";
-        renderClock();
-        renderHabits();
-        renderTasks();
-        renderBigTasks();
-        renderSummary();
-        renderWeek();
-        renderChallenges();
-        if (nextStep?.parentElement) nextStep.parentElement.classList.toggle("next-step-ready", completionStats().habitDone > 0);
-        renderBadges();
-        renderWeeklyPlus();
-        renderGrowthFeatures();
-        renderThemeStore();
-
-        const surpriseIdeas = ["Tee yksi asia heti kahden minuutin sisällä.", "Käy ulkona ilman puhelinta viideksi minuutiksi.", "Lähetä kannustava viesti yhdelle ihmiselle.", "Jätä yksi turha selailu väliin.", "Kirjoita yksi asia, josta olet tyytyväinen."];
-        const dayIndex = new Date().getDate() % surpriseIdeas.length;
-        const dailySurprise = document.querySelector("#dailySurprise");
-        if (dailySurprise) dailySurprise.textContent = surpriseIdeas[dayIndex];
-        const weekCharacter = document.querySelector("#weekCharacter");
-        if (weekCharacter) {
-          const doneTotal = completionStats().habitDone + completionStats().taskDone + completionStats().bigDone + state.week.filter((item) => item.done).length;
-          const level = doneTotal >= 14 ? "Arjen mestari" : doneTotal >= 9 ? "Rytmin löytäjä" : doneTotal >= 4 ? "Rakentaja" : "Aloittaja";
-          weekCharacter.textContent = `Tällä viikolla olet ${level}. Jokainen pieni merkintä rakentaa rytmiäsi.`;
+      function mergeState(base, saved) {
+        for (const key of Object.keys(saved || {})) {
+          if (Array.isArray(saved[key])) base[key] = saved[key];
+          else if (saved[key] && typeof saved[key] === "object" && typeof base[key] === "object") base[key] = { ...base[key], ...saved[key] };
+          else base[key] = saved[key];
         }
-        renderRewards();
-        renderNotes();
-        renderMood();
-        renderMovement();
-        renderFood();
-        renderSleep();
-        renderRating();
-        renderProfile();
-        applyTheme();
-        renderPlus();
+        base.version = APP_VERSION;
+        return base;
       }
 
-      function todayKey() {
-        return new Date().toISOString().slice(0, 10);
+      function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+      function resetDailyIfNeeded() {
+        if (state.currentDate === todayKey()) return;
+        state.currentDate = todayKey();
+        state.mood = "";
+        state.movement = "";
+        state.food = "";
+        state.sleep = 0;
+        state.dayRating = 0;
+        state.dailyMissionDone = false;
+        state.rhythmDone = [];
+        state.rescueActive = false;
+        state.rescueDone = [];
+        state.dayLevel = "";
+        state.habits.forEach((item) => item.done = false);
+        state.tasks.forEach((item) => item.done = false);
+        state.bigTasks.forEach((item) => item.done = false);
+        saveState();
       }
 
-      function updateDailyVisit() {
+      function updateStreak() {
         const today = todayKey();
         if (state.lastActiveDate === today) return;
-        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-        state.streak = state.lastActiveDate === yesterday ? state.streak + 1 : 1;
+        state.streak = state.lastActiveDate === yesterdayKey() ? Math.max(1, state.streak + 1) : 1;
         state.lastActiveDate = today;
-        state.dailyMissionDone = false;
-        state.dailyMissionDate = today;
+      }
+
+      function addPoints(amount, reason = "pistettä") {
+        state.points += amount;
+        updateStreak();
         saveState();
+        showToast(`+${amount} ${reason}`);
       }
 
-      function completionStats() {
-        const habitDone = state.habits.filter((item) => item.done).length;
-        const taskDone = state.tasks.filter((item) => item.done).length;
-        const bigDone = state.bigTasks.filter((item) => item.done).length;
-        const wellnessDone = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
-        const totalDone = habitDone + taskDone + bigDone + wellnessDone;
-        const totalAvailable = state.habits.length + Math.max(state.tasks.length, 1) + Math.max(state.bigTasks.length, 1) + 5;
-        return { habitDone, taskDone, bigDone, wellnessDone, totalDone, totalAvailable };
-      }
-
-      function renderDailyCoach() {
-        const stats = completionStats();
-        const progress = Math.min(100, Math.round((stats.totalDone / stats.totalAvailable) * 100));
-        const name = state.profileName ? `${state.profileName}, ` : "";
-        dailyGreeting.textContent = `${name}hyvä että olet täällä.`;
-        dailyCoach.textContent = state.profileMotto || (state.profileGoal ? `Viikon päätavoite: ${state.profileGoal}. Jokainen pieni askel lasketaan.` : "Sinun ei tarvitse tehdä täydellistä päivää. Sovellus auttaa löytämään seuraavan hyvän askeleen.");
-        streakCount.textContent = `${state.streak} päivän 🔥`;
-        dailyProgress.textContent = progress >= 70 ? "Päivä kantaa" : progress >= 35 ? "Rytmi löytyy" : stats.totalDone > 0 ? "Hyvä alku" : "Lempeä alku";
-        dailyMission.textContent = state.dailyMissionDone ? "Hyvin hoidettu. Päivän missio on valmis ja putki jatkuu." : "Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis. Tämä on hyvä alku.";
-        if (!stats.habitDone) nextStep.textContent = "Tee ensin helpoin rutiini. Se käynnistää päivän.";
-        else if (!stats.taskDone) nextStep.textContent = "Valitse yksi pieni homma ja poista se mielestä.";
-        else if (!state.mood) nextStep.textContent = "Valitse päivän fiilis. Se tekee yhteenvedosta hyödyllisemmän.";
-        else if (!state.movement) nextStep.textContent = "Merkitse päivän liikkuminen. Kevytkin liike lasketaan.";
-        else if (!state.food) nextStep.textContent = "Merkitse päivän ruokailu. Tarkoitus on huomata suunta.";
-        else if (!state.sleep) nextStep.textContent = "Arvioi uni nopeasti. Se auttaa näkemään päivän kokonaisuuden.";
-        else if (!state.dayRating) nextStep.textContent = "Anna päivälle tähtiarvio ja sulje päivä rauhassa.";
-        else nextStep.textContent = "Päivän runko on kasassa. Voit tehdä haasteen tai ottaa palkinnon pisteillä.";
-      }
-
-      function renderGrowthFeatures() {
-        const stats = completionStats();
-        const miniDone = stats.habitDone > 0;
-        const taskDone = stats.taskDone > 0;
-        const wellnessDone = [state.mood, state.movement, state.food, state.sleep].filter(Boolean).length > 0;
-        if (rhythmSteps) {
-          rhythmSteps.innerHTML = [
-            [miniDone, "🌤️ Tee yksi rutiini"],
-            [taskDone, "✅ Hoida yksi pieni homma"],
-            [wellnessDone, "😌 Merkitse yksi hyvinvointiasia"]
-          ].map(([done, text]) => `<div class="mini-step">${done ? "✅" : "○"} <span>${text}</span></div>`).join("");
-        }
-        if (dayLevels) {
-          const level = stats.totalDone >= 8 ? 3 : stats.totalDone >= 4 ? 2 : stats.totalDone >= 1 ? 1 : 0;
-          const levels = [
-            ["Minimi", "Yksi rutiini tai pelastava pieni askel riittää."],
-            ["Hyvä päivä", "Rutiini, pieni homma ja fiilismerkintä vievät päivää eteenpäin."],
-            ["Voittopäivä", "Lisää liikunta, uni, päiväkirja tai haaste, jos energiaa riittää."]
-          ];
-          dayLevels.innerHTML = levels.map(([title, desc], index) => `<div class="level-card ${level >= index + 1 ? "active" : ""}"><strong>${level >= index + 1 ? "✓ " : ""}${title}</strong><p>${desc}</p></div>`).join("");
-        }
-        if (quietCoach) {
-          const lines = [
-            "Pieni liike on silti liike. Tämä hetki riittää.",
-            "Hyvä. Yksi asia tehty, päivä liikahti eteenpäin.",
-            "Et tarvitse täydellistä päivää, vain seuraavan hyvän askeleen.",
-            "Tuo riittää tähän hetkeen. Jatka lempeästi.",
-            "Sinä rakennat arkea, et suorita täydellisyyttä."
-          ];
-          quietCoach.textContent = lines[Math.min(lines.length - 1, stats.totalDone)];
-        }
-        if (moodAvatar && moodAvatarText) {
-          const avatar = {
-            "Virkeä": ["🔥", "Virkeä päivä. Hyvä hetki ottaa yksi isompi askel."],
-            "Rauhallinen": ["🧘", "Rauhallinen hahmo muistuttaa: tasainen tahti riittää."],
-            "Tavallinen": ["🌱", "Tavallinen päivä voi silti rakentaa hyvää rytmiä."],
-            "Levoton": ["🌊", "Levoton päivä tarvitsee pienen ankkurin. Tee yksi helppo asia."],
-            "Väsynyt": ["😴", "Väsynyt hahmo ehdottaa kevyttä päivää ja palautumista."],
-            "Raskas": ["🫶", "Raskas päivä. Pienin askel riittää, et ole myöhässä."]
-          }[state.mood] || ["🌱", "Valitse fiilis, niin päivän hahmo herää."];
-          moodAvatar.textContent = avatar[0];
-          moodAvatarText.textContent = avatar[1];
-        }
-        if (weekStory) {
-          const storyParts = [];
-          if (state.streak) storyParts.push(`pidit sovelluksen mukana ${state.streak} päivän putkessa`);
-          if (stats.habitDone) storyParts.push(`hoidit ${stats.habitDone} rutiinia`);
-          if (state.movement) storyParts.push(`liikuit tavalla: ${state.movement}`);
-          if (state.sleep) storyParts.push(`seurasit unta: ${sleepLabel()}`);
-          if (state.notes.length) storyParts.push(`kirjoitit päiväkirjaa ${state.notes.length} kertaa`);
-          weekStory.textContent = storyParts.length
-            ? `Tällä viikolla sinä ${storyParts.join(", ")}. Tämä on arjen rakentamista, ei täydellisyyden jahtaamista.`
-            : "Tarina alkaa yhdestä merkinnästä. Tee tänään pieni askel, niin viikko saa suunnan.";
-        }
-        if (compassText) {
-          const compass = state.sleep && state.sleep <= 2
-            ? "Kompassi osoittaa palautumiseen: kevennä päivää, pidä tauko ja valitse yksi minimitason asia."
-            : !state.movement
-              ? "Kompassi osoittaa liikkeeseen: pieni kävely tai venyttely riittää tänään."
-              : !state.mood
-                ? "Kompassi osoittaa fiilikseen: merkitse tunne, jotta opit mikä arkea auttaa."
-                : stats.bigDone === 0
-                  ? "Kompassi osoittaa selkeyteen: valitse yksi isompi homma ja tee siitä ensimmäinen pieni osa."
-                  : "Kompassi näyttää tasaiselta: jatka samaan suuntaan ja muista käyttää pisteitä palkintoon.";
-          compassText.textContent = compass;
-        }
-      }
-
-      function renderHabits() {
-        habitList.innerHTML = state.habits.map((habit, index) => `
-          <button class="habit ${habit.done ? "done" : ""}" data-habit="${habit.id}" type="button">
-            <span class="stripe"></span>
-            <span class="habit-text"><strong>${habit.title}</strong><span>${habit.minutes} min · napauta valmiiksi</span></span>
-            <span class="check">${habit.done ? "✓" : ""}</span>
-          </button>
-        `).join("");
-        habitList.querySelectorAll(".habit").forEach((button) => {
-          button.addEventListener("click", () => {
-            const habit = state.habits.find((item) => item.id === button.dataset.habit);
-            habit.done = !habit.done;
-            if (habit.done) state.points += 10;
-            saveState();
-            render();
-          });
-        });
-      }
-
-      function renderTasks() {
-        taskList.innerHTML = state.tasks.map((task) => `
-          <div class="task-item ${task.done ? "done" : ""}" data-task="${task.id}">
-            <span class="check">${task.done ? "✓" : ""}</span>
-            <span class="grow"><strong>${task.title}</strong><span>Pieni homma</span></span>
-            <button class="delete-button" data-delete-task="${task.id}" type="button">Poista</button>
-          </div>
-        `).join("");
-        taskList.querySelectorAll(".task-item").forEach((button) => {
-          button.addEventListener("click", () => {
-            const task = state.tasks.find((item) => item.id === button.dataset.task);
-            task.done = !task.done;
-            if (task.done) state.points += 5;
-            saveState();
-            render();
-          });
-        });
-        taskList.querySelectorAll("[data-delete-task]").forEach((button) => {
-          button.addEventListener("click", (event) => {
-            event.stopPropagation();
-            state.tasks = state.tasks.filter((item) => item.id !== button.dataset.deleteTask);
-            saveState();
-            render();
-          });
-        });
-      }
-
-      function renderBigTasks() {
-        bigTaskList.innerHTML = state.bigTasks.map((task) => `
-          <div class="task-item ${task.done ? "done" : ""}" data-big-task="${task.id}">
-            <span class="check">${task.done ? "✓" : ""}</span>
-            <span class="grow"><strong>${task.title}</strong><span>Isompi homma · 15 pistettä</span></span>
-            <button class="delete-button" data-delete-big-task="${task.id}" type="button">Poista</button>
-          </div>
-        `).join("");
-        bigTaskList.querySelectorAll(".task-item").forEach((button) => {
-          button.addEventListener("click", () => {
-            const task = state.bigTasks.find((item) => item.id === button.dataset.bigTask);
-            task.done = !task.done;
-            if (task.done) state.points += 15;
-            saveState();
-            render();
-          });
-        });
-        bigTaskList.querySelectorAll("[data-delete-big-task]").forEach((button) => {
-          button.addEventListener("click", (event) => {
-            event.stopPropagation();
-            state.bigTasks = state.bigTasks.filter((item) => item.id !== button.dataset.deleteBigTask);
-            saveState();
-            render();
-          });
-        });
-      }
-
-      function renderSummary() {
-        const habitDone = state.habits.filter((item) => item.done).length;
-        const taskDone = state.tasks.filter((item) => item.done).length;
-        const bigDone = state.bigTasks.filter((item) => item.done).length;
-        const wellnessDone = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
-        const rows = [
-          ["Rutiinit", habitDone, state.habits.length],
-          ["Pienet", taskDone, Math.max(state.tasks.length, 1)],
-          ["Isot", bigDone, Math.max(state.bigTasks.length, 1)],
-          ["Hyvinvointi", wellnessDone, 5]
-        ];
-        summaryText.textContent = `${habitDone + taskDone + bigDone} tehtyä asiaa tänään. Fiilis: ${state.mood || "ei valittu"}. Liikunta: ${state.movement || "ei valittu"}. Ruoka: ${state.food || "ei valittu"}. Uni: ${sleepLabel()}.`;
-        summaryChart.innerHTML = rows.map(([label, value, total]) => {
-          const percent = Math.min(100, Math.round((value / total) * 100));
-          return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
-        }).join("");
-      }
-
-      function renderWeeklyPlus() {
-        const doneTotal = state.habits.filter((item) => item.done).length + state.tasks.filter((item) => item.done).length + state.bigTasks.filter((item) => item.done).length + state.week.filter((item) => item.done).length + state.challenges.filter((item) => item.done).length;
-        const wellness = [state.mood, state.movement, state.food, state.sleep, state.dayRating].filter(Boolean).length;
-        weeklyScore.textContent = state.points;
-        weeklyLevel.textContent = state.points >= 250 ? "Vahva" : state.points >= 120 ? "Hyvä" : state.points >= 50 ? "Nousussa" : "Aloitus";
-        weeklyChart.innerHTML = [
-          ["Tehdyt asiat", doneTotal, 24],
-          ["Hyvinvointi", wellness, 5],
-          ["Viikkotavoitteet", state.week.filter((item) => item.done).length, state.week.length],
-          ["Haasteet", state.challenges.filter((item) => item.done).length, state.challenges.length]
-        ].map(([label, value, total]) => {
-          const percent = Math.min(100, Math.round((value / total) * 100));
-          return `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${percent}%"></span></div><strong>${value}/${total}</strong></div>`;
-        }).join("");
-        plusInsight.textContent = state.sleep && state.sleep <= 2
-          ? "Tällä viikolla kannattaa painottaa palautumista ja kevyempiä rutiineja."
-          : state.points >= 180
-            ? "Viikon tekeminen on vahvaa. Voit käyttää pisteitä kunnolliseen palkintoon."
-            : "Pidä viikko yksinkertaisena: yksi rutiini, yksi homma ja yksi hyvinvointimerkintä päivässä.";
-      }
-
-      function renderBadges() {
-        const stats = completionStats();
-        const badges = [
-          ["Aloittaja", state.points >= 10, "Kerää 10 pistettä"],
-          ["Kolmen putki", state.streak >= 3, "Käytä 3 päivänä peräkkäin"],
-          ["Viikon rakentaja", state.points >= 120, "Kerää 120 pistettä"],
-          ["Hyvinvoinnin seuraaja", stats.wellnessDone >= 5, "Täytä fiilis, liikunta, ruoka, uni ja tähdet"],
-          ["Tekijä", stats.taskDone + stats.bigDone >= 3, "Tee kolme hommaa"],
-          ["Haastaja", state.challenges.some((item) => item.done), "Tee yksi haaste"],
-          ["Kirjaaja", state.notes.length >= 1, "Tallenna päiväkirjamerkintä"],
-          ["Oivaltaja", state.notes.some((note) => String(note.text).toLowerCase().includes("oivallus")), "Kirjoita yksi oivallus"],
-          ["Teemankerääjä", (state.unlockedThemes || []).length >= 5, "Avaa uusi väriteema pisteillä"],
-          ["Päivän pelastaja", state.tasks.some((item) => item.id === "rescue-water" && item.done), "Käytä Pelasta päivä -tilaa"]
-        ];
-        badgeList.innerHTML = badges.map(([title, open, description]) => `
-          <div class="badge ${open ? "" : "locked"}">${open ? "Auki" : "Lukossa"} · ${title}<small>${description}</small></div>
-        `).join("");
-      }
-
-      function escapeHtml(value = "") {
-        return String(value).replace(/[&<>"']/g, (char) => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        }[char]));
-      }
-
-      function renderWeek() {
-        weekList.innerHTML = state.week.map((goal) => `
-          <div class="week-goal ${goal.done ? "done" : ""}">
-            <button class="check" data-toggle-week="${goal.id}" type="button">${goal.done ? "✓" : ""}</button>
-            <span class="day">${escapeHtml(goal.day)}</span>
-            <span class="grow">
-              <strong>${escapeHtml(goal.title)}</strong>
-              <span>Viikkotavoite</span>
-              <input class="week-note" data-week-note="${goal.id}" value="${escapeHtml(goal.note || "")}" placeholder="Kirjaa ajatus, eteneminen tai seuraava askel" />
-            </span>
-            ${String(goal.id).startsWith("week-") ? `<button class="delete-button" data-delete-week="${goal.id}" type="button">Poista</button>` : ""}
-          </div>
-        `).join("");
-        weekList.querySelectorAll("[data-toggle-week]").forEach((button) => {
-          button.addEventListener("click", () => {
-            const goal = state.week.find((item) => item.id === button.dataset.toggleWeek);
-            goal.done = !goal.done;
-            if (goal.done) state.points += 15;
-            saveState();
-            render();
-          });
-        });
-        weekList.querySelectorAll("[data-week-note]").forEach((input) => {
-          input.addEventListener("input", () => {
-            const goal = state.week.find((item) => item.id === input.dataset.weekNote);
-            goal.note = input.value;
-            saveState();
-          });
-        });
-        weekList.querySelectorAll("[data-delete-week]").forEach((button) => {
-          button.addEventListener("click", () => {
-            state.week = state.week.filter((item) => item.id !== button.dataset.deleteWeek);
-            saveState();
-            render();
-          });
-        });
-      }
-
-      function renderChallenges() {
-        challengeList.innerHTML = state.challenges.map((challenge) => `
-          <button class="challenge ${challenge.done ? "done" : ""}" data-challenge="${challenge.id}" type="button">
-            <span class="check">${challenge.done ? "✓" : ""}</span>
-            <span class="grow"><strong>${challenge.title}</strong><span>Haaste · 20 pistettä</span></span>
-          </button>
-        `).join("");
-        challengeList.querySelectorAll(".challenge").forEach((button) => {
-          button.addEventListener("click", () => {
-            const challenge = state.challenges.find((item) => item.id === button.dataset.challenge);
-            challenge.done = !challenge.done;
-            if (challenge.done) state.points += 20;
-            saveState();
-            render();
-          });
-        });
-      }
-
-      function renderNotes() {
-        noteList.innerHTML = state.notes.slice().reverse().map((note) => `
-          <div class="note"><strong>${note.date}</strong><br />${note.text}</div>
-        `).join("");
-      }
-
-      function renderMood() {
-        document.querySelectorAll(".mood").forEach((button) => {
-          button.classList.toggle("active", button.dataset.mood === state.mood);
-        });
-        const hints = {
-          "Virkeä": "Hyvä päivä tehdä yksi isompi asia ensin ja kerätä pisteet pois.",
-          "Rauhallinen": "Pidä tahti tasaisena. Tee rutiinit ilman kiirettä.",
-          "Tavallinen": "Tavallinen päivä riittää. Valitse yksi pieni homma ja jatka siitä.",
-          "Levoton": "Tee ensin kahden minuutin rutiini. Älä yritä ratkaista kaikkea kerralla.",
-          "Väsynyt": "Valitse kevyt tehtävä, juo vettä ja pidä pieni tauko.",
-          "Raskas": "Tänään pienin mahdollinen askel riittää. Merkitse vaikka yksi rutiini."
-        };
-        document.querySelector("#moodHint").textContent = state.mood ? hints[state.mood] : "Valitse fiilis. Saat pienen ehdotuksen sen mukaan, miltä päivä tuntuu.";
-      }
-
-      function renderMovement() {
-        document.querySelectorAll(".movement").forEach((button) => {
-          button.classList.toggle("active", button.dataset.movement === state.movement);
-        });
-        const hints = {
-          "Kevyt kävely": "Hyvä. Kevyt kävely pitää päivän liikkeessä.",
-          "Kuntosali": "Hyvä treeni. Muista myös palautuminen.",
-          "Juoksu": "Juoksu kirjattu. Pieni venyttely voi auttaa lopuksi.",
-          "Venyttely": "Hyvä valinta, varsinkin kiireisenä tai väsyneenä päivänä.",
-          "Muu urheilu": "Muu urheilu kirjattu. Tärkeintä on, että liike sopi tähän päivään.",
-          "Lepopäivä": "Lepopäivä on hyväksyttävä valinta. Palautuminen kuuluu rytmiin."
-        };
-        document.querySelector("#movementHint").textContent = state.movement ? hints[state.movement] : "Valitse miten liikuit tänään.";
-      }
-
-      function renderFood() {
-        document.querySelectorAll(".food").forEach((button) => {
-          button.classList.toggle("active", button.dataset.food === state.food);
-        });
-        const hints = {
-          "Söin terveellisesti": "Hyvä. Terveellinen ruokailu tukee energiaa ja keskittymistä.",
-          "Ihan ok": "Riittävän hyvä on usein tarpeeksi. Jatka samaan suuntaan.",
-          "Liian vähän": "Kirjaa tämä ylös ja syö seuraavaksi jotain kunnollista.",
-          "Liikaa herkkuja": "Ei haittaa. Seuraava ateria voi olla tasaisempi.",
-          "En muistanut syödä kunnolla": "Tee seuraavasta syömisestä helppo ja riittävä."
-        };
-        document.querySelector("#foodHint").textContent = state.food ? hints[state.food] : "Valitse päivän ruokailun tilanne.";
-      }
-
-      function sleepLabel() {
-        return ["ei valittu", "tosi huono", "huono", "kohtalainen", "hyvä", "tosi hyvä"][state.sleep] || "ei valittu";
-      }
-
-      function renderSleep() {
-        document.querySelectorAll(".sleep").forEach((button) => {
-          button.classList.toggle("active", Number(button.dataset.sleep) === state.sleep);
-        });
-        const hints = {
-          1: "Uni oli tosi huono. Tee päivästä mahdollisimman kevyt.",
-          2: "Uni oli huono. Pieni eteneminen riittää tänään.",
-          3: "Uni oli kohtalainen. Pidä tauot mukana.",
-          4: "Uni oli hyvä. Hyvä päivä rakentaa rytmiä.",
-          5: "Uni oli tosi hyvä. Ota tästä hyöty irti rauhassa."
-        };
-        document.querySelector("#sleepHint").textContent = state.sleep ? hints[state.sleep] : "Valitse miltä uni tuntui tänään.";
-      }
-
-      const themePrizes = [
-        { id: "mint", name: "Minttu", cost: 60, desc: "Kevyt ja raikas arjen väri" },
-        { id: "sunset", name: "Auringonlasku", cost: 90, desc: "Lämmin iltateema" },
-        { id: "aurora", name: "Revontuli", cost: 120, desc: "Erikoisempi vihreä-violetti tunnelma" },
-        { id: "midnight", name: "Yötila", cost: 150, desc: "Tumma iltateema" }
-      ];
-
-      function renderThemeStore() {
-        if (!themeStore) return;
-        const unlocked = state.unlockedThemes || ["forest", "sand", "blue", "rose"];
-        themeStore.innerHTML = themePrizes.map((item) => {
-          const open = unlocked.includes(item.id);
-          return `<div class="theme-prize"><span><strong>${open ? "Auki" : "Lukossa"} · ${item.name}</strong><br /><small>${item.desc} · ${item.cost} pistettä</small></span><button class="secondary unlock-theme" data-theme-prize="${item.id}" type="button" ${open || state.points < item.cost ? "disabled" : ""}>${open ? "Avattu" : "Avaa"}</button></div>`;
-        }).join("");
-        themeStore.querySelectorAll(".unlock-theme").forEach((button) => {
-          button.addEventListener("click", () => {
-            const item = themePrizes.find((theme) => theme.id === button.dataset.themePrize);
-            if (!item || (state.unlockedThemes || []).includes(item.id) || state.points < item.cost) return;
-            state.points -= item.cost;
-            state.unlockedThemes = Array.from(new Set([...(state.unlockedThemes || ["forest", "sand", "blue", "rose"]), item.id]));
-            state.rewards.push({ date: new Date().toLocaleDateString("fi-FI"), title: `Avasit teeman: ${item.name}`, cost: item.cost });
-            saveState();
-            render();
-          });
-        });
-      }
-
-      function renderRewards() {
-        rewardPoints.textContent = state.points;
-        rewardCount.textContent = state.rewards.length;
-        rewardHint.textContent = state.points >= 180 ? "Iso" : state.points >= 70 ? "Hyvä" : "Pieni";
-        rewardList.innerHTML = state.rewards.slice().reverse().map((reward) => `
-          <div class="note"><strong>${reward.date}</strong><br />${reward.title} · ${reward.cost} pistettä</div>
-        `).join("");
-        if (trueRewardDisplay) trueRewardDisplay.textContent = state.trueReward ? `Tavoitepalkinto: ${state.trueReward}` : "Omaa palkintoa ei ole vielä valittu.";
-        document.querySelectorAll(".reward").forEach((button) => {
-          button.disabled = state.points < Number(button.dataset.cost);
-        });
-      }
-
-      function renderRating() {
-        document.querySelectorAll(".star").forEach((button) => {
-          button.classList.toggle("active", Number(button.dataset.rating) <= state.dayRating);
-        });
-        const text = ["Ei arviota vielä.", "Raskas päivä", "Vaikea mutta hoidettu", "Ihan hyvä päivä", "Hyvä päivä", "Erittäin hyvä päivä"];
-        document.querySelector("#ratingText").textContent = text[state.dayRating] || text[0];
-      }
-
-      function renderProfile() {
-        profileName.value = state.profileName;
-        profileGoal.value = state.profileGoal;
-        profileMotto.value = state.profileMotto;
-        if (contractWhy) contractWhy.value = state.contractWhy || "";
-        if (contractPromise) contractPromise.value = state.contractPromise || "";
-        document.querySelector(".kicker").textContent = state.profileName ? `TaskuRutiini · ${state.profileName}` : "TaskuRutiini";
-        document.querySelectorAll(".profile-style").forEach((button) => {
-          button.classList.toggle("active", button.dataset.style === state.profileStyle);
-        });
+      function showToast(text) {
+        const toast = $("#toast");
+        if (!toast) return;
+        toast.textContent = text;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 1500);
       }
 
       function applyTheme() {
-        const themes = {
-          forest: ["#f7f1e7", "#fff9ee", "#efe3d0", "#251d18", "#5f5144", "#5b7f68", "#e4d7c5"],
-          sand: ["#f8efe8", "#fffaf4", "#ead6c8", "#2d201a", "#655146", "#a66b4f", "#e3cfc1"],
-          blue: ["#eef4f7", "#fbfdff", "#dcebf1", "#172631", "#4c5d66", "#476c8a", "#c9dce6"],
-          rose: ["#fbf0f2", "#fff9fa", "#efd9de", "#2f1c22", "#664d55", "#9b5c68", "#e4cbd1"],
-          mint: ["#effaf6", "#fbfffd", "#d8f2e9", "#10251e", "#4b6a5e", "#2aa878", "#c7eadf"],
-          sunset: ["#fff2e9", "#fffaf5", "#ffd9bf", "#2c1b14", "#735343", "#df744a", "#efc4a9"],
-          aurora: ["#f0f4ff", "#fbfcff", "#dfe6ff", "#151929", "#515970", "#6a5fd6", "#cfd7ff"],
-          midnight: ["#111827", "#1f2937", "#263449", "#f8fafc", "#cbd5e1", "#7dd3fc", "#334155"]
-        };
-        const values = themes[state.theme] || themes.forest;
-        ["--page-bg", "--panel-bg", "--soft-bg", "--ink", "--muted", "--accent", "--line"].forEach((name, index) => {
-          document.documentElement.style.setProperty(name, values[index]);
+        const theme = THEMES[state.theme] || THEMES.softGreen;
+        const keys = ["--page-bg", "--panel-bg", "--soft-bg", "--ink", "--muted", "--accent", "--accent-2", "--line"];
+        keys.forEach((key, index) => document.documentElement.style.setProperty(key, theme.colors[index]));
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme.colors[0]);
+      }
+
+      function ensureChallenges() {
+        if (!Array.isArray(state.challenges)) state.challenges = [];
+        const activeTitles = new Set(state.challenges.map((item) => item.title));
+        while (state.challenges.length < 8) {
+          const next = pickNewChallenge(activeTitles);
+          state.challenges.push(next);
+          activeTitles.add(next.title);
+        }
+        if (state.challenges.length > 8) state.challenges = state.challenges.slice(0, 8);
+      }
+
+      function pickNewChallenge(activeTitles = new Set(), previousTitle = "") {
+        const available = CHALLENGE_BANK.filter((title) => title !== previousTitle && !activeTitles.has(title));
+        const pool = available.length ? available : CHALLENGE_BANK.filter((title) => title !== previousTitle);
+        const title = pool[Math.floor(Math.random() * pool.length)] || CHALLENGE_BANK[0];
+        return { id: `challenge-${Date.now()}-${Math.random().toString(16).slice(2)}`, title, done: false };
+      }
+
+      function currentSurprise() {
+        const date = new Date();
+        const index = (date.getDate() + date.getMonth() * 3 + date.getFullYear()) % SURPRISES.length;
+        return SURPRISES[index];
+      }
+
+      function completionStats() {
+        const habitDone = state.habits.some((item) => item.done);
+        const taskDone = state.tasks.some((item) => item.done) || state.rhythmDone.length > 0;
+        const bigDone = state.bigTasks.some((item) => item.done);
+        const challengeDone = state.challenges.some((item) => item.done);
+        return { habitDone, taskDone, bigDone, challengeDone };
+      }
+
+      function dailyStatus() {
+        const score = state.habits.filter(i => i.done).length + state.tasks.filter(i => i.done).length + state.bigTasks.filter(i => i.done).length + state.rhythmDone.length + state.rescueDone.length + (state.mood ? 1 : 0) + (state.sleep ? 1 : 0) + (state.movement ? 1 : 0);
+        if (score >= 12) return "Päivä kantaa";
+        if (score >= 7) return "Rytmi löytyy";
+        if (score >= 3) return "Hyvä alku";
+        return "Lempeä alku";
+      }
+
+      function render() {
+        applyTheme();
+        ensureChallenges();
+        $("#score").textContent = state.points;
+        $("#streakCount").textContent = `🔥 ${state.streak || 0}`;
+        $("#dailyProgress").textContent = dailyStatus();
+        $("#moodLabel").textContent = state.mood || "-";
+        $("#dailyCoach").textContent = state.profileName ? `${state.profileName}, tänään riittää yksi hyvä askel kerrallaan.` : "Aloita tästä. Tänään ei tarvitse tehdä kaikkea, vain yksi järkevä askel kerrallaan.";
+        renderRhythm();
+        renderQuietCoach();
+        renderMission();
+        renderSurprise();
+        renderNextStep();
+        renderDayLevels();
+        renderRescue();
+        renderLists();
+        renderWellbeing();
+        renderWeek();
+        renderChallenges();
+        renderBadges();
+        renderJournal();
+        renderRewards();
+        renderThemes();
+        renderProfile();
+        renderSummary();
+        renderClock();
+      }
+
+      function renderRhythm() {
+        const steps = [
+          { id: "rhythm-bed", icon: "🛏️", title: "Petaa sänky", points: 5 },
+          { id: "rhythm-water", icon: "💧", title: "Juo vettä", points: 5 },
+          { id: "rhythm-contact", icon: "🤝", title: "Tee yksi pieni yhteys tai merkintä", points: 5 }
+        ];
+        $("#rhythmSteps").innerHTML = steps.map((step) => {
+          const done = state.rhythmDone.includes(step.id);
+          return `<div class="mini-step ${done ? "done" : ""}"><div><strong>${step.icon} ${step.title}</strong><p>${done ? "Lunastettu" : `Lunasta ${step.points} pistettä, kun olet tehnyt tämän.`}</p></div><button class="claim-button rhythm-claim" data-id="${step.id}" data-points="${step.points}" type="button" ${done ? "disabled" : ""}>${done ? "✓" : `+${step.points}`}</button></div>`;
+        }).join("");
+        document.querySelectorAll(".rhythm-claim").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (state.rhythmDone.includes(button.dataset.id)) return;
+            state.rhythmDone.push(button.dataset.id);
+            addPoints(Number(button.dataset.points));
+            render();
+          });
         });
-        const labels = { forest: "Metsä", sand: "Savi", blue: "Sininen", rose: "Roosa", mint: "Minttu", sunset: "Auringonlasku", aurora: "Revontuli", midnight: "Yötila" };
-        const unlocked = state.unlockedThemes || ["forest", "sand", "blue", "rose"];
-        document.querySelectorAll(".swatch").forEach((button) => {
-          const open = unlocked.includes(button.dataset.theme);
-          button.disabled = !open;
-          button.textContent = open ? labels[button.dataset.theme] : `${labels[button.dataset.theme]} 🔒`;
-          button.classList.toggle("active", button.dataset.theme === state.theme);
-        });
+      }
+
+      function renderQuietCoach() {
+        const count = state.habits.filter(i => i.done).length + state.tasks.filter(i => i.done).length + state.rhythmDone.length;
+        const messages = [
+          "Pieni liike on silti liike. Aloitetaan rauhassa.",
+          "Hyvä. Päivä liikahti jo eteenpäin.",
+          "Tämä riittää tähän hetkeen. Jatka seuraavalla pienellä askeleella.",
+          "Sinun ei tarvitse voittaa koko päivää kerralla.",
+          "Hyvin tehty. Rytmi rakentuu pienistä valinnoista."
+        ];
+        $("#quietTitle").textContent = count ? "Huomasitko? Teit jo jotain." : "Hyvä että avasit sovelluksen.";
+        $("#quietCoach").textContent = messages[Math.min(messages.length - 1, count)];
+      }
+
+      function renderMission() {
+        const stats = completionStats();
+        const ready = stats.habitDone && stats.taskDone && !!state.mood;
+        $("#dailyMission").textContent = state.dailyMissionDone ? "Päivän missio lunastettu. Hyvä rytmi rakentuu juuri näin." : ready ? "Valmis lunastettavaksi: yksi rutiini, yksi pieni homma ja fiilis on merkitty." : "Tee yksi rutiini, yksi pieni homma ja valitse päivän fiilis. Saat tästä hyvän alun.";
+        const btn = $("#completeDailyMission");
+        btn.textContent = state.dailyMissionDone ? "Missio lunastettu ✓" : "Lunasta missio +25 pistettä";
+        btn.disabled = state.dailyMissionDone;
+      }
+
+      function renderSurprise() {
+        const claimed = state.surpriseClaimedDate === todayKey();
+        $("#dailySurprise").textContent = currentSurprise();
+        const btn = $("#claimSurprise");
+        btn.textContent = claimed ? "Yllätys lunastettu ✓" : "Tein yllätyksen · +10 pistettä";
+        btn.disabled = claimed;
+      }
+
+      function renderNextStep() {
+        const card = $("#nextStepCard");
+        const habitDone = state.habits.some((item) => item.done);
+        const taskDone = state.tasks.some((item) => item.done);
+        card.classList.toggle("next-step-ready", habitDone || taskDone);
+        if (!habitDone) $("#nextStep").textContent = "Aloita helposta rutiinista: petaa sänky, pese hampaat tai juo vettä.";
+        else if (!taskDone) $("#nextStep").textContent = "Hyvä alku. Valitse nyt yksi pieni homma ja lunasta siitä pisteet.";
+        else if (!state.mood) $("#nextStep").textContent = "Rutiini ja pieni homma tehty. Merkitse vielä fiilis, niin päivästä tulee näkyvämpi.";
+        else $("#nextStep").textContent = "Päivä on hyvässä suunnassa. Halutessasi kokeile haastetta tai lyhyttä keskittymistä.";
+      }
+
+      function renderDayLevels() {
+        const levels = [
+          ["minimi", "🌱 Minimi", "Yksi rutiini ja yksi pieni hyvinvointimerkintä."],
+          ["hyva", "✨ Hyvä päivä", "Rutiini, pieni homma ja liikkumista."],
+          ["voitto", "🏆 Voittopäivä", "Lisäksi isompi homma tai haaste."]
+        ];
+        $("#dayLevels").innerHTML = levels.map(([id, title, desc]) => `<button class="level-card ${state.dayLevel === id ? "active" : ""}" data-level="${id}" type="button"><strong>${title}</strong><p>${desc}</p></button>`).join("");
+        document.querySelectorAll(".level-card").forEach((button) => button.addEventListener("click", () => {
+          state.dayLevel = button.dataset.level;
+          addPoints(4);
+          render();
+        }));
+      }
+
+      function renderRescue() {
+        const steps = [
+          { id: "rescue-water", title: "Juo lasi vettä", points: 7 },
+          { id: "rescue-tidy", title: "Tee 5 min pikasiivous", points: 7 },
+          { id: "rescue-note", title: "Kirjoita yksi asia, joka onnistui", points: 7 }
+        ];
+        const box = $("#rescueSteps");
+        if (!state.rescueActive) { box.innerHTML = ""; return; }
+        box.innerHTML = steps.map((step) => {
+          const done = state.rescueDone.includes(step.id);
+          return `<div class="rescue-step ${done ? "done" : ""}"><div><strong>${done ? "✅" : "○"} ${step.title}</strong><p>${done ? "Tehty ja pisteet saatu." : `Tee tämä ja lunasta ${step.points} pistettä.`}</p></div><button class="claim-button rescue-claim" data-id="${step.id}" data-points="${step.points}" type="button" ${done ? "disabled" : ""}>${done ? "✓" : `+${step.points}`}</button></div>`;
+        }).join("");
+        document.querySelectorAll(".rescue-claim").forEach((button) => button.addEventListener("click", () => {
+          if (state.rescueDone.includes(button.dataset.id)) return;
+          state.rescueDone.push(button.dataset.id);
+          addPoints(Number(button.dataset.points));
+          if (state.rescueDone.length === 3 && !state.rescueBonusDate) {
+            state.rescueBonusDate = todayKey();
+            addPoints(10, "bonus");
+          }
+          render();
+        }));
+      }
+
+      function renderLists() {
+        renderSimpleList("#habitList", state.habits, "habit", 10, false);
+        renderSimpleList("#taskList", state.tasks, "task", 8, true);
+        renderSimpleList("#bigTaskList", state.bigTasks, "big", 15, true);
+      }
+
+      function renderSimpleList(selector, list, type, points, removable) {
+        $(selector).innerHTML = list.map((item) => `<div class="task-item ${item.done ? "done" : ""}" data-type="${type}" data-id="${item.id}"><span class="stripe"></span><span class="check">${item.done ? "✓" : ""}</span><div class="grow"><strong>${item.title}</strong><span>${item.note || (item.done ? "Tehty" : `${points} pistettä`)}</span></div>${removable ? `<button class="delete-button" data-remove="${item.id}" data-type="${type}" type="button">Poista</button>` : ""}</div>`).join("");
+        document.querySelectorAll(`${selector} .task-item`).forEach((row) => row.addEventListener("click", (event) => {
+          if (event.target.closest(".delete-button")) return;
+          const arr = type === "habit" ? state.habits : type === "task" ? state.tasks : state.bigTasks;
+          const item = arr.find((entry) => entry.id === row.dataset.id);
+          if (!item) return;
+          const wasDone = item.done;
+          item.done = !item.done;
+          if (!wasDone && item.done) addPoints(points);
+          saveState();
+          render();
+        }));
+        document.querySelectorAll(`${selector} .delete-button`).forEach((button) => button.addEventListener("click", () => {
+          const arrName = button.dataset.type === "task" ? "tasks" : "bigTasks";
+          state[arrName] = state[arrName].filter((item) => item.id !== button.dataset.remove);
+          saveState();
+          render();
+        }));
+      }
+
+      function renderWellbeing() {
+        document.querySelectorAll(".mood").forEach((b) => b.classList.toggle("active", b.dataset.mood === state.mood));
+        document.querySelectorAll(".movement").forEach((b) => b.classList.toggle("active", b.dataset.movement === state.movement));
+        document.querySelectorAll(".food").forEach((b) => b.classList.toggle("active", b.dataset.food === state.food));
+        document.querySelectorAll(".sleep").forEach((b) => b.classList.toggle("active", Number(b.dataset.sleep) === state.sleep));
+        document.querySelectorAll(".star").forEach((b) => b.classList.toggle("active", Number(b.dataset.rating) <= state.dayRating));
+        $("#moodHint").textContent = state.mood ? `Fiilis merkitty: ${state.mood}. Hyvä, että huomasit tämän.` : "Valitse fiilis. Saat pienen ehdotuksen sen mukaan, miltä päivä tuntuu.";
+        $("#movementHint").textContent = state.movement ? `Liikunta merkitty: ${state.movement}. Keho kiittää pienestäkin liikkeestä.` : "Valitse miten liikuit tänään.";
+        $("#foodHint").textContent = state.food ? `Ruoka merkitty: ${state.food}. Huomenna voi aina säätää suuntaa.` : "Valitse päivän ruokailun tilanne lempeästi.";
+        const sleepLabels = ["", "Raskas yö", "Vähän heikko", "Ihan ok", "Hyvä", "Tosi hyvä"];
+        $("#sleepHint").textContent = state.sleep ? `Uni: ${sleepLabels[state.sleep]}.` : "Valitse miltä uni tuntui tänään.";
+        $("#ratingText").textContent = state.dayRating ? `Annoit päivälle ${state.dayRating}/5 tähteä.` : "Ei arviota vielä.";
+      }
+
+      function renderWeek() {
+        const weeklyPoints = state.points;
+        const level = weeklyPoints > 650 ? "Arjen mestari" : weeklyPoints > 360 ? "Rytmin löytäjä" : weeklyPoints > 160 ? "Rakentaja" : "Aloittaja";
+        $("#weekCharacter").textContent = `Tällä viikolla olet ${level}. Eteneminen syntyy pienistä merkinnöistä, ei täydellisistä päivistä.`;
+        $("#compassText").textContent = state.sleep && state.sleep < 3 ? "Kompassi ehdottaa palautumista: kevennä iltaa ja valitse yksi helppo rutiini." : state.movement ? "Kompassi näyttää hyvää liikettä. Pidä rytmi kevyenä ja toistettavana." : "Kompassi ehdottaa tänään selkeyttä: valitse yksi pieni homma ja yksi hyvinvointimerkintä.";
+        $("#weekStory").textContent = `Tällä viikolla olet kerännyt ${state.points} pistettä, merkinnyt ${state.habits.filter(i=>i.done).length} rutiinia ja kirjoittanut ${state.notes.length} päiväkirjamerkintää. Tämä on sinun viikkosi tarina.`;
+        $("#weekList").innerHTML = state.week.map((goal) => `<div class="week-goal ${goal.done ? "done" : ""}" data-id="${goal.id}"><span class="day">${goal.day || "Oma"}</span><div class="grow"><strong>${goal.title}</strong><span>${goal.done ? "Valmis" : "Viikkotavoite"}</span><textarea class="week-note" data-note="${goal.id}" placeholder="Kirjaa tarkennus tai muistiinpano tähän">${goal.note || ""}</textarea></div>${goal.custom ? `<button class="delete-button week-delete" data-id="${goal.id}" type="button">Poista</button>` : ""}</div>`).join("");
+        document.querySelectorAll(".week-goal").forEach((row) => row.addEventListener("click", (event) => {
+          if (event.target.closest("textarea") || event.target.closest("button")) return;
+          const item = state.week.find((goal) => goal.id === row.dataset.id);
+          const wasDone = item.done;
+          item.done = !item.done;
+          if (!wasDone && item.done) addPoints(15);
+          saveState();
+          render();
+        }));
+        document.querySelectorAll(".week-note").forEach((field) => field.addEventListener("input", () => {
+          const item = state.week.find((goal) => goal.id === field.dataset.note);
+          if (item) item.note = field.value;
+          saveState();
+        }));
+        document.querySelectorAll(".week-delete").forEach((button) => button.addEventListener("click", () => {
+          state.week = state.week.filter((goal) => goal.id !== button.dataset.id);
+          saveState();
+          render();
+        }));
+      }
+
+      function renderChallenges() {
+        $("#challengeList").innerHTML = state.challenges.map((challenge) => `<div class="challenge ${challenge.done ? "ready-claim" : ""}" data-id="${challenge.id}"><span class="check">${challenge.done ? "✓" : ""}</span><div class="grow"><strong>${challenge.title}</strong><span>${challenge.done ? "Valmis lunastettavaksi · 20 pistettä" : "Haaste · merkkaa tehdyksi"}</span></div><button class="claim-button challenge-action" data-id="${challenge.id}" type="button">${challenge.done ? "Lunasta" : "Tehty"}</button></div>`).join("");
+        document.querySelectorAll(".challenge-action").forEach((button) => button.addEventListener("click", () => {
+          const index = state.challenges.findIndex((item) => item.id === button.dataset.id);
+          if (index < 0) return;
+          const item = state.challenges[index];
+          if (!item.done) {
+            item.done = true;
+            saveState();
+            showToast("Haaste valmis · lunasta pisteet");
+            render();
+            return;
+          }
+          const activeTitles = new Set(state.challenges.map((entry, i) => i === index ? "" : entry.title));
+          const previous = item.title;
+          state.challenges[index] = pickNewChallenge(activeTitles, previous);
+          addPoints(20);
+          render();
+        }));
+      }
+
+      function renderBadges() {
+        const badges = [
+          ["Ensimmäinen askel", state.points >= 10, "Kerää 10 pistettä"],
+          ["Rytmin rakentaja", state.streak >= 3, "Kolmen päivän putki"],
+          ["Haastaja", state.challenges.some(i => i.done), "Tee yksi haaste"],
+          ["Kirjaaja", state.notes.length >= 1, "Tallenna päiväkirjamerkintä"],
+          ["Pelastaja", state.rescueDone.length >= 3, "Tee Pelasta päivä -askeleet"],
+          ["Keskittyjä", state.focusMinutes >= 45, "Aseta pitkä keskittymisjakso"],
+          ["Teemojen avaaja", state.unlockedThemes.length >= 4, "Avaa uusia teemoja"],
+          ["Arjen kehittäjä", state.profileStyle === "Arjen kehittäjä", "Valitse profiilityyli"]
+        ];
+        $("#badgeList").innerHTML = badges.map(([name, open, hint]) => `<div class="badge ${open ? "" : "locked"}">${open ? "🏅" : "🔒"} ${name}<small>${hint}</small></div>`).join("");
+      }
+
+      function renderJournal() {
+        const ideas = ["Kirjoita yksi asia, joka teki arjesta vähän helpomman.", "Mikä asia kannattaa tehdä huomenna ensimmäisenä?", "Mikä vei energiaa ja mitä voisit keventää?", "Mistä pienestä asiasta voit antaa itsellesi kiitoksen?"];
+        $("#journalIdea").textContent = `Tämän päivän kirjoitusidea: ${ideas[new Date().getDate() % ideas.length]}`;
+        $("#noteList").innerHTML = state.notes.slice(-6).reverse().map((note) => `<div class="note"><strong>${note.date}</strong><br>${escapeHtml(note.text)}</div>`).join("");
+      }
+
+      function renderRewards() {
+        $("#rewardPoints").textContent = state.points;
+        $("#rewardCount").textContent = state.rewards.length;
+        $("#rewardHint").textContent = state.points >= 220 ? "iso" : state.points >= 70 ? "oma" : "pieni";
+        $("#trueRewardDisplay").textContent = state.trueReward ? `Oma palkinto: ${state.trueReward}` : "Omaa palkintoa ei ole vielä valittu.";
+        $("#rewardList").innerHTML = state.rewards.slice(-8).reverse().map((reward) => `<div class="note"><strong>${reward.title}</strong><br>${reward.date} · ${reward.cost} pistettä</div>`).join("");
+      }
+
+      function renderThemes() {
+        const store = $("#themeStore");
+        const profile = $("#profileThemes");
+        const themeButtons = Object.entries(THEMES).map(([id, theme]) => {
+          const unlocked = state.unlockedThemes.includes(id);
+          const active = state.theme === id;
+          return `<button class="swatch ${active ? "active" : ""}" data-theme="${id}" style="background:linear-gradient(135deg,${theme.colors[5]},${theme.colors[6]});" type="button" ${unlocked ? "" : "disabled"}>${theme.name}</button>`;
+        }).join("");
+        profile.innerHTML = themeButtons;
+        store.innerHTML = Object.entries(THEMES).filter(([id]) => !["softGreen", "ocean"].includes(id)).map(([id, theme]) => {
+          const unlocked = state.unlockedThemes.includes(id);
+          return `<div class="theme-prize"><div><strong>${theme.name}</strong><p>${unlocked ? "Avattu" : `${theme.cost} pistettä · erikoisteema`}</p></div><button class="claim-button theme-buy" data-theme="${id}" type="button">${unlocked ? "Käytä" : "Osta"}</button></div>`;
+        }).join("");
+        document.querySelectorAll(".swatch").forEach((button) => button.addEventListener("click", () => {
+          if (!state.unlockedThemes.includes(button.dataset.theme)) return;
+          state.theme = button.dataset.theme;
+          saveState();
+          render();
+        }));
+        document.querySelectorAll(".theme-buy").forEach((button) => button.addEventListener("click", () => {
+          const id = button.dataset.theme;
+          const theme = THEMES[id];
+          if (!state.unlockedThemes.includes(id)) {
+            if (state.points < theme.cost) { showToast("Pisteet eivät vielä riitä"); return; }
+            state.points -= theme.cost;
+            state.unlockedThemes.push(id);
+            showToast(`Teema avattu: ${theme.name}`);
+          }
+          state.theme = id;
+          saveState();
+          render();
+        }));
+      }
+
+      function renderProfile() {
+        profileName.value = state.profileName || "";
+        profileGoal.value = state.profileGoal || "";
+        profileMotto.value = state.profileMotto || "";
+        contractWhy.value = state.contractWhy || "";
+        contractPromise.value = state.contractPromise || "";
+        document.querySelectorAll(".profile-style").forEach((button) => button.classList.toggle("active", button.dataset.style === state.profileStyle));
+        if (state.plusUnlocked) {
+          plusText.textContent = "Täysi versio on käytössä. Omistajana kaikki ominaisuudet ovat auki tällä laitteella.";
+          unlockPlus.textContent = "Täysi versio käytössä";
+          ownerCode.placeholder = "Täysi versio avattu";
+        }
+      }
+
+      function renderSummary() {
+        const rows = [
+          ["Rutiinit", state.habits.filter(i => i.done).length, state.habits.length],
+          ["Pienet", state.tasks.filter(i => i.done).length, Math.max(1, state.tasks.length)],
+          ["Isot", state.bigTasks.filter(i => i.done).length, Math.max(1, state.bigTasks.length)],
+          ["Hyvinvointi", [state.mood, state.movement, state.food, state.sleep].filter(Boolean).length, 4]
+        ];
+        $("#summaryText").textContent = `Päivän rytmi: ${dailyStatus()}. Keräsit tänään merkintöjä ilman täydellisyyspainetta.`;
+        $("#summaryChart").innerHTML = rows.map(([label, value, max]) => `<div class="chart-row"><span>${label}</span><div class="bar"><span style="width:${Math.min(100, Math.round(value / max * 100))}%"></span></div><strong>${value}</strong></div>`).join("");
       }
 
       function renderClock() {
-        const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
-        const rest = String(seconds % 60).padStart(2, "0");
-        clock.textContent = `${minutes}:${rest}`;
+        const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+        const s = String(seconds % 60).padStart(2, "0");
+        $("#clock").textContent = `${m}:${s}`;
       }
 
-      function renderPlus() {
-        if (!state.plusUnlocked) return;
-        plusText.textContent = "Täysi versio on käytössä. Sinulla on omistajana kaikki ominaisuudet auki tällä laitteella.";
-        ownerCode.value = "";
-        ownerCode.placeholder = "Täysi versio avattu";
-        ownerCode.disabled = true;
-        unlockPlus.textContent = "Täysi versio käytössä";
-        unlockPlus.disabled = true;
+      function escapeHtml(text) {
+        return String(text).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]));
       }
 
-      document.querySelector("#addHabit").addEventListener("click", () => {
-        const input = document.querySelector("#newHabit");
-        const title = input.value.trim();
-        if (!title) return;
-        state.habits.push({ id: `habit-${Date.now()}`, title, minutes: 10, done: false });
-        input.value = "";
+      function startSound(type) {
+        stopSound();
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const master = audioCtx.createGain();
+        master.gain.value = 0.045;
+        master.connect(audioCtx.destination);
+        const freqs = type === "deep" ? [110, 220] : type === "forest" ? [174, 261] : type === "rain" ? [196, 294] : [220, 330];
+        freqs.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = i ? "triangle" : "sine";
+          osc.frequency.value = freq;
+          gain.gain.value = i ? 0.18 : 0.24;
+          osc.connect(gain).connect(master);
+          osc.start();
+          soundNodes.push(osc, gain);
+        });
+        if (type === "rain" || type === "forest") {
+          const bufferSize = audioCtx.sampleRate * 2;
+          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * (type === "rain" ? 0.18 : 0.08);
+          const noise = audioCtx.createBufferSource();
+          const noiseGain = audioCtx.createGain();
+          noise.loop = true;
+          noise.buffer = buffer;
+          noiseGain.gain.value = 0.28;
+          noise.connect(noiseGain).connect(master);
+          noise.start();
+          soundNodes.push(noise, noiseGain);
+        }
+        const names = { calm: "Rauhallinen aalto", rain: "Kevyt sade", forest: "Metsän humina", deep: "Syvä hengitys" };
+        soundStatus.textContent = `Taustaääni päällä: ${names[type]}.`;
+      }
+
+      function stopSound() {
+        soundNodes.forEach((node) => { try { if (node.stop) node.stop(); } catch {} try { node.disconnect(); } catch {} });
+        soundNodes = [];
+        if (audioCtx) { try { audioCtx.close(); } catch {} }
+        audioCtx = null;
+        const status = $("#soundStatus");
+        if (status) status.textContent = "Taustaääni ei ole päällä.";
+      }
+
+      function openScreen(id) {
+        if (!screenOrder.includes(id)) return;
+        currentScreen = id;
+        document.querySelectorAll(".screen").forEach((screen) => screen.classList.toggle("active", screen.id === id));
+        document.querySelectorAll("nav a").forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${id}`));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function addItem(arr, title, note = "") {
+        if (!title.trim()) return;
+        arr.push({ id: `item-${Date.now()}-${Math.random().toString(16).slice(2)}`, title: title.trim(), note, done: false, custom: true });
+        saveState();
+        render();
+      }
+
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest("nav a, [data-open-screen]");
+        if (link) {
+          event.preventDefault();
+          const href = link.getAttribute("href") || `#${link.dataset.openScreen}`;
+          openScreen(href.replace("#", ""));
+        }
+      });
+
+      $("#addHabit").addEventListener("click", () => { addItem(state.habits, newHabit.value); newHabit.value = ""; });
+      $("#addTask").addEventListener("click", () => { addItem(state.tasks, newTask.value); newTask.value = ""; });
+      document.querySelectorAll(".quick-task").forEach((button) => button.addEventListener("click", () => addItem(state.tasks, button.dataset.task, "8 pistettä")));
+      document.querySelectorAll(".quick-big").forEach((button) => button.addEventListener("click", () => addItem(state.bigTasks, button.dataset.task, "15 pistettä")));
+
+      $("#rescueDay").addEventListener("click", () => {
+        state.rescueActive = true;
+        rescueHint.textContent = "Valitse yksi askel kerrallaan. Kaikki kolme tehtynä saat myös pienen bonuspisteen.";
         saveState();
         render();
       });
 
-      document.querySelector("#addTask").addEventListener("click", () => {
-        const input = document.querySelector("#newTask");
-        const title = input.value.trim();
-        if (!title) return;
-        state.tasks.push({ id: `task-${Date.now()}`, title, done: false });
-        input.value = "";
-        saveState();
+      $("#claimSurprise").addEventListener("click", () => {
+        if (state.surpriseClaimedDate === todayKey()) return;
+        state.surpriseClaimedDate = todayKey();
+        addPoints(10);
         render();
       });
 
-      document.querySelectorAll(".preset-task").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.tasks.push({ id: `task-${Date.now()}`, title: button.dataset.taskTitle, done: false });
-          saveState();
+      $("#completeDailyMission").addEventListener("click", () => {
+        const stats = completionStats();
+        if (state.dailyMissionDone) return;
+        if (stats.habitDone && stats.taskDone && state.mood) {
+          state.dailyMissionDone = true;
+          addPoints(25);
           render();
-        });
+        } else {
+          dailyMission.textContent = "Tee ensin yksi rutiini, yksi pieni homma ja valitse päivän fiilis.";
+          showToast("Missio ei ole vielä valmis");
+        }
       });
 
-      document.querySelectorAll(".preset-big-task").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.bigTasks.push({ id: `big-task-${Date.now()}`, title: button.dataset.taskTitle, done: false });
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelector("#addWeekGoal").addEventListener("click", () => {
+      $("#addWeekGoal").addEventListener("click", () => {
         const title = newWeekGoal.value.trim();
         if (!title) return;
-        state.week.push({ id: `week-${Date.now()}`, day: "Oma", title, note: "", done: false });
+        state.week.push({ id: `week-${Date.now()}`, day: "Oma", title, note: "", done: false, custom: true });
         newWeekGoal.value = "";
         saveState();
         render();
       });
 
-      document.querySelectorAll(".mood").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.mood = button.dataset.mood;
-          state.points += 3;
-          saveState();
-          render();
-        });
-      });
+      document.querySelectorAll(".mood").forEach((button) => button.addEventListener("click", () => { state.mood = button.dataset.mood; addPoints(3); render(); }));
+      document.querySelectorAll(".movement").forEach((button) => button.addEventListener("click", () => { state.movement = button.dataset.movement; addPoints(5); render(); }));
+      document.querySelectorAll(".food").forEach((button) => button.addEventListener("click", () => { state.food = button.dataset.food; addPoints(5); render(); }));
+      document.querySelectorAll(".sleep").forEach((button) => button.addEventListener("click", () => { state.sleep = Number(button.dataset.sleep); addPoints(state.sleep); render(); }));
+      document.querySelectorAll(".star").forEach((button) => button.addEventListener("click", () => { state.dayRating = Number(button.dataset.rating); addPoints(state.dayRating); render(); }));
 
-      document.querySelectorAll(".movement").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.movement = button.dataset.movement;
-          state.points += 5;
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelectorAll(".food").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.food = button.dataset.food;
-          state.points += 5;
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelectorAll(".sleep").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.sleep = Number(button.dataset.sleep);
-          state.points += state.sleep;
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelectorAll(".star").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.dayRating = Number(button.dataset.rating);
-          state.points += state.dayRating;
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelector("#rescueDay")?.addEventListener("click", () => {
-        const rescueTasks = [
-          { id: "rescue-water", title: "Juo lasi vettä", done: false },
-          { id: "rescue-tidy", title: "Tee 5 min pikasiivous", done: false },
-          { id: "rescue-note", title: "Kirjoita yksi asia joka onnistui", done: false }
-        ];
-        rescueTasks.forEach((task) => {
-          if (!state.tasks.some((item) => item.id === task.id)) state.tasks.push(task);
-        });
-        const rescueHint = document.querySelector("#rescueHint");
-        if (rescueHint) rescueHint.textContent = "Lisäsin kolme pientä askelta. Tee vain yksi, jos päivä on raskas.";
-        state.points += 3;
-        saveState();
-        render();
-      });
-
-      document.querySelector("#completeDailyMission").addEventListener("click", () => {
-        if (state.dailyMissionDone) return;
-        const stats = completionStats();
-        if (stats.habitDone && stats.taskDone && state.mood) {
-          state.dailyMissionDone = true;
-          state.dailyMissionDate = todayKey();
-          state.points += 25;
-          saveState();
-          render();
-        } else {
-          dailyMission.textContent = "Tee ensin yksi rutiini, yksi pieni homma ja valitse päivän fiilis.";
-        }
-      });
-
-      document.querySelector("#saveProfile").addEventListener("click", () => {
+      $("#saveProfile").addEventListener("click", () => {
         state.profileName = profileName.value.trim();
         state.profileGoal = profileGoal.value.trim();
         state.profileMotto = profileMotto.value.trim();
-        state.contractWhy = contractWhy ? contractWhy.value.trim() : state.contractWhy;
-        state.contractPromise = contractPromise ? contractPromise.value.trim() : state.contractPromise;
-        saveState();
+        state.contractWhy = contractWhy.value.trim();
+        state.contractPromise = contractPromise.value.trim();
+        addPoints(5);
         render();
       });
-
-      document.querySelectorAll(".profile-style").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.profileStyle = button.dataset.style;
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelectorAll(".swatch").forEach((button) => {
-        button.addEventListener("click", () => {
-          const unlocked = state.unlockedThemes || ["forest", "sand", "blue", "rose"];
-          if (!unlocked.includes(button.dataset.theme)) return;
-          state.theme = button.dataset.theme;
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelector("#saveTrueReward")?.addEventListener("click", () => {
-        const value = trueRewardInput.value.trim();
-        if (!value) return;
-        state.trueReward = value;
-        trueRewardInput.value = "";
+      document.querySelectorAll(".profile-style").forEach((button) => button.addEventListener("click", () => { state.profileStyle = button.dataset.style; saveState(); render(); }));
+      $("#saveTrueReward").addEventListener("click", () => { const value = trueRewardInput.value.trim(); if (!value) return; state.trueReward = value; trueRewardInput.value = ""; addPoints(5); render(); });
+      $("#adReward").addEventListener("click", () => { addPoints(20); render(); });
+      document.querySelectorAll(".reward").forEach((button) => button.addEventListener("click", () => {
+        const cost = Number(button.dataset.cost);
+        if (state.points < cost) { showToast("Pisteet eivät vielä riitä"); return; }
+        state.points -= cost;
+        state.rewards.push({ date: new Date().toLocaleDateString("fi-FI"), title: button.dataset.title, cost });
         saveState();
+        showToast("Palkinto lunastettu");
         render();
-      });
+      }));
 
-      document.querySelectorAll(".reward").forEach((button) => {
-        button.addEventListener("click", () => {
-          const cost = Number(button.dataset.cost);
-          if (state.points < cost) return;
-          state.points -= cost;
-          state.rewards.push({
-            date: new Date().toLocaleDateString("fi-FI"),
-            title: button.dataset.title,
-            cost
-          });
-          saveState();
-          render();
-        });
-      });
-
-      document.querySelectorAll(".timer-choice").forEach((button) => {
-        button.addEventListener("click", () => {
-          document.querySelectorAll(".timer-choice").forEach((item) => item.classList.remove("active"));
-          button.classList.add("active");
-          state.focusMinutes = Number(button.dataset.min);
-          seconds = state.focusMinutes * 60;
-          running = false;
-          clearInterval(interval);
-          start.textContent = "Aloita keskittyminen";
-          saveState();
-          renderClock();
-        });
-      });
-
-      document.querySelector("#setCustomFocus").addEventListener("click", () => {
+      document.querySelectorAll(".timer-choice").forEach((button) => button.addEventListener("click", () => {
+        document.querySelectorAll(".timer-choice").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        state.focusMinutes = Number(button.dataset.min);
+        seconds = state.focusMinutes * 60;
+        running = false;
+        clearInterval(interval);
+        start.textContent = "Aloita keskittyminen";
+        saveState();
+        renderClock();
+      }));
+      $("#setCustomFocus").addEventListener("click", () => {
         const minutes = Math.max(1, Math.min(180, Number(customFocusMinutes.value)));
         if (!minutes) return;
         document.querySelectorAll(".timer-choice").forEach((item) => item.classList.remove("active"));
@@ -1790,7 +1341,6 @@
         saveState();
         renderClock();
       });
-
       start.addEventListener("click", () => {
         running = !running;
         start.textContent = running ? "Tauko" : "Aloita keskittyminen";
@@ -1807,88 +1357,37 @@
           }
         }, 1000);
       });
+      $("#resetTimer").addEventListener("click", () => { running = false; clearInterval(interval); seconds = state.focusMinutes * 60; start.textContent = "Aloita keskittyminen"; renderClock(); });
+      document.querySelectorAll(".sound-choice").forEach((button) => button.addEventListener("click", () => startSound(button.dataset.sound)));
+      $("#stopSound").addEventListener("click", stopSound);
 
-      document.querySelector("#resetTimer").addEventListener("click", () => {
-        running = false;
-        clearInterval(interval);
-        seconds = state.focusMinutes * 60;
-        start.textContent = "Aloita keskittyminen";
-        renderClock();
-      });
-
-
-      document.querySelectorAll(".journal-prompt").forEach((button) => {
-        button.addEventListener("click", () => {
-          noteText.value = `${noteText.value}${noteText.value ? "\n" : ""}${button.dataset.prompt}`;
-          noteText.focus();
-        });
-      });
-
-      document.querySelector("#saveNote").addEventListener("click", () => {
+      document.querySelectorAll(".journal-prompt").forEach((button) => button.addEventListener("click", () => { noteText.value = `${noteText.value}${noteText.value ? "\n" : ""}${button.dataset.prompt}`; noteText.focus(); }));
+      $("#saveNote").addEventListener("click", () => {
         const text = noteText.value.trim();
         if (!text) return;
         state.notes.push({ date: new Date().toLocaleDateString("fi-FI"), text });
-        state.points += 8;
         noteText.value = "";
+        addPoints(8);
+        render();
+      });
+      unlockPlus.addEventListener("click", () => {
+        if (ownerCode.value.trim() === "random999") { state.plusUnlocked = true; addPoints(50); render(); }
+        else plusText.textContent = "Väärä koodi. Omistajakoodi on: random999";
+      });
+      $("#resetData").addEventListener("click", () => {
+        ["taskurutiini:v110", "taskurutiini:v113", "taskurutiini:v114", "taskurutiini:v115", "taskurutiini:v116", "taskurutiini:v117", "taskurutiini:v118", "taskurutiini:v119", "taskurutiini:v125"].forEach((key) => localStorage.removeItem(key));
+        state = structuredClone(defaultState);
+        ensureChallenges();
+        seconds = state.focusMinutes * 60;
         saveState();
         render();
       });
 
-      unlockPlus.addEventListener("click", () => {
-        if (ownerCode.value.trim() === "random999") {
-          state.plusUnlocked = true;
-          state.points += 50;
-          saveState();
-          render();
-        } else {
-          plusText.textContent = "Väärä koodi. Omistajakoodi on: random999";
-        }
-      });
-
-      document.querySelector("#resetData").addEventListener("click", () => {
-        localStorage.removeItem("taskurutiini:v110");
-        localStorage.removeItem("taskurutiini:v113");
-        localStorage.removeItem("taskurutiini:v114");
-        localStorage.removeItem("taskurutiini:v115");
-        localStorage.removeItem("taskurutiini:v116");
-        localStorage.removeItem("taskurutiini:v117");
-        localStorage.removeItem("taskurutiini:v118");
-        localStorage.removeItem("taskurutiini:v119");
-        localStorage.removeItem("taskurutiini:v125");
-        state = structuredClone(defaultState);
-        seconds = state.focusMinutes * 60;
-        render();
-      });
-
-      const screenOrder = ["today", "focus", "week", "journal", "rewards", "settings", "plus-screen"];
+      const screenOrder = ["today", "focus", "week", "journal", "rewards", "settings"];
       let currentScreen = "today";
-
-      function openScreen(id) {
-        if (!screenOrder.includes(id)) return;
-        currentScreen = id;
-        document.querySelectorAll(".screen").forEach((screen) => {
-          screen.classList.toggle("active", screen.id === id);
-        });
-        document.querySelectorAll("nav a").forEach((link) => {
-          link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
-        });
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      document.querySelectorAll("nav a, [data-open-screen]").forEach((link) => {
-        link.addEventListener("click", (event) => {
-          event.preventDefault();
-          openScreen(link.getAttribute("href").replace("#", ""));
-        });
-      });
-
       let touchStartX = 0;
       let touchStartY = 0;
-      document.addEventListener("touchstart", (event) => {
-        touchStartX = event.touches[0].clientX;
-        touchStartY = event.touches[0].clientY;
-      }, { passive: true });
-
+      document.addEventListener("touchstart", (event) => { touchStartX = event.touches[0].clientX; touchStartY = event.touches[0].clientY; }, { passive: true });
       document.addEventListener("touchend", (event) => {
         const dx = event.changedTouches[0].clientX - touchStartX;
         const dy = event.changedTouches[0].clientY - touchStartY;
@@ -1898,14 +1397,8 @@
         openScreen(screenOrder[nextIndex]);
       }, { passive: true });
 
-      openScreen(location.hash ? location.hash.replace("#", "") : "today");
-
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations?.().then((registrations) => {
-          registrations.forEach((registration) => registration.unregister());
-        }).catch(() => undefined);
-      }
-
+      ensureChallenges();
+      saveState();
       render();
     </script>
   </body>
