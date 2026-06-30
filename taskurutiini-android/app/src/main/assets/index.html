@@ -72,6 +72,7 @@
         background: color-mix(in srgb, var(--panel-bg) 92%, white);
         color: var(--ink);
       }
+      input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--muted) 72%, var(--ink)); }
       textarea { min-height: 92px; resize: vertical; }
       .score {
         min-width: 78px;
@@ -123,7 +124,7 @@
       .rhythm-card > * { position: relative; }
       .quiet-card {
         border: 2px solid color-mix(in srgb, var(--accent) 25%, var(--line));
-        background: linear-gradient(135deg, color-mix(in srgb, var(--warm) 62%, var(--panel-bg)), var(--panel-bg));
+        background: linear-gradient(135deg, color-mix(in srgb, var(--soft-bg) 58%, var(--panel-bg)), var(--panel-bg));
       }
       .daily-card { border: 2px solid color-mix(in srgb, var(--accent) 45%, var(--line)); }
       .next-step-ready {
@@ -210,8 +211,8 @@
         border-color: color-mix(in srgb, var(--accent) 52%, var(--line));
       }
       .challenge.ready-claim {
-        border-color: color-mix(in srgb, #f2a900 72%, var(--line));
-        background: linear-gradient(135deg, #fff6d6, var(--panel-bg));
+        border-color: color-mix(in srgb, var(--accent) 78%, var(--line));
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, var(--panel-bg)), var(--panel-bg));
       }
       .stripe { width: 10px; height: 42px; border-radius: 999px; background: var(--accent); flex: 0 0 auto; }
       .check {
@@ -245,6 +246,13 @@
         background: color-mix(in srgb, var(--panel-bg) 94%, white);
       }
       .mini-step, .rescue-step, .theme-prize { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .challenge-icon { font-size: 24px; flex: 0 0 auto; }
+      .note-entry { position: relative; }
+      .note-date { display:block; color: var(--muted); font-size: 12px; font-weight: 850; margin-bottom: 7px; }
+      .note-text { border-radius: 14px; padding: 12px; background: color-mix(in srgb, var(--soft-bg) 48%, var(--panel-bg)); color: var(--ink); white-space: pre-wrap; line-height: 1.45; font-weight: 750; }
+      .note-actions { display:flex; justify-content:flex-end; margin-top: 10px; }
+      .delete-button.confirm { background: var(--danger); color: white; transform: scale(1.05); }
+      .confirm-banner { margin-top: 10px; border-radius: 14px; padding: 12px; text-align:center; font-size: 22px; font-weight: 1000; letter-spacing: .08em; background: var(--danger); color: white; }
       .mini-step.done, .rescue-step.done, .level-card.active { background: color-mix(in srgb, var(--accent) 13%, var(--panel-bg)); border-color: color-mix(in srgb, var(--accent) 58%, var(--line)); }
       .level-card strong { display: block; margin-bottom: 4px; }
       .controls, .moods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -260,7 +268,7 @@
       .bar span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
       .stars { display: flex; gap: 8px; margin-top: 12px; }
       .star { flex: 1; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-bg); color: #b28a22; padding: 10px 0; font-size: 23px; line-height: 1; }
-      .star.active { background: #fff0b8; border-color: #d6a928; color: #8b6500; }
+      .star.active { background: color-mix(in srgb, #fff0b8 70%, var(--panel-bg)); border-color: #d6a928; color: #8b6500; }
       .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
       .swatch { min-height: 52px; border: 2px solid transparent; border-radius: 16px; color: white; font-weight: 950; text-shadow: 0 1px 8px rgba(0,0,0,.25); }
       .swatch.active { border-color: var(--ink); outline: 2px solid #fff; }
@@ -555,12 +563,12 @@
           <h3>🌙 Päivän lopetusrituaali</h3>
           <p>Kolme nopeaa kysymystä tekee lopetuksesta selkeämmän.</p>
           <div class="pill-row">
-            <button class="chip journal-prompt" data-prompt="Onnistuminen tänään: " type="button">Onnistuminen</button>
-            <button class="chip journal-prompt" data-prompt="Huomisen päivänsuunnittelu: " type="button">Huomisen suunnittelu</button>
-            <button class="chip journal-prompt" data-prompt="Huomisen ensimmäinen askel: " type="button">Ensimmäinen askel</button>
-            <button class="chip journal-prompt" data-prompt="Mikä palautti energiaa: " type="button">Energia</button>
-            <button class="chip journal-prompt" data-prompt="Yksi asia josta olen kiitollinen: " type="button">Kiitollisuus</button>
-            <button class="chip journal-prompt" data-prompt="Jätän tähän päivään: " type="button">Jätän tähän</button>
+            <button class="chip journal-prompt" data-prompt="Kirjoita omin sanoin: mikä onnistui tänään?" type="button">Onnistuminen</button>
+            <button class="chip journal-prompt" data-prompt="Kirjoita omin sanoin: mitä suunnittelet huomiseen?" type="button">Huomisen suunnittelu</button>
+            <button class="chip journal-prompt" data-prompt="Kirjoita omin sanoin: mikä on huomisen ensimmäinen askel?" type="button">Ensimmäinen askel</button>
+            <button class="chip journal-prompt" data-prompt="Kirjoita omin sanoin: mikä palautti energiaa?" type="button">Energia</button>
+            <button class="chip journal-prompt" data-prompt="Kirjoita omin sanoin: mistä olet tänään kiitollinen?" type="button">Kiitollisuus</button>
+            <button class="chip journal-prompt" data-prompt="Kirjoita omin sanoin: minkä asian jätät tähän päivään?" type="button">Jätän tähän</button>
           </div>
         </section>
         <section class="card">
@@ -568,8 +576,9 @@
           <p id="journalIdea">Tämän päivän kirjoitusidea: kirjoita yksi asia, joka teki arjesta vähän helpomman.</p>
         </section>
         <section class="card">
-          <textarea id="noteText" placeholder="Mitä opin tänään? Mikä helpottaisi huomista?"></textarea>
-          <button class="primary" id="saveNote" type="button">Tallenna merkintä · +8 pistettä</button>
+          <p id="selectedJournalPrompt">Valitse halutessasi aihe yllä olevista napeista tai kirjoita vapaasti.</p>
+          <textarea id="noteText" placeholder="Kirjoita tähän omin sanoin. Esim. mikä onnistui, mikä jäi mieleen tai mikä helpottaisi huomista?"></textarea>
+          <button class="primary" id="saveNote" type="button">Tallenna merkintä</button>
           <div class="note-list" id="noteList"></div>
         </section>
       </section>
@@ -646,7 +655,7 @@
         </section>
         <section class="card">
           <h3>Asennus</h3>
-          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.16, jossa on toimiva Pelasta päivä -tila, 80 haasteen järjestelmä, rauhoittavat taustaäänet, pisteilmoitukset ja uudet teemat.</p>
+          <p>Android APK toimii omana sovelluksena. Tämä on versio 1.1.17, jossa päiväkirja, haasteet, pisteet, rytmikortti ja tummat teemat on viimeistelty paremmaksi.</p>
           <button class="primary" id="resetData" type="button">Tyhjennä testidata</button>
         </section>
       </section>
@@ -663,8 +672,8 @@
     </nav>
 
     <script>
-      const APP_VERSION = "1.1.16";
-      const STORAGE_KEY = "taskurutiini:v116";
+      const APP_VERSION = "1.1.17";
+      const STORAGE_KEY = "taskurutiini:v117";
       const todayKey = () => new Date().toISOString().slice(0, 10);
       const yesterdayKey = () => { const d = new Date(); d.setDate(d.getDate() - 1); return d.toISOString().slice(0, 10); };
 
@@ -755,6 +764,7 @@
       let audioCtx = null;
       let soundNodes = [];
       let toastTimer = null;
+      let pendingDeleteNoteId = "";
 
       function loadState() {
         try {
@@ -902,7 +912,7 @@
         ];
         $("#rhythmSteps").innerHTML = steps.map((step) => {
           const done = state.rhythmDone.includes(step.id);
-          return `<div class="mini-step ${done ? "done" : ""}"><div><strong>${step.icon} ${step.title}</strong><p>${done ? "Lunastettu" : `Lunasta ${step.points} pistettä, kun olet tehnyt tämän.`}</p></div><button class="claim-button rhythm-claim" data-id="${step.id}" data-points="${step.points}" type="button" ${done ? "disabled" : ""}>${done ? "✓" : `+${step.points}`}</button></div>`;
+          return `<div class="mini-step ${done ? "done" : ""}"><div><strong>${step.icon} ${step.title}</strong><p>${done ? "Tehty ja pisteet saatu." : "Merkkaa tehdyksi, niin pisteet tulevat näkyviin."}</p></div><button class="claim-button rhythm-claim" data-id="${step.id}" data-points="${step.points}" type="button" ${done ? "disabled" : ""}>✓</button></div>`;
         }).join("");
         document.querySelectorAll(".rhythm-claim").forEach((button) => {
           button.addEventListener("click", () => {
@@ -1063,7 +1073,7 @@
       }
 
       function renderChallenges() {
-        $("#challengeList").innerHTML = state.challenges.map((challenge) => `<div class="challenge ${challenge.done ? "ready-claim" : ""}" data-id="${challenge.id}"><span class="check">${challenge.done ? "✓" : ""}</span><div class="grow"><strong>${challenge.title}</strong><span>${challenge.done ? "Valmis lunastettavaksi · 20 pistettä" : "Haaste · merkkaa tehdyksi"}</span></div><button class="claim-button challenge-action" data-id="${challenge.id}" type="button">${challenge.done ? "Lunasta" : "Tehty"}</button></div>`).join("");
+        $("#challengeList").innerHTML = state.challenges.map((challenge) => `<div class="challenge ${challenge.done ? "ready-claim" : ""}" data-id="${challenge.id}"><div class="grow"><strong>${challenge.title}</strong><span>${challenge.done ? "Valmis lunastettavaksi · 20 pistettä" : "Haaste · merkkaa tehdyksi"}</span></div><button class="claim-button challenge-action" data-id="${challenge.id}" type="button">${challenge.done ? "Lunasta" : "Tehty"}</button></div>`).join("");
         document.querySelectorAll(".challenge-action").forEach((button) => button.addEventListener("click", () => {
           const index = state.challenges.findIndex((item) => item.id === button.dataset.id);
           if (index < 0) return;
@@ -1100,7 +1110,24 @@
       function renderJournal() {
         const ideas = ["Kirjoita yksi asia, joka teki arjesta vähän helpomman.", "Mikä asia kannattaa tehdä huomenna ensimmäisenä?", "Mikä vei energiaa ja mitä voisit keventää?", "Mistä pienestä asiasta voit antaa itsellesi kiitoksen?"];
         $("#journalIdea").textContent = `Tämän päivän kirjoitusidea: ${ideas[new Date().getDate() % ideas.length]}`;
-        $("#noteList").innerHTML = state.notes.slice(-6).reverse().map((note) => `<div class="note"><strong>${note.date}</strong><br>${escapeHtml(note.text)}</div>`).join("");
+        state.notes.forEach((note, index) => { if (!note.id) note.id = `note-${index}-${String(note.date || "").replace(/\D/g, "")}`; });
+        $("#noteList").innerHTML = state.notes.slice(-6).reverse().map((note) => {
+          const confirming = pendingDeleteNoteId === note.id;
+          return `<div class="note note-entry"><span class="note-date">${escapeHtml(note.date)}</span><div class="note-text">${escapeHtml(note.text)}</div><div class="note-actions"><button class="delete-button note-delete ${confirming ? "confirm" : ""}" data-id="${note.id}" type="button">${confirming ? "POISTA" : "Poista"}</button></div>${confirming ? '<div class="confirm-banner">POISTA</div>' : ""}</div>`;
+        }).join("");
+        document.querySelectorAll(".note-delete").forEach((button) => button.addEventListener("click", () => {
+          if (pendingDeleteNoteId !== button.dataset.id) {
+            pendingDeleteNoteId = button.dataset.id;
+            showToast("Paina POISTA uudelleen");
+            render();
+            return;
+          }
+          state.notes = state.notes.filter((note) => note.id !== button.dataset.id);
+          pendingDeleteNoteId = "";
+          saveState();
+          showToast("Merkintä poistettu");
+          render();
+        }));
       }
 
       function renderRewards() {
@@ -1289,11 +1316,11 @@
         render();
       });
 
-      document.querySelectorAll(".mood").forEach((button) => button.addEventListener("click", () => { state.mood = button.dataset.mood; addPoints(3); render(); }));
-      document.querySelectorAll(".movement").forEach((button) => button.addEventListener("click", () => { state.movement = button.dataset.movement; addPoints(5); render(); }));
-      document.querySelectorAll(".food").forEach((button) => button.addEventListener("click", () => { state.food = button.dataset.food; addPoints(5); render(); }));
-      document.querySelectorAll(".sleep").forEach((button) => button.addEventListener("click", () => { state.sleep = Number(button.dataset.sleep); addPoints(state.sleep); render(); }));
-      document.querySelectorAll(".star").forEach((button) => button.addEventListener("click", () => { state.dayRating = Number(button.dataset.rating); addPoints(state.dayRating); render(); }));
+      document.querySelectorAll(".mood").forEach((button) => button.addEventListener("click", () => { state.mood = button.dataset.mood; saveState(); render(); }));
+      document.querySelectorAll(".movement").forEach((button) => button.addEventListener("click", () => { state.movement = button.dataset.movement; saveState(); render(); }));
+      document.querySelectorAll(".food").forEach((button) => button.addEventListener("click", () => { state.food = button.dataset.food; saveState(); render(); }));
+      document.querySelectorAll(".sleep").forEach((button) => button.addEventListener("click", () => { state.sleep = Number(button.dataset.sleep); saveState(); render(); }));
+      document.querySelectorAll(".star").forEach((button) => button.addEventListener("click", () => { state.dayRating = Number(button.dataset.rating); saveState(); render(); }));
 
       $("#saveProfile").addEventListener("click", () => {
         state.profileName = profileName.value.trim();
@@ -1361,11 +1388,17 @@
       document.querySelectorAll(".sound-choice").forEach((button) => button.addEventListener("click", () => startSound(button.dataset.sound)));
       $("#stopSound").addEventListener("click", stopSound);
 
-      document.querySelectorAll(".journal-prompt").forEach((button) => button.addEventListener("click", () => { noteText.value = `${noteText.value}${noteText.value ? "\n" : ""}${button.dataset.prompt}`; noteText.focus(); }));
+      document.querySelectorAll(".journal-prompt").forEach((button) => button.addEventListener("click", () => {
+        document.querySelectorAll(".journal-prompt").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        selectedJournalPrompt.textContent = button.dataset.prompt;
+        noteText.placeholder = button.dataset.prompt;
+        noteText.focus();
+      }));
       $("#saveNote").addEventListener("click", () => {
         const text = noteText.value.trim();
         if (!text) return;
-        state.notes.push({ date: new Date().toLocaleDateString("fi-FI"), text });
+        state.notes.push({ id: `note-${Date.now()}-${Math.random().toString(16).slice(2)}`, date: new Date().toLocaleDateString("fi-FI"), text });
         noteText.value = "";
         addPoints(8);
         render();
