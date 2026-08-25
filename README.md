@@ -77,3 +77,8 @@ Projektissa hyödynnetään myös **GitHub Actions** -automaatiota Android-build
 1. Kloonaa repositorio omalle koneellesi:
    ```bash
    git clone [https://github.com/Pekx97/taskurutiini-android.git](https://github.com/Pekx97/taskurutiini-android.git)
+   ## 🖼️ Kuvakaappaukset
+
+| Päänäkymä |              Teemat              | Profiili |
+| :---: |:--------------------------------:| :---: |
+| ![Päänäkymä](screenshots/home.png) | ![Teemat](screenshots/home2.png) | ![Profiili](screenshots/profile.png) |
