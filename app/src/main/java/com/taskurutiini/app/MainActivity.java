@@ -18,14 +18,27 @@ public class MainActivity extends Activity {
 
         webView = new WebView(this);
         webView.setWebViewClient(new WebViewClient());
+
+        // Estetään turha elastinen rullaus ja sallitaan raudankiihdytys
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         WebSettings settings = webView.getSettings();
+
+        // 1. Scriptit ja tallennus
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
+
+        // 2. Responsiivisuus & välimuisti
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        // 3. Poistetaan zoom-mahdollisuus natiivifiiliksen takaamiseksi
+        settings.setBuiltInZoomControls(false);
+        settings.setDisplayZoomControls(false);
+        settings.setSupportZoom(false);
 
         setContentView(webView);
         webView.loadUrl("file:///android_asset/index.html");
